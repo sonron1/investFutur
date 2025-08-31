@@ -20,7 +20,7 @@
         >
           <div class="sector-card-simple h-100">
             <div class="sector-image-simple">
-              <img :src="sector.image" :alt="sector.name" class="img-fluid">
+              <img :src="sector.image" :alt="sector.name" class="img-fluid" loading="lazy">
             </div>
             <div class="sector-content-simple">
               <h5>{{ sector.name }}</h5>
@@ -53,7 +53,7 @@ const sectors = [
     description: 'Investissez dans les énergies renouvelables et les technologies propres',
     roi: 22,
     projects: 45,
-    image: '/images/technologie-verte.jpeg'
+    image: 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: 2,
@@ -61,7 +61,7 @@ const sectors = [
     description: 'Soutenez l\'innovation médicale et pharmaceutique de demain',
     roi: 18,
     projects: 32,
-    image: '/images/biotechnologies.jpeg'
+    image: 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: 3,
@@ -69,7 +69,7 @@ const sectors = [
     description: 'Participez à la révolution des services financiers digitaux',
     roi: 25,
     projects: 28,
-    image: '/images/fintech.jpeg'
+    image: 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: 4,
@@ -77,7 +77,7 @@ const sectors = [
     description: 'Investissez dans l\'IA et l\'automatisation intelligente',
     roi: 30,
     projects: 21,
-    image: '/images/IA.jpeg'
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: 5,
@@ -85,7 +85,7 @@ const sectors = [
     description: 'Soutenez les plateformes de commerce en ligne innovantes',
     roi: 16,
     projects: 38,
-    image: '/images/e-commerce.jpeg'
+    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
   },
   {
     id: 6,
@@ -93,7 +93,7 @@ const sectors = [
     description: 'Participez à l\'économie décentralisée et aux cryptomonnaies',
     roi: 28,
     projects: 15,
-    image: '/images/blockchain.jpeg'
+    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
   }
 ]
 

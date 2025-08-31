@@ -14,7 +14,7 @@
           <div class="investment-info mb-4" v-if="selectedSector">
             <div class="row">
               <div class="col-md-6">
-                <img :src="selectedSector.image" :alt="selectedSector.name" class="img-fluid rounded">
+                <img :src="selectedSector.image" :alt="selectedSector.name" class="img-fluid rounded" loading="lazy">
               </div>
               <div class="col-md-6">
                 <h6 class="text-primary">{{ selectedSector.name }}</h6>
