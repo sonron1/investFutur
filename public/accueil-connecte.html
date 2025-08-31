@@ -1,0 +1,1206 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Accueil - InvestFuture</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- DM Sans Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <!-- AOS Animation -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="accueil-connecte.html">
+            <i class="fas fa-chart-line text-primary me-2"></i>
+            <span class="brand-name">InvestFuture</span>
+        </a>
+
+        <button class="navbar-toggler border-0" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav mx-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="accueil-connecte.html">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#opportunites">Opportunités</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#actualites">Actualités</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#education">Éducation</a>
+                </li>
+            </ul>
+
+            <div class="navbar-nav">
+                <div class="dropdown">
+                    <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                        <i class="fas fa-user me-2"></i><span id="userName">John Doe</span>
+                    </button>
+                    <ul class="dropdown-menu">
+                        <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-chart-pie me-2"></i>Dashboard</a></li>
+                        <li><a class="dropdown-item" href="investissements.html"><i class="fas fa-chart-line me-2"></i>Mes Investissements</a></li>
+                        <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-edit me-2"></i>Mon Profil</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section Connecté -->
+<section class="hero-section-connected">
+    <div class="container">
+        <div class="row align-items-center py-5">
+            <div class="col-lg-8" data-aos="fade-right">
+                <h1 class="display-5 fw-bold mb-3">
+                    Bonjour <span id="userFirstName" class="text-primary">John</span> ! 👋
+                </h1>
+                <p class="lead mb-4">
+                    Découvrez de nouvelles opportunités d'investissement et suivez la performance de votre portefeuille.
+                </p>
+
+                <div class="hero-actions">
+                    <button class="custom-btn custom-btn-primary me-3" onclick="window.location.href='#opportunites'">
+                        <i class="fas fa-search me-2"></i>Découvrir des projets
+                    </button>
+                    <button class="custom-btn custom-btn-outline" onclick="window.location.href='dashboard.html'">
+                        <i class="fas fa-chart-pie me-2"></i>Mon Dashboard
+                    </button>
+                </div>
+            </div>
+
+            <div class="col-lg-4" data-aos="fade-left">
+                <div class="portfolio-summary bg-white p-4 rounded shadow">
+                    <h6 class="text-muted mb-3">Résumé de votre portefeuille</h6>
+                    <div class="row g-3">
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h4 class="text-primary mb-1">45 750€</h4>
+                                <small class="text-muted">Investi</small>
+                            </div>
+                        </div>
+                        <div class="col-6">
+                            <div class="text-center">
+                                <h4 class="text-success mb-1">+14.4%</h4>
+                                <small class="text-muted">Performance</small>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="d-flex justify-content-between align-items-center">
+                        <span class="text-muted">7 projets actifs</span>
+                        <a href="investissements.html" class="btn btn-outline-primary btn-sm">Voir détails</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Opportunités d'investissement -->
+<section id="opportunites" class="py-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5" data-aos="fade-up">
+            <div>
+                <h2 class="display-6 fw-bold mb-2">Nouvelles Opportunités</h2>
+                <p class="text-muted mb-0">Projets recommandés selon votre profil d'investisseur</p>
+            </div>
+            <a href="investissements.html" class="btn btn-outline-primary">Voir toutes les opportunités</a>
+        </div>
+
+        <div class="row g-4">
+            <!-- 1. IA & Deep-Tech -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="100">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=200&fit=crop&crop=center" alt="IA & Deep-Tech" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-success">Recommandé</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-primary bg-opacity-10 rounded">
+                                <i class="fas fa-brain text-primary"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">NeuroTech Analytics</h5>
+                        <p class="text-muted small mb-3">Interface cerveau-machine pour personnes handicapées. Technologie révolutionnaire approuvée par la FDA.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">28%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">5 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">3-5 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 72%</span>
+                                <span>2.1M€ / 2.9M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-primary" style="width: 72%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-primary w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 2. Énergies Renouvelables -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="200">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=200&fit=crop&crop=center" alt="Énergies Renouvelables" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-warning">Tendance</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-success bg-opacity-10 rounded">
+                                <i class="fas fa-solar-panel text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">SolarGrid Innovation</h5>
+                        <p class="text-muted small mb-3">Stockage d'énergie solaire avec batteries sodium-ion. Solution révolutionnaire pour le réseau électrique.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">22%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">7 500€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">4-6 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 45%</span>
+                                <span>1.8M€ / 4.0M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: 45%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 3. Biotechnologies -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="300">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=200&fit=crop&crop=center" alt="Biotechnologies" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-info">Innovation</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-warning bg-opacity-10 rounded">
+                                <i class="fas fa-dna text-warning"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">GenTherapy Plus</h5>
+                        <p class="text-muted small mb-3">Thérapie génique contre les maladies rares. Essais cliniques phase 3 avec résultats prometteurs.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">35%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">10 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">5-7 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 89%</span>
+                                <span>4.4M€ / 5.0M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" style="width: 89%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-warning w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4. Fintech -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="400">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=200&fit=crop&crop=center" alt="Fintech" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-primary">Crypto</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-info bg-opacity-10 rounded">
+                                <i class="fas fa-coins text-info"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">BlockFin Solutions</h5>
+                        <p class="text-muted small mb-3">Plateforme DeFi écologique avec staking carbon-neutral. Protocole sécurisé audité par des experts.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">19%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">5 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">2-4 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 63%</span>
+                                <span>1.9M€ / 3.0M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-info" style="width: 63%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-info w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 5. Mobilité Durable -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="500">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1593941707882-a5bac6861d75?w=400&h=200&fit=crop&crop=center" alt="Mobilité Durable" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-success">Écologique</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-success bg-opacity-10 rounded">
+                                <i class="fas fa-charging-station text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">EcoMobility Hub</h5>
+                        <p class="text-muted small mb-3">Réseau de bornes de recharge ultra-rapide avec énergie 100% renouvelable. Partenariats avec constructeurs.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">24%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">8 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">3-5 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 55%</span>
+                                <span>2.8M€ / 5.0M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: 55%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 6. AgriTech -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="600">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=200&fit=crop&crop=center" alt="AgriTech" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-warning">Alimentaire</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-success bg-opacity-10 rounded">
+                                <i class="fas fa-seedling text-success"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">SmartFarm AI</h5>
+                        <p class="text-muted small mb-3">Agriculture de précision avec IA et drones. Optimisation des rendements avec réduction de 40% des pesticides.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">26%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">6 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">4-6 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 38%</span>
+                                <span>1.1M€ / 2.9M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-success" style="width: 38%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-success w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 7. Économie Circulaire -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="700">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=400&h=200&fit=crop&crop=center" alt="Économie Circulaire" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-success">Durable</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-info bg-opacity-10 rounded">
+                                <i class="fas fa-recycle text-info"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">CircularTech Waste</h5>
+                        <p class="text-muted small mb-3">Transformation des déchets plastiques en matériaux haute performance. Technologie brevetée, clients B2B.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">21%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">7 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">3-5 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 67%</span>
+                                <span>2.0M€ / 3.0M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-info" style="width: 67%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-info w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 8. Santé Digitale -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="800">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=200&fit=crop&crop=center" alt="Santé Digitale" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-danger">Médical</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-danger bg-opacity-10 rounded">
+                                <i class="fas fa-heartbeat text-danger"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">HealthMonitor Pro</h5>
+                        <p class="text-muted small mb-3">Dispositif médical connecté pour monitoring cardiaque en temps réel. Approuvé CE, partenariat hôpitaux.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">31%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">12 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">4-6 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 78%</span>
+                                <span>3.9M€ / 5.0M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-danger" style="width: 78%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-danger w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 9. EdTech -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="900">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1588072432836-e10032774350?w=400&h=200&fit=crop&crop=center" alt="EdTech" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-warning">Éducation</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-warning bg-opacity-10 rounded">
+                                <i class="fas fa-graduation-cap text-warning"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">EduVR Learning</h5>
+                        <p class="text-muted small mb-3">Plateforme d'apprentissage en réalité virtuelle pour écoles. Contenu pédagogique immersif et interactif.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">18%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">5 500€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">3-4 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 42%</span>
+                                <span>1.3M€ / 3.1M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-warning" style="width: 42%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-warning w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 10. Espace & Satellites -->
+            <div class="col-lg-4 col-md-6" data-aos="fade-up" data-aos-delay="1000">
+                <div class="opportunity-card">
+                    <div class="opportunity-image">
+                        <img src="https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&h=200&fit=crop&crop=center" alt="Espace & Satellites" class="img-fluid">
+                        <div class="opportunity-badge">
+                            <span class="badge bg-dark">Spatial</span>
+                        </div>
+                    </div>
+                    <div class="opportunity-content">
+                        <div class="opportunity-header">
+                            <div class="opportunity-icon bg-dark bg-opacity-10 rounded">
+                                <i class="fas fa-satellite text-dark"></i>
+                            </div>
+                        </div>
+                        <h5 class="mb-2">SatelliteNet IoT</h5>
+                        <p class="text-muted small mb-3">Constellation de nanosatellites pour IoT mondial. Couverture internet haut débit zones rurales.</p>
+
+                        <div class="opportunity-stats mb-3">
+                            <div class="row g-2">
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">ROI estimé</small>
+                                        <span class="fw-bold text-success">33%</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Minimum</small>
+                                        <span class="fw-bold">15 000€</span>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="text-center">
+                                        <small class="text-muted d-block">Durée</small>
+                                        <span class="fw-bold">5-8 ans</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="opportunity-progress mb-3">
+                            <div class="d-flex justify-content-between small text-muted mb-1">
+                                <span>Financé à 23%</span>
+                                <span>2.3M€ / 10.0M€</span>
+                            </div>
+                            <div class="progress" style="height: 6px;">
+                                <div class="progress-bar bg-dark" style="width: 23%"></div>
+                            </div>
+                        </div>
+
+                        <button class="btn btn-dark w-100">
+                            <i class="fas fa-coins me-2"></i>Investir maintenant
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Actualités récentes -->
+<section id="actualites" class="py-5 bg-white">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center mb-5" data-aos="fade-up">
+            <div>
+                <h2 class="display-6 fw-bold mb-2">Actualités & Insights</h2>
+                <p class="text-muted mb-0">Restez informé des dernières tendances d'investissement</p>
+            </div>
+            <a href="#" class="btn btn-outline-primary">Voir toutes les actualités</a>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-6" data-aos="fade-up">
+                <div class="news-card featured">
+                    <div class="news-image">
+                        <img src="https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=600&h=300&fit=crop&crop=center" alt="Intelligence Artificielle" class="img-fluid">
+                        <div class="news-category">Innovation</div>
+                    </div>
+                    <div class="news-content">
+                        <h5 class="mb-2">L'IA révolutionne l'investissement participatif</h5>
+                        <p class="text-muted small mb-3">Les algorithmes d'intelligence artificielle transforment la manière dont nous analysons et sélectionnons les opportunités d'investissement...</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">Il y a 2 heures</small>
+                            <a href="#" class="btn btn-sm btn-outline-primary">Lire plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="row g-3">
+                    <div class="col-12" data-aos="fade-up" data-aos-delay="100">
+                        <div class="news-card compact">
+                            <div class="news-content">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Record de financement pour les biotechs</h6>
+                                        <p class="text-muted small mb-2">Les entreprises de biotechnologie ont levé 2.4B€ ce trimestre...</p>
+                                        <small class="text-muted">Il y a 4 heures</small>
+                                    </div>
+                                    <span class="badge bg-success ms-2">+23%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12" data-aos="fade-up" data-aos-delay="200">
+                        <div class="news-card compact">
+                            <div class="news-content">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Nouvelle réglementation européenne</h6>
+                                        <p class="text-muted small mb-2">L'UE renforce le cadre légal pour l'investissement participatif...</p>
+                                        <small class="text-muted">Il y a 1 jour</small>
+                                    </div>
+                                    <span class="badge bg-info ms-2">Régulation</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-12" data-aos="fade-up" data-aos-delay="300">
+                        <div class="news-card compact">
+                            <div class="news-content">
+                                <div class="d-flex align-items-start">
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">Les énergies renouvelables en hausse</h6>
+                                        <p class="text-muted small mb-2">Le secteur attire 40% d'investissements supplémentaires...</p>
+                                        <small class="text-muted">Il y a 2 jours</small>
+                                    </div>
+                                    <span class="badge bg-success ms-2">+40%</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section Éducation -->
+<section id="education" class="py-5">
+    <div class="container">
+        <div class="text-center mb-5" data-aos="fade-up">
+            <h2 class="display-6 fw-bold mb-3">Éducation Financière</h2>
+            <p class="lead text-muted">Développez vos connaissances en investissement participatif</p>
+        </div>
+
+        <div class="row g-4">
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="education-card">
+                    <div class="education-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h5 class="mb-3">Analyse Financière</h5>
+                    <ul class="education-topics">
+                        <li>Lecture des états financiers</li>
+                        <li>Ratios de performance</li>
+                        <li>Évaluation des risques</li>
+                        <li>Projections de croissance</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline-primary">Commencer le cours</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="education-card">
+                    <div class="education-icon">
+                        <i class="fas fa-lightbulb"></i>
+                    </div>
+                    <h5 class="mb-3">Innovation & Trends</h5>
+                    <ul class="education-topics">
+                        <li>Technologies émergentes</li>
+                        <li>Secteurs d'avenir</li>
+                        <li>Analyse de marché</li>
+                        <li>Veille technologique</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline-primary">Commencer le cours</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="education-card">
+                    <div class="education-icon">
+                        <i class="fas fa-balance-scale"></i>
+                    </div>
+                    <h5 class="mb-3">Gestion de Portefeuille</h5>
+                    <ul class="education-topics">
+                        <li>Diversification optimale</li>
+                        <li>Allocation d'actifs</li>
+                        <li>Rébalancement</li>
+                        <li>Stratégies long terme</li>
+                    </ul>
+                    <a href="#" class="btn btn-outline-primary">Commencer le cours</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Section CTA -->
+<section class="cta-section py-5">
+    <div class="container">
+        <div class="row justify-content-center text-center">
+            <div class="col-lg-8" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Prêt à diversifier votre portefeuille ?</h2>
+                <p class="lead mb-4">Rejoignez plus de 2 500 investisseurs qui font confiance à InvestFuture pour leurs investissements dans l'innovation durable.</p>
+
+                <div class="cta-actions">
+                    <button class="custom-btn custom-btn-primary me-3" onclick="window.location.href='investissements.html'">
+                        <i class="fas fa-search me-2"></i>Explorer les opportunités
+                    </button>
+                    <button class="custom-btn custom-btn-outline" onclick="window.location.href='dashboard.html'">
+                        <i class="fas fa-chart-pie me-2"></i>Voir mon dashboard
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="bg-dark text-white py-5">
+    <div class="container">
+        <div class="row g-4">
+            <div class="col-lg-4">
+                <div class="d-flex align-items-center mb-3">
+                    <i class="fas fa-chart-line text-primary me-2 fs-4"></i>
+                    <span class="brand-name fs-4">InvestFuture</span>
+                </div>
+                <p class="text-light mb-3">
+                    Plateforme d'investissement participatif dédiée à l'innovation durable et aux technologies d'avenir.
+                </p>
+                <div class="social-links">
+                    <a href="#" class="text-light me-3"><i class="fab fa-linkedin"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="text-light me-3"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="text-light"><i class="fab fa-instagram"></i></a>
+                </div>
+            </div>
+
+            <div class="col-lg-2">
+                <h6 class="fw-bold mb-3">Plateforme</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="accueil-connecte.html" class="text-light">Accueil</a></li>
+                    <li class="mb-2"><a href="investissements.html" class="text-light">Investissements</a></li>
+                    <li class="mb-2"><a href="dashboard.html" class="text-light">Dashboard</a></li>
+                    <li class="mb-2"><a href="profile.html" class="text-light">Mon Profil</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2">
+                <h6 class="fw-bold mb-3">Secteurs</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-light">IA & Deep-Tech</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">Énergies Renouvelables</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">Biotechnologies</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">Fintech</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2">
+                <h6 class="fw-bold mb-3">Support</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-light">Centre d'aide</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">Contact</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">FAQ</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">Guides</a></li>
+                </ul>
+            </div>
+
+            <div class="col-lg-2">
+                <h6 class="fw-bold mb-3">Légal</h6>
+                <ul class="list-unstyled">
+                    <li class="mb-2"><a href="#" class="text-light">Mentions légales</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">Confidentialité</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">CGU</a></li>
+                    <li class="mb-2"><a href="#" class="text-light">Sécurité</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <hr class="my-4">
+
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <span class="text-light">&copy; 2024 InvestFuture. Tous droits réservés.</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <small class="text-light me-3">Plateforme régulée par FSMA, AMF, ACPR</small>
+                <div class="d-flex gap-2">
+                    <i class="fas fa-shield-alt text-success" title="Sécurisé"></i>
+                    <i class="fas fa-lock text-success" title="Confidentiel"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- AOS Animation -->
+<script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+<!-- Custom JS -->
+<script src="js/main.js"></script>
+
+<script>
+    // Initialisation AOS
+    AOS.init({
+        duration: 800,
+        once: true
+    });
+
+    // Chargement des données utilisateur
+    document.addEventListener('DOMContentLoaded', function() {
+        const userData = JSON.parse(localStorage.getItem('investFutureUser'));
+        if (userData) {
+            document.getElementById('userName').textContent = userData.name;
+            document.getElementById('userFirstName').textContent = userData.firstName || userData.name.split(' ')[0];
+        }
+    });
+
+    // Fonction de déconnexion
+    document.getElementById('logoutBtn').addEventListener('click', function(e) {
+        e.preventDefault();
+        if (confirm('Êtes-vous sûr de vouloir vous déconnecter ?')) {
+            localStorage.removeItem('investFutureUser');
+            window.location.href = 'index.html';
+        }
+    });
+</script>
+
+<style>
+    /* Styles pour les cartes d'opportunités avec images */
+    .opportunity-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        background: white;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .opportunity-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .opportunity-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .opportunity-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .opportunity-card:hover .opportunity-image img {
+        transform: scale(1.05);
+    }
+
+    .opportunity-badge {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        z-index: 2;
+    }
+
+    .opportunity-badge .badge {
+        font-size: 0.75rem;
+        padding: 0.35em 0.65em;
+        border-radius: 20px;
+        font-weight: 600;
+    }
+
+    .opportunity-content {
+        padding: 1.5rem;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .opportunity-header {
+        margin-bottom: 1rem;
+    }
+
+    .opportunity-icon {
+        width: 48px;
+        height: 48px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.5rem;
+        margin-bottom: 0.5rem;
+    }
+
+    .opportunity-stats {
+        background: #f8f9fa;
+        border-radius: 8px;
+        padding: 1rem;
+    }
+
+    .opportunity-progress {
+        margin-top: auto;
+    }
+
+    .progress {
+        border-radius: 10px;
+    }
+
+    .progress-bar {
+        border-radius: 10px;
+    }
+
+    /* Styles pour les actualités avec images */
+    .news-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        overflow: hidden;
+        background: white;
+        height: 100%;
+    }
+
+    .news-card.featured {
+        height: auto;
+    }
+
+    .news-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+    }
+
+    .news-image {
+        position: relative;
+        height: 200px;
+        overflow: hidden;
+    }
+
+    .news-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s ease;
+    }
+
+    .news-card:hover .news-image img {
+        transform: scale(1.05);
+    }
+
+    .news-category {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+        background: rgba(13, 110, 253, 0.9);
+        color: white;
+        padding: 0.25rem 0.75rem;
+        border-radius: 20px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+
+    .news-content {
+        padding: 1.5rem;
+    }
+
+    .news-card.compact .news-content {
+        padding: 1rem;
+    }
+
+    /* Styles pour les cartes d'éducation */
+    .education-card {
+        background: white;
+        border-radius: 12px;
+        padding: 2rem;
+        text-align: center;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        transition: all 0.3s ease;
+        height: 100%;
+    }
+
+    .education-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .education-icon {
+        width: 80px;
+        height: 80px;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 1.5rem;
+        color: white;
+        font-size: 2rem;
+    }
+
+    .education-topics {
+        list-style: none;
+        padding: 0;
+        margin: 1.5rem 0;
+        text-align: left;
+    }
+
+    .education-topics li {
+        padding: 0.5rem 0;
+        position: relative;
+        padding-left: 1.5rem;
+    }
+
+    .education-topics li:before {
+        content: "✓";
+        position: absolute;
+        left: 0;
+        color: #28a745;
+        font-weight: bold;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .opportunity-image {
+            height: 150px;
+        }
+
+        .opportunity-content {
+            padding: 1rem;
+        }
+
+        .news-image {
+            height: 150px;
+        }
+
+        .education-icon {
+            width: 60px;
+            height: 60px;
+            font-size: 1.5rem;
+        }
+    }
+</style>
+
+</body>
+</html>
