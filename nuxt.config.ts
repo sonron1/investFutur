@@ -13,6 +13,11 @@ export default defineNuxtConfig({
         '@pinia/nuxt' // Pour la gestion d'état
     ],
 
+    // Configuration pour éviter les erreurs de build
+    build: {
+        transpile: []
+    },
+
     // Configuration des assets publics
     app: {
         head: {
@@ -41,5 +46,14 @@ export default defineNuxtConfig({
                 { src: 'https://unpkg.com/aos@2.3.1/dist/aos.js', defer: true }
             ]
         }
+    },
+
+    // Configuration pour éviter les erreurs SSR
+    ssr: true,
+
+    // Optimisation des images
+    images: {
+        domains: ['images.unsplash.com'],
+        quality: 80
     }
 })

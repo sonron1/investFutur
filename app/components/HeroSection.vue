@@ -35,7 +35,13 @@
 
         <div class="col-lg-6" data-aos="fade-left">
           <div class="hero-image">
-            <img src="/images/heureuse femme.jpeg" alt="Investissement" class="img-fluid rounded-3 shadow">
+            <!-- Utilisation d'une image existante dans votre dossier public avec fallback -->
+            <img
+                src="/images/heureuse femme.jpeg"
+                alt="Investissement"
+                class="img-fluid rounded-3 shadow"
+                @error="handleImageError"
+            >
           </div>
         </div>
       </div>
@@ -66,4 +72,9 @@ const stats = [
     colorClass: 'text-info'
   }
 ]
+
+// Fonction de gestion d'erreur pour l'image
+const handleImageError = (event) => {
+  event.target.src = 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+}
 </script>
