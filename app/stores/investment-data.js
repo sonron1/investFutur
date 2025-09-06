@@ -246,4 +246,3 @@ export const paymentMethods = {
 // Export par défaut + export nommé explicite (fiabilise la résolution TS)
 const defaultExport = investmentData;
 export default defaultExport;
-export { paymentMethods };
