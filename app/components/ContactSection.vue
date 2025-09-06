@@ -1,5 +1,5 @@
 <template>
-  <section id="contact" class="py-20 bg-gray-50">
+  <section id="contact" class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
       <div class="text-center mb-16" data-aos="fade-up">
