@@ -1,117 +1,73 @@
 <template>
-  <footer class="footer bg-dark text-white py-5">
-    <div class="container">
-      <div class="row g-4">
-        <div class="col-lg-4">
-          <div class="footer-brand mb-4">
-            <div class="d-flex align-items-center mb-3">
-              <i class="fas fa-chart-line text-primary me-2 fa-2x"></i>
-              <h4 class="brand-name mb-0">InvestFuture</h4>
-            </div>
-            <p class="text-muted">
-              Votre partenaire de confiance pour investir dans l'innovation et construire l'avenir.
-            </p>
-            <div class="social-links">
-              <a href="#" class="social-link me-3">
-                <i class="fab fa-facebook-f"></i>
-              </a>
-              <a href="#" class="social-link me-3">
-                <i class="fab fa-twitter"></i>
-              </a>
-              <a href="#" class="social-link me-3">
-                <i class="fab fa-linkedin-in"></i>
-              </a>
-              <a href="#" class="social-link">
-                <i class="fab fa-instagram"></i>
-              </a>
-            </div>
+  <footer class="bg-gray-900 text-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8">
+        <!-- Branding -->
+        <div class="lg:col-span-2">
+          <div class="flex items-center space-x-2 mb-4">
+            <i class="fas fa-chart-line text-blue-400 text-2xl"></i>
+            <h4 class="text-2xl font-bold brand-name">InvestFuture</h4>
+          </div>
+          <p class="text-gray-300 mb-6 leading-relaxed">
+            Votre partenaire de confiance pour investir dans l'innovation et construire l'avenir.
+          </p>
+          <div class="flex space-x-4">
+            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
+              <i class="fab fa-facebook-f"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-400 rounded-full flex items-center justify-center transition-colors">
+              <i class="fab fa-twitter"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-blue-600 rounded-full flex items-center justify-center transition-colors">
+              <i class="fab fa-linkedin-in"></i>
+            </a>
+            <a href="#" class="w-10 h-10 bg-gray-800 hover:bg-pink-600 rounded-full flex items-center justify-center transition-colors">
+              <i class="fab fa-instagram"></i>
+            </a>
           </div>
         </div>
 
-        <div class="col-lg-2 col-md-3">
-          <h5 class="mb-4">Navigation</h5>
-          <ul class="list-unstyled">
-            <li class="mb-2">
-              <a href="#home" class="footer-link">Accueil</a>
-            </li>
-            <li class="mb-2">
-              <a href="#domaines" class="footer-link">Secteurs</a>
-            </li>
-            <li class="mb-2">
-              <a href="#comment" class="footer-link">Comment ça marche</a>
-            </li>
-            <li class="mb-2">
-              <a href="#contact" class="footer-link">Contact</a>
-            </li>
+        <!-- Navigation -->
+        <div>
+          <h5 class="text-lg font-semibold mb-4">Navigation</h5>
+          <ul class="space-y-2">
+            <li><a href="#home" class="text-gray-300 hover:text-blue-400 transition-colors">Accueil</a></li>
+            <li><a href="#domaines" class="text-gray-300 hover:text-blue-400 transition-colors">Secteurs</a></li>
+            <li><a href="#comment" class="text-gray-300 hover:text-blue-400 transition-colors">Comment ça marche</a></li>
+            <li><a href="#contact" class="text-gray-300 hover:text-blue-400 transition-colors">Contact</a></li>
           </ul>
         </div>
 
-        <div class="col-lg-2 col-md-3">
-          <h5 class="mb-4">Investir</h5>
-          <ul class="list-unstyled">
-            <li class="mb-2">
-              <a href="#" class="footer-link">Technologies Vertes</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="footer-link">Biotechnologies</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="footer-link">Fintech</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="footer-link">IA</a>
-            </li>
+        <!-- Investissement -->
+        <div>
+          <h5 class="text-lg font-semibold mb-4">Investir</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Technologies Vertes</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Biotechnologies</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Fintech</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">IA</a></li>
           </ul>
         </div>
 
-        <div class="col-lg-2 col-md-3">
-          <h5 class="mb-4">Légal</h5>
-          <ul class="list-unstyled">
-            <li class="mb-2">
-              <a href="#" class="footer-link">Mentions légales</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="footer-link">Politique de confidentialité</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="footer-link">CGU</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="footer-link">Cookies</a>
-            </li>
-          </ul>
-        </div>
-
-        <div class="col-lg-2 col-md-3">
-          <h5 class="mb-4">Support</h5>
-          <ul class="list-unstyled">
-            <li class="mb-2">
-              <a href="#" class="footer-link">Centre d'aide</a>
-            </li>
-            <li class="mb-2">
-              <a href="#" class="footer-link">FAQ</a>
-            </li>
-            <li class="mb-2">
-              <NuxtLink to="/auth/login" class="footer-link">Connexion</NuxtLink>
-            </li>
-            <li class="mb-2">
-              <NuxtLink to="/auth/register" class="footer-link">S'inscrire</NuxtLink>
-            </li>
+        <!-- Support -->
+        <div>
+          <h5 class="text-lg font-semibold mb-4">Support</h5>
+          <ul class="space-y-2">
+            <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">Centre d'aide</a></li>
+            <li><a href="#" class="text-gray-300 hover:text-blue-400 transition-colors">FAQ</a></li>
+            <li><NuxtLink to="/auth/login" class="text-gray-300 hover:text-blue-400 transition-colors">Connexion</NuxtLink></li>
+            <li><NuxtLink to="/auth/register" class="text-gray-300 hover:text-blue-400 transition-colors">S'inscrire</NuxtLink></li>
           </ul>
         </div>
       </div>
 
-      <hr class="my-4 border-secondary">
-
-      <div class="row align-items-center">
-        <div class="col-md-6">
-          <p class="copyright mb-0">
+      <div class="border-t border-gray-800 pt-8 mt-8">
+        <div class="flex flex-col md:flex-row justify-between items-center">
+          <p class="text-gray-400 text-sm">
             &copy; {{ currentYear }} InvestFuture. Tous droits réservés.
           </p>
-        </div>
-        <div class="col-md-6 text-end">
-          <p class="mb-0 text-muted">
-            <i class="fas fa-shield-alt me-2"></i>
+          <p class="text-gray-400 text-sm mt-2 md:mt-0">
+            <i class="fas fa-shield-alt mr-2"></i>
             Investissements sécurisés et régulés
           </p>
         </div>
@@ -123,41 +79,3 @@
 <script setup>
 const currentYear = new Date().getFullYear()
 </script>
-
-<style scoped>
-.footer-link {
-  color: #adb5bd;
-  text-decoration: none;
-  transition: color 0.3s ease;
-}
-
-.footer-link:hover {
-  color: #007bff;
-}
-
-.social-link {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 40px;
-  height: 40px;
-  background: rgba(0, 123, 255, 0.1);
-  color: #007bff;
-  border-radius: 50%;
-  text-decoration: none;
-  transition: all 0.3s ease;
-}
-
-.social-link:hover {
-  background: #007bff;
-  color: white;
-  transform: translateY(-2px);
-}
-
-.brand-name {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-</style>

@@ -1,115 +1,113 @@
 <template>
-  <div>
+  <div class="min-h-screen bg-gray-50">
     <Navbar />
 
-    <div class="dashboard-page bg-light min-vh-100">
-      <div class="container py-5">
-        <!-- En-tête -->
-        <div class="row mb-4">
-          <div class="col-12">
-            <h1 class="h3 mb-1">Tableau de bord</h1>
-            <p class="text-muted">Bienvenue {{ user?.name || 'Investisseur' }}</p>
-          </div>
-        </div>
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <!-- En-tête -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-gray-900">Tableau de bord</h1>
+        <p class="text-gray-600 mt-1">Bienvenue {{ user?.name || 'Investisseur' }}</p>
+      </div>
 
-        <!-- Statistiques principales -->
-        <div class="row g-4 mb-5">
-          <div class="col-md-3" v-for="stat in stats" :key="stat.title">
-            <div class="card border-0 shadow-sm h-100">
-              <div class="card-body text-center">
-                <div class="mb-3">
-                  <i :class="stat.icon" class="fa-2x" :style="{ color: stat.color }"></i>
-                </div>
-                <h3 class="h4 mb-1" :style="{ color: stat.color }">{{ stat.value }}</h3>
-                <p class="text-muted mb-0">{{ stat.title }}</p>
-              </div>
+      <!-- Statistiques principales -->
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+        <div v-for="stat in stats" :key="stat.title" class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
+          <div class="flex items-center">
+            <div class="p-2 rounded-lg" :style="{ backgroundColor: stat.color + '20' }">
+              <i :class="stat.icon + ' text-xl'" :style="{ color: stat.color }"></i>
+            </div>
+            <div class="ml-4">
+              <p class="text-sm font-medium text-gray-600">{{ stat.title }}</p>
+              <p class="text-2xl font-bold" :style="{ color: stat.color }">{{ stat.value }}</p>
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Contenu principal -->
-        <div class="row g-4">
-          <!-- Mes investissements -->
-          <div class="col-lg-8">
-            <div class="card border-0 shadow-sm">
-              <div class="card-header bg-white border-0 d-flex justify-content-between align-items-center">
-                <h5 class="mb-0">Mes Investissements</h5>
-                <NuxtLink to="/investments" class="btn btn-sm btn-outline-primary">
-                  Voir tout
+      <!-- Contenu principal -->
+      <div class="grid lg:grid-cols-3 gap-8">
+        <!-- Mes investissements -->
+        <div class="lg:col-span-2">
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="p-6 border-b border-gray-100 flex justify-between items-center">
+              <h2 class="text-xl font-semibold text-gray-900">Mes Investissements</h2>
+              <NuxtLink to="/investments" class="text-blue-600 hover:text-blue-700 text-sm font-medium">
+                Voir tout
+              </NuxtLink>
+            </div>
+
+            <div class="p-6">
+              <div v-if="investments.length === 0" class="text-center py-12">
+                <div class="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+                  <i class="fas fa-chart-pie text-2xl text-gray-400"></i>
+                </div>
+                <h3 class="text-lg font-medium text-gray-900 mb-2">Aucun investissement</h3>
+                <p class="text-gray-500 mb-6">Commencez à investir dans nos secteurs innovants</p>
+                <NuxtLink to="/#domaines" class="btn-primary">
+                  Découvrir les secteurs
                 </NuxtLink>
               </div>
-              <div class="card-body">
-                <div v-if="investments.length === 0" class="text-center py-5">
-                  <i class="fas fa-chart-pie fa-3x text-muted mb-3"></i>
-                  <h6 class="text-muted">Aucun investissement pour le moment</h6>
-                  <p class="text-muted">Commencez à investir dans nos secteurs innovants</p>
-                  <NuxtLink to="/#domaines" class="btn btn-primary">
-                    Découvrir les secteurs
-                  </NuxtLink>
-                </div>
 
-                <div v-else>
-                  <div v-for="investment in investments" :key="investment.id" class="investment-item mb-3 p-3 border rounded">
-                    <div class="d-flex justify-content-between align-items-start">
-                      <div>
-                        <h6 class="mb-1">{{ investment.sector }}</h6>
-                        <p class="text-muted small mb-2">{{ investment.project }}</p>
-                        <div class="d-flex align-items-center">
-                          <span class="badge bg-success me-2">{{ investment.roi }}%</span>
-                          <small class="text-muted">ROI actuel</small>
-                        </div>
+              <div v-else class="space-y-4">
+                <div v-for="investment in investments" :key="investment.id"
+                     class="p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors">
+                  <div class="flex justify-between items-start">
+                    <div>
+                      <h4 class="font-semibold text-gray-900">{{ investment.sector }}</h4>
+                      <p class="text-sm text-gray-600 mb-2">{{ investment.project }}</p>
+                      <div class="flex items-center">
+                        <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800">
+                          {{ investment.roi }}% ROI
+                        </span>
                       </div>
-                      <div class="text-end">
-                        <h6 class="mb-0">{{ formatCurrency(investment.amount) }}</h6>
-                        <small class="text-muted">{{ investment.date }}</small>
-                      </div>
+                    </div>
+                    <div class="text-right">
+                      <div class="text-lg font-semibold text-gray-900">{{ formatCurrency(investment.amount) }}</div>
+                      <div class="text-sm text-gray-500">{{ formatDate(investment.date) }}</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
+        </div>
 
+        <!-- Actions rapides et notifications -->
+        <div class="space-y-8">
           <!-- Actions rapides -->
-          <div class="col-lg-4">
-            <div class="card border-0 shadow-sm">
-              <div class="card-header bg-white border-0">
-                <h5 class="mb-0">Actions rapides</h5>
-              </div>
-              <div class="card-body">
-                <div class="d-grid gap-2">
-                  <NuxtLink to="/#domaines" class="btn btn-primary">
-                    <i class="fas fa-plus me-2"></i>
-                    Nouvel investissement
-                  </NuxtLink>
-                  <NuxtLink to="/profile" class="btn btn-outline-secondary">
-                    <i class="fas fa-user me-2"></i>
-                    Mon profil
-                  </NuxtLink>
-                  <NuxtLink to="/investments" class="btn btn-outline-info">
-                    <i class="fas fa-history me-2"></i>
-                    Historique
-                  </NuxtLink>
-                </div>
-              </div>
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="p-6 border-b border-gray-100">
+              <h2 class="text-xl font-semibold text-gray-900">Actions rapides</h2>
             </div>
+            <div class="p-6 space-y-3">
+              <NuxtLink to="/#domaines" class="flex items-center justify-center w-full px-4 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors">
+                <i class="fas fa-plus mr-2"></i>
+                Nouvel investissement
+              </NuxtLink>
+              <NuxtLink to="/profile" class="flex items-center justify-center w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                <i class="fas fa-user mr-2"></i>
+                Mon profil
+              </NuxtLink>
+              <NuxtLink to="/investments" class="flex items-center justify-center w-full px-4 py-3 border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-50 transition-colors">
+                <i class="fas fa-history mr-2"></i>
+                Historique
+              </NuxtLink>
+            </div>
+          </div>
 
-            <!-- Notifications -->
-            <div class="card border-0 shadow-sm mt-4">
-              <div class="card-header bg-white border-0">
-                <h5 class="mb-0">Notifications</h5>
-              </div>
-              <div class="card-body">
-                <div class="notification-item mb-3">
-                  <div class="d-flex align-items-start">
-                    <i class="fas fa-bell text-primary me-3 mt-1"></i>
-                    <div>
-                      <h6 class="mb-1">Bienvenue !</h6>
-                      <p class="text-muted small mb-0">
-                        Découvrez nos secteurs d'investissement innovants.
-                      </p>
-                    </div>
-                  </div>
+          <!-- Notifications -->
+          <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+            <div class="p-6 border-b border-gray-100">
+              <h2 class="text-xl font-semibold text-gray-900">Notifications</h2>
+            </div>
+            <div class="p-6">
+              <div class="flex items-start space-x-3">
+                <div class="flex-shrink-0">
+                  <i class="fas fa-bell text-blue-600"></i>
+                </div>
+                <div>
+                  <h4 class="text-sm font-medium text-gray-900">Bienvenue !</h4>
+                  <p class="text-sm text-gray-600">Découvrez nos secteurs d'investissement innovants.</p>
                 </div>
               </div>
             </div>
@@ -123,49 +121,49 @@
 </template>
 
 <script setup>
+import { onMounted, computed } from 'vue'
+import { storeToRefs } from 'pinia'
 import { useAuthStore } from '~/stores/auth'
+import { useUserInvestmentsStore } from '~/stores/user-investments'
 
-// Meta données
 useSeoMeta({
   title: 'Dashboard - InvestFuture',
   description: 'Gérez vos investissements sur votre tableau de bord InvestFuture'
 })
 
 const authStore = useAuthStore()
+const userInvestments = useUserInvestmentsStore()
 const { user } = storeToRefs(authStore)
 
-// Statistiques du dashboard
-const stats = [
+const investments = computed(() => userInvestments.investments.slice(0, 3))
+
+const stats = computed(() => [
   {
     title: 'Portefeuille Total',
-    value: '0€',
+    value: formatCurrency(userInvestments.totalAmount),
     icon: 'fas fa-wallet',
-    color: '#007bff'
+    color: '#3b82f6'
   },
   {
     title: 'Investissements',
-    value: '0',
+    value: userInvestments.count.toString(),
     icon: 'fas fa-chart-pie',
-    color: '#28a745'
+    color: '#10b981'
   },
   {
     title: 'ROI Moyen',
-    value: '0%',
+    value: userInvestments.avgRoi.toFixed(1) + '%',
     icon: 'fas fa-trending-up',
-    color: '#ffc107'
+    color: '#f59e0b'
   },
   {
     title: 'Gains',
-    value: '0€',
+    value: formatCurrency(userInvestments.totalGains),
     icon: 'fas fa-coins',
-    color: '#17a2b8'
+    color: '#8b5cf6'
   }
-]
+])
 
-// Investissements (vide pour un nouveau utilisateur)
-const investments = ref([])
-
-// Utilitaire de formatage
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('fr-FR', {
     style: 'currency',
@@ -173,34 +171,14 @@ const formatCurrency = (amount) => {
   }).format(amount)
 }
 
-// Vérification de l'authentification
+const formatDate = (dateString) => {
+  return new Date(dateString).toLocaleDateString('fr-FR')
+}
+
 onMounted(() => {
   if (!authStore.isAuthenticated) {
     navigateTo('/auth/login')
   }
+  userInvestments.loadFromStorage()
 })
 </script>
-
-<style scoped>
-.dashboard-page {
-  padding-top: 2rem;
-}
-
-.investment-item {
-  transition: all 0.3s ease;
-}
-
-.investment-item:hover {
-  background-color: #f8f9fa;
-  transform: translateY(-2px);
-}
-
-.notification-item {
-  padding: 1rem 0;
-  border-bottom: 1px solid #eee;
-}
-
-.notification-item:last-child {
-  border-bottom: none;
-}
-</style>

@@ -1,153 +1,141 @@
 <template>
-  <div class="auth-page min-vh-100 d-flex align-items-center bg-light">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-5">
-          <div class="card shadow-lg border-0">
-            <div class="card-body p-5">
-              <!-- Logo -->
-              <div class="text-center mb-4">
-                <NuxtLink to="/" class="d-flex align-items-center justify-content-center text-decoration-none">
-                  <i class="fas fa-chart-line text-primary me-2 fa-2x"></i>
-                  <h3 class="brand-name mb-0">InvestFuture</h3>
-                </NuxtLink>
-              </div>
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-lg w-full space-y-8">
+      <div class="bg-white p-8 rounded-2xl shadow-xl">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+          <NuxtLink to="/" class="flex items-center justify-center space-x-2">
+            <i class="fas fa-chart-line text-blue-600 text-3xl"></i>
+            <h3 class="text-3xl font-bold brand-name">InvestFuture</h3>
+          </NuxtLink>
+        </div>
 
-              <h4 class="text-center mb-4">Créer un compte</h4>
+        <h2 class="text-center text-3xl font-bold text-gray-900 mb-8">Créer un compte</h2>
 
-              <!-- Alerts -->
-              <div v-if="errorMessage" class="alert alert-danger" role="alert">
-                {{ errorMessage }}
-              </div>
+        <!-- Alerts -->
+        <div v-if="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg">
+          {{ errorMessage }}
+        </div>
+        <div v-if="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
+          {{ successMessage }}
+        </div>
 
-              <div v-if="successMessage" class="alert alert-success" role="alert">
-                {{ successMessage }}
-              </div>
-
-              <!-- Formulaire -->
-              <form @submit.prevent="handleRegister">
-                <div class="row">
-                  <div class="col-md-6 mb-3">
-                    <label for="firstName" class="form-label">Prénom</label>
-                    <input
-                        type="text"
-                        id="firstName"
-                        v-model="form.firstName"
-                        class="form-control"
-                        required
-                        placeholder="Votre prénom"
-                    >
-                  </div>
-                  <div class="col-md-6 mb-3">
-                    <label for="lastName" class="form-label">Nom</label>
-                    <input
-                        type="text"
-                        id="lastName"
-                        v-model="form.lastName"
-                        class="form-control"
-                        required
-                        placeholder="Votre nom"
-                    >
-                  </div>
-                </div>
-
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                      type="email"
-                      id="email"
-                      v-model="form.email"
-                      class="form-control"
-                      required
-                      placeholder="votre@email.com"
-                  >
-                </div>
-
-                <div class="mb-3">
-                  <label for="password" class="form-label">Mot de passe</label>
-                  <input
-                      type="password"
-                      id="password"
-                      v-model="form.password"
-                      class="form-control"
-                      required
-                      placeholder="Au moins 8 caractères"
-                  >
-                </div>
-
-                <div class="mb-3">
-                  <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
-                  <input
-                      type="password"
-                      id="confirmPassword"
-                      v-model="form.confirmPassword"
-                      class="form-control"
-                      required
-                      placeholder="Confirmez votre mot de passe"
-                  >
-                </div>
-
-                <div class="mb-3 form-check">
-                  <input
-                      type="checkbox"
-                      id="terms"
-                      v-model="form.acceptTerms"
-                      class="form-check-input"
-                      required
-                  >
-                  <label for="terms" class="form-check-label">
-                    J'accepte les <a href="#" class="text-primary">conditions d'utilisation</a>
-                    et la <a href="#" class="text-primary">politique de confidentialité</a>
-                  </label>
-                </div>
-
-                <div class="mb-3 form-check">
-                  <input
-                      type="checkbox"
-                      id="newsletter"
-                      v-model="form.newsletter"
-                      class="form-check-input"
-                  >
-                  <label for="newsletter" class="form-check-label">
-                    Je souhaite recevoir la newsletter
-                  </label>
-                </div>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary w-100 mb-3"
-                    :disabled="isLoading || !isFormValid"
-                >
-                  <span v-if="isLoading">
-                    <i class="fas fa-spinner fa-spin me-2"></i>
-                    Création du compte...
-                  </span>
-                  <span v-else>
-                    <i class="fas fa-user-plus me-2"></i>
-                    Créer mon compte
-                  </span>
-                </button>
-              </form>
-
-              <!-- Liens -->
-              <div class="text-center">
-                <p class="mb-0">
-                  Déjà un compte ?
-                  <NuxtLink to="/auth/login" class="text-primary fw-semibold">
-                    Se connecter
-                  </NuxtLink>
-                </p>
-              </div>
-
-              <!-- Retour à l'accueil -->
-              <div class="text-center mt-4">
-                <NuxtLink to="/" class="btn btn-outline-secondary">
-                  <i class="fas fa-arrow-left me-2"></i>
-                  Retour à l'accueil
-                </NuxtLink>
-              </div>
+        <!-- Formulaire -->
+        <form @submit.prevent="handleRegister" class="space-y-6">
+          <div class="grid grid-cols-2 gap-4">
+            <div>
+              <label for="firstName" class="block text-sm font-medium text-gray-700 mb-1">Prénom</label>
+              <input
+                  type="text"
+                  id="firstName"
+                  v-model="form.firstName"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  placeholder="Votre prénom"
+              >
+            </div>
+            <div>
+              <label for="lastName" class="block text-sm font-medium text-gray-700 mb-1">Nom</label>
+              <input
+                  type="text"
+                  id="lastName"
+                  v-model="form.lastName"
+                  required
+                  class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                  placeholder="Votre nom"
+              >
             </div>
           </div>
+
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+                type="email"
+                id="email"
+                v-model="form.email"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                placeholder="votre@email.com"
+            >
+          </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+            <input
+                type="password"
+                id="password"
+                v-model="form.password"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                placeholder="Au moins 8 caractères"
+            >
+          </div>
+
+          <div>
+            <label for="confirmPassword" class="block text-sm font-medium text-gray-700 mb-1">Confirmer le mot de passe</label>
+            <input
+                type="password"
+                id="confirmPassword"
+                v-model="form.confirmPassword"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                placeholder="Confirmez votre mot de passe"
+            >
+          </div>
+
+          <div class="flex items-start">
+            <input
+                type="checkbox"
+                id="terms"
+                v-model="form.acceptTerms"
+                required
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
+            >
+            <label for="terms" class="ml-3 text-sm text-gray-700">
+              J'accepte les <a href="#" class="text-blue-600 hover:text-blue-500">conditions d'utilisation</a>
+              et la <a href="#" class="text-blue-600 hover:text-blue-500">politique de confidentialité</a>
+            </label>
+          </div>
+
+          <div class="flex items-start">
+            <input
+                type="checkbox"
+                id="newsletter"
+                v-model="form.newsletter"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
+            >
+            <label for="newsletter" class="ml-3 text-sm text-gray-700">
+              Je souhaite recevoir la newsletter
+            </label>
+          </div>
+
+          <button
+              type="submit"
+              :disabled="isLoading || !isFormValid"
+              class="w-full btn-primary flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            <i v-if="isLoading" class="fas fa-spinner fa-spin mr-2"></i>
+            <i v-else class="fas fa-user-plus mr-2"></i>
+            {{ isLoading ? 'Création du compte...' : 'Créer mon compte' }}
+          </button>
+        </form>
+
+        <!-- Liens -->
+        <div class="mt-6 text-center">
+          <p class="text-sm text-gray-600">
+            Déjà un compte ?
+            <NuxtLink to="/auth/login" class="text-blue-600 hover:text-blue-500 font-semibold">
+              Se connecter
+            </NuxtLink>
+          </p>
+        </div>
+
+        <!-- Retour à l'accueil -->
+        <div class="mt-8 text-center">
+          <NuxtLink to="/" class="inline-flex items-center text-gray-600 hover:text-gray-700 text-sm">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Retour à l'accueil
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -157,7 +145,6 @@
 <script setup>
 import { useAuthStore } from '~/stores/auth'
 
-// Meta données
 useSeoMeta({
   title: 'Inscription - InvestFuture',
   description: 'Créez votre compte InvestFuture et commencez à investir'
@@ -165,7 +152,6 @@ useSeoMeta({
 
 const authStore = useAuthStore()
 
-// État du formulaire
 const form = reactive({
   firstName: '',
   lastName: '',
@@ -180,7 +166,6 @@ const isLoading = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
 
-// Validation du formulaire
 const isFormValid = computed(() => {
   return form.firstName &&
       form.lastName &&
@@ -191,7 +176,6 @@ const isFormValid = computed(() => {
       form.acceptTerms
 })
 
-// Gestion de l'inscription
 const handleRegister = async () => {
   if (form.password !== form.confirmPassword) {
     errorMessage.value = 'Les mots de passe ne correspondent pas'
@@ -214,8 +198,6 @@ const handleRegister = async () => {
 
     if (result.success) {
       successMessage.value = 'Compte créé avec succès ! Redirection...'
-
-      // Redirection vers le dashboard après 1 seconde
       setTimeout(() => {
         navigateTo('/dashboard')
       }, 1000)
@@ -229,27 +211,9 @@ const handleRegister = async () => {
   }
 }
 
-// Rediriger si déjà connecté
 onMounted(() => {
   if (authStore.isAuthenticated) {
     navigateTo('/dashboard')
   }
 })
 </script>
-
-<style scoped>
-.brand-name {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.auth-page {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.card {
-  border-radius: 15px;
-}
-</style>

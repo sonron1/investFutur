@@ -1,32 +1,26 @@
 <template>
-  <div>
+  <div class="min-h-screen bg-gray-50">
     <Navbar />
 
-    <div class="profile-page bg-light min-vh-100">
-      <div class="container py-5">
-        <div class="row">
-          <div class="col-12">
-            <h1 class="h3 mb-4">Mon Profil</h1>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+      <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-8">
+        <h1 class="text-3xl font-bold text-gray-900 mb-8">Mon Profil</h1>
 
-            <div class="card border-0 shadow-sm">
-              <div class="card-body p-4">
-                <div class="text-center mb-4">
-                  <div class="avatar-placeholder mb-3">
-                    <i class="fas fa-user fa-3x text-muted"></i>
-                  </div>
-                  <h4>{{ user?.name || 'Utilisateur' }}</h4>
-                  <p class="text-muted">{{ user?.email }}</p>
-                </div>
-
-                <div class="text-center">
-                  <p class="text-muted">Fonctionnalité en cours de développement</p>
-                  <NuxtLink to="/dashboard" class="btn btn-primary">
-                    Retour au dashboard
-                  </NuxtLink>
-                </div>
-              </div>
-            </div>
+        <div class="text-center mb-8">
+          <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
+            <i class="fas fa-user text-3xl text-gray-400"></i>
           </div>
+          <h2 class="text-2xl font-semibold text-gray-900">{{ user?.name || 'Utilisateur' }}</h2>
+          <p class="text-gray-600 mt-1">{{ user?.email }}</p>
+        </div>
+
+        <div class="text-center">
+          <div class="mb-6">
+            <p class="text-gray-600">Fonctionnalité en cours de développement</p>
+          </div>
+          <NuxtLink to="/dashboard" class="btn-primary">
+            Retour au dashboard
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -51,16 +45,3 @@ onMounted(() => {
   }
 })
 </script>
-
-<style scoped>
-.avatar-placeholder {
-  width: 100px;
-  height: 100px;
-  background: #f8f9fa;
-  border-radius: 50%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin: 0 auto;
-}
-</style>

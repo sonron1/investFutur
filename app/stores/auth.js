@@ -1,3 +1,4 @@
+
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
@@ -7,26 +8,42 @@ export const useAuthStore = defineStore('auth', {
         isAuthenticated: false
     }),
 
+    getters: {
+        isAdmin: (state) => state.user?.role === 'admin'
+    },
+
     actions: {
         async login(credentials) {
             try {
-                // Simulation d'appel API
-                // À remplacer par votre vraie API
-                const mockResponse = {
-                    user: {
-                        id: 1,
-                        name: credentials.email.split('@')[0],
-                        email: credentials.email,
-                        role: 'user'
-                    },
-                    token: 'mock-jwt-token-' + Date.now()
+                // Comptes prédéfinis pour le prototype
+                let mockResponse = null;
+
+                if (credentials.email === 'admin@investfuture.com' && credentials.password === 'admin123') {
+                    mockResponse = {
+                        user: {
+                            id: 1,
+                            name: 'Admin',
+                            email: credentials.email,
+                            role: 'admin'
+                        },
+                        token: 'admin-token-' + Date.now()
+                    }
+                } else {
+                    mockResponse = {
+                        user: {
+                            id: Date.now(),
+                            name: credentials.email.split('@')[0],
+                            email: credentials.email,
+                            role: 'user'
+                        },
+                        token: 'mock-jwt-token-' + Date.now()
+                    }
                 }
 
                 this.user = mockResponse.user
                 this.token = mockResponse.token
                 this.isAuthenticated = true
 
-                // Sauvegarder en localStorage
                 if (process.client) {
                     localStorage.setItem('auth-token', mockResponse.token)
                     localStorage.setItem('user', JSON.stringify(mockResponse.user))
@@ -38,9 +55,9 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
+        // ... existing code ...
         async register(userData) {
             try {
-                // Simulation d'appel API
                 const mockResponse = {
                     user: {
                         id: Date.now(),
@@ -77,7 +94,6 @@ export const useAuthStore = defineStore('auth', {
             }
         },
 
-        // Restaurer l'état depuis localStorage
         initAuth() {
             if (process.client) {
                 const token = localStorage.getItem('auth-token')
