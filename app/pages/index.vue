@@ -1,4 +1,3 @@
-
 <template>
   <div>
     <!-- Navigation -->
@@ -25,6 +24,8 @@
 </template>
 
 <script setup>
+import { usePageRefresh } from '~/composables/usePageRefresh'
+
 // Meta données de la page
 useSeoMeta({
   title: 'InvestFuture - Investissement dans l\'innovation durable',
@@ -32,5 +33,12 @@ useSeoMeta({
   ogTitle: 'InvestFuture - Investissement dans l\'innovation durable',
   ogDescription: 'Investissez dans l\'innovation durable dès 5000€. ROI moyen 18%.',
   ogImage: '/images/og-image.jpg'
+})
+
+// Réinitialiser les modales à chaque visite de la page
+const { resetModals } = usePageRefresh()
+
+onMounted(() => {
+  resetModals()
 })
 </script>

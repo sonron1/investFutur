@@ -1,105 +1,93 @@
 <template>
-  <div class="auth-page min-vh-100 d-flex align-items-center bg-light">
-    <div class="container">
-      <div class="row justify-content-center">
-        <div class="col-md-6 col-lg-4">
-          <div class="card shadow-lg border-0">
-            <div class="card-body p-5">
-              <!-- Logo -->
-              <div class="text-center mb-4">
-                <NuxtLink to="/" class="d-flex align-items-center justify-content-center text-decoration-none">
-                  <i class="fas fa-chart-line text-primary me-2 fa-2x"></i>
-                  <h3 class="brand-name mb-0">InvestFuture</h3>
-                </NuxtLink>
-              </div>
+  <div class="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full space-y-8">
+      <div class="bg-white p-8 rounded-2xl shadow-xl">
+        <!-- Logo -->
+        <div class="text-center mb-8">
+          <NuxtLink to="/" class="flex items-center justify-center space-x-2">
+            <i class="fas fa-chart-line text-blue-600 text-3xl"></i>
+            <h3 class="text-3xl font-bold brand-name">InvestFuture</h3>
+          </NuxtLink>
+        </div>
 
-              <h4 class="text-center mb-4">Connexion</h4>
+        <h2 class="text-center text-3xl font-bold text-gray-900 mb-8">Connexion</h2>
 
-              <!-- Alerts -->
-              <div v-if="errorMessage" class="alert alert-danger" role="alert">
-                {{ errorMessage }}
-              </div>
+        <!-- Alerts -->
+        <div v-if="errorMessage" class="mb-4 p-4 bg-red-50 border border-red-200 text-red-800 rounded-lg">
+          {{ errorMessage }}
+        </div>
+        <div v-if="successMessage" class="mb-4 p-4 bg-green-50 border border-green-200 text-green-800 rounded-lg">
+          {{ successMessage }}
+        </div>
 
-              <div v-if="successMessage" class="alert alert-success" role="alert">
-                {{ successMessage }}
-              </div>
-
-              <!-- Formulaire -->
-              <form @submit.prevent="handleLogin">
-                <div class="mb-3">
-                  <label for="email" class="form-label">Email</label>
-                  <input
-                      type="email"
-                      id="email"
-                      v-model="form.email"
-                      class="form-control"
-                      required
-                      placeholder="votre@email.com"
-                  >
-                </div>
-
-                <div class="mb-3">
-                  <label for="password" class="form-label">Mot de passe</label>
-                  <input
-                      type="password"
-                      id="password"
-                      v-model="form.password"
-                      class="form-control"
-                      required
-                      placeholder="Votre mot de passe"
-                  >
-                </div>
-
-                <div class="mb-3 form-check">
-                  <input
-                      type="checkbox"
-                      id="remember"
-                      v-model="form.remember"
-                      class="form-check-input"
-                  >
-                  <label for="remember" class="form-check-label">
-                    Se souvenir de moi
-                  </label>
-                </div>
-
-                <button
-                    type="submit"
-                    class="btn btn-primary w-100 mb-3"
-                    :disabled="isLoading"
-                >
-                  <span v-if="isLoading">
-                    <i class="fas fa-spinner fa-spin me-2"></i>
-                    Connexion...
-                  </span>
-                  <span v-else>
-                    <i class="fas fa-sign-in-alt me-2"></i>
-                    Se connecter
-                  </span>
-                </button>
-              </form>
-
-              <!-- Liens -->
-              <div class="text-center">
-                <p class="mb-2">
-                  <a href="#" class="text-primary">Mot de passe oublié ?</a>
-                </p>
-                <p class="mb-0">
-                  Pas encore de compte ?
-                  <NuxtLink to="/auth/register" class="text-primary fw-semibold">
-                    S'inscrire
-                  </NuxtLink>
-                </p>
-              </div>
-
-              <!-- Retour à l'accueil -->
-              <div class="text-center mt-4">
-                <NuxtLink to="/" class="btn btn-outline-secondary">
-                  <i class="fas fa-arrow-left me-2"></i>
-                  Retour à l'accueil
-                </NuxtLink>
-              </div>
-            </div>
+        <!-- Formulaire -->
+        <form @submit.prevent="handleLogin" class="space-y-6">
+          <div>
+            <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+            <input
+                type="email"
+                id="email"
+                v-model="form.email"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                placeholder="votre@email.com"
+            >
           </div>
+
+          <div>
+            <label for="password" class="block text-sm font-medium text-gray-700 mb-1">Mot de passe</label>
+            <input
+                type="password"
+                id="password"
+                v-model="form.password"
+                required
+                class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-colors"
+                placeholder="Votre mot de passe"
+            >
+          </div>
+
+          <div class="flex items-center">
+            <input
+                type="checkbox"
+                id="remember"
+                v-model="form.remember"
+                class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded"
+            >
+            <label for="remember" class="ml-2 block text-sm text-gray-700">
+              Se souvenir de moi
+            </label>
+          </div>
+
+          <button
+              type="submit"
+              :disabled="isLoading"
+              class="w-full btn-primary flex items-center justify-center"
+          >
+            <i v-if="isLoading" class="fas fa-spinner fa-spin mr-2"></i>
+            <i v-else class="fas fa-sign-in-alt mr-2"></i>
+            {{ isLoading ? 'Connexion...' : 'Se connecter' }}
+          </button>
+        </form>
+
+        <!-- Liens -->
+        <div class="mt-6 text-center space-y-2">
+          <p>
+            <a href="#" class="text-blue-600 hover:text-blue-500 text-sm">Mot de passe oublié ?</a>
+          </p>
+          <p class="text-sm text-gray-600">
+            Pas encore de compte ?
+            <NuxtLink to="/auth/register" class="text-blue-600 hover:text-blue-500 font-semibold">
+              S'inscrire
+            </NuxtLink>
+          </p>
+        </div>
+
+        <!-- Retour à l'accueil -->
+        <div class="mt-8 text-center">
+          <NuxtLink to="/" class="inline-flex items-center text-gray-600 hover:text-gray-700 text-sm">
+            <i class="fas fa-arrow-left mr-2"></i>
+            Retour à l'accueil
+          </NuxtLink>
         </div>
       </div>
     </div>
@@ -109,7 +97,6 @@
 <script setup>
 import { useAuthStore } from '~/stores/auth'
 
-// Meta données
 useSeoMeta({
   title: 'Connexion - InvestFuture',
   description: 'Connectez-vous à votre compte InvestFuture'
@@ -117,7 +104,6 @@ useSeoMeta({
 
 const authStore = useAuthStore()
 
-// État du formulaire
 const form = reactive({
   email: '',
   password: '',
@@ -128,7 +114,6 @@ const isLoading = ref(false)
 const errorMessage = ref('')
 const successMessage = ref('')
 
-// Gestion de la connexion
 const handleLogin = async () => {
   isLoading.value = true
   errorMessage.value = ''
@@ -142,8 +127,6 @@ const handleLogin = async () => {
 
     if (result.success) {
       successMessage.value = 'Connexion réussie ! Redirection...'
-
-      // Redirection vers le dashboard après 1 seconde
       setTimeout(() => {
         navigateTo('/dashboard')
       }, 1000)
@@ -157,27 +140,9 @@ const handleLogin = async () => {
   }
 }
 
-// Rediriger si déjà connecté
 onMounted(() => {
   if (authStore.isAuthenticated) {
     navigateTo('/dashboard')
   }
 })
 </script>
-
-<style scoped>
-.brand-name {
-  background: linear-gradient(135deg, #007bff, #0056b3);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.auth-page {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-}
-
-.card {
-  border-radius: 15px;
-}
-</style>

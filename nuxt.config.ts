@@ -3,14 +3,23 @@ export default defineNuxtConfig({
     compatibilityDate: '2025-07-15',
     devtools: { enabled: true },
 
-    // Configuration pour les styles CSS
+    // Configuration CSS avec Tailwind
     css: [
-        '~/assets/css/style.css'
+        '~/assets/css/main.css'
     ],
+
+    // Configuration PostCSS (déplacée depuis postcss.config.js)
+    postcss: {
+        plugins: {
+            tailwindcss: {},
+            autoprefixer: {},
+        },
+    },
 
     // Configuration des modules nécessaires
     modules: [
-        '@pinia/nuxt' // Pour la gestion d'état
+        '@pinia/nuxt',
+        '@nuxtjs/tailwindcss'
     ],
 
     // Configuration pour éviter les erreurs de build
@@ -28,8 +37,6 @@ export default defineNuxtConfig({
                 { name: 'description', content: 'Investissez dans l\'innovation durable dès 5000€. ROI moyen 18%.' }
             ],
             link: [
-                // Bootstrap CSS
-                { rel: 'stylesheet', href: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css' },
                 // Font Awesome
                 { rel: 'stylesheet', href: 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css' },
                 // Google Fonts
@@ -40,20 +47,22 @@ export default defineNuxtConfig({
                 { rel: 'stylesheet', href: 'https://unpkg.com/aos@2.3.1/dist/aos.css' }
             ],
             script: [
-                // Bootstrap JS
-                { src: 'https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js', defer: true },
                 // AOS Animation
                 { src: 'https://unpkg.com/aos@2.3.1/dist/aos.js', defer: true }
             ]
         }
     },
 
-    // Configuration pour éviter les erreurs SSR
+    // Configuration SSR optimisée pour éviter les mismatches
     ssr: true,
 
-    // Optimisation des images
-    images: {
-        domains: ['images.unsplash.com'],
-        quality: 80
+    // Désactiver la prérendu pour les composants dynamiques
+    nitro: {
+        storage: {
+            redis: {
+                driver: 'redis',
+                // configuration redis si nécessaire
+            }
+        }
     }
 })

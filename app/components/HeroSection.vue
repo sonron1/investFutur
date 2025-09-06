@@ -1,48 +1,49 @@
 <template>
-  <section id="home" class="hero-section py-5">
-    <div class="container">
-      <div class="row min-vh-75 align-items-center">
-        <div class="col-lg-6" data-aos="fade-right">
-          <h1 class="hero-title mb-4">
+  <section id="home" class="bg-gradient-to-br from-gray-50 via-blue-50 to-gray-100 min-h-screen flex items-center">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20">
+      <div class="grid lg:grid-cols-2 gap-12 items-center">
+        <!-- Contenu textuel -->
+        <div data-aos="fade-right" class="space-y-8">
+          <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
             Investissez dans les
-            <span class="text-primary">entreprises de demain</span>
+            <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">entreprises de demain</span>
           </h1>
 
-          <p class="hero-subtitle mb-4">
-            ROI moyen de <strong>18%</strong> • Minimum <strong>5 000€</strong>
+          <p class="text-xl text-gray-600 leading-relaxed">
+            ROI moyen de <strong class="text-green-600">18%</strong> • Minimum <strong class="text-blue-600">5 000€</strong>
           </p>
 
-          <div class="hero-stats mb-4">
-            <div class="row g-3">
-              <div class="col-6 col-md-3" v-for="stat in stats" :key="stat.label">
-                <div class="stat-item">
-                  <h4 class="stat-number" :class="stat.colorClass">{{ stat.value }}</h4>
-                  <small class="text-muted">{{ stat.label }}</small>
-                </div>
-              </div>
+          <!-- Statistiques -->
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+            <div v-for="stat in stats" :key="stat.label" class="text-center">
+              <div class="text-2xl font-bold" :class="stat.colorClass">{{ stat.value }}</div>
+              <div class="text-sm text-gray-500">{{ stat.label }}</div>
             </div>
           </div>
 
-          <div class="hero-actions">
-            <NuxtLink to="/auth/register" class="custom-btn custom-btn-primary custom-btn-lg me-3">
-              Commencer
+          <!-- Boutons d'action -->
+          <div class="flex flex-col sm:flex-row gap-4">
+            <NuxtLink to="/auth/register" class="btn-primary text-center">
+              Commencer maintenant
             </NuxtLink>
-            <a href="#comment" class="custom-btn custom-btn-outline custom-btn-lg">
+            <a href="#comment" class="btn-outline text-center">
               En savoir plus
             </a>
           </div>
         </div>
 
-        <div class="col-lg-6" data-aos="fade-left">
-          <div class="hero-image">
-            <!-- Utilisation d'une image existante dans votre dossier public avec fallback -->
+        <!-- Image -->
+        <div data-aos="fade-left" class="relative">
+          <div class="relative z-10">
             <img
                 src="/images/heureuse femme.jpeg"
                 alt="Investissement"
-                class="img-fluid rounded-3 shadow"
+                class="rounded-2xl shadow-2xl w-full h-auto"
                 @error="handleImageError"
             >
           </div>
+          <!-- Élément décoratif -->
+          <div class="absolute top-4 right-4 w-72 h-72 bg-gradient-to-r from-blue-400 to-purple-500 rounded-full mix-blend-multiply filter blur-xl opacity-30 animate-pulse"></div>
         </div>
       </div>
     </div>
@@ -51,30 +52,13 @@
 
 <script setup>
 const stats = [
-  {
-    value: '189M€',
-    label: 'Investis',
-    colorClass: 'text-primary'
-  },
-  {
-    value: '18%',
-    label: 'ROI moyen',
-    colorClass: 'text-success'
-  },
-  {
-    value: '2547',
-    label: 'Investisseurs',
-    colorClass: 'text-warning'
-  },
-  {
-    value: '156',
-    label: 'Projets',
-    colorClass: 'text-info'
-  }
+  { value: '189M€', label: 'Investis', colorClass: 'text-blue-600' },
+  { value: '18%', label: 'ROI moyen', colorClass: 'text-green-600' },
+  { value: '2547', label: 'Investisseurs', colorClass: 'text-yellow-600' },
+  { value: '156', label: 'Projets', colorClass: 'text-purple-600' }
 ]
 
-// Fonction de gestion d'erreur pour l'image
 const handleImageError = (event) => {
-  event.target.src = 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80'
+  event.target.src = 'https://images.unsplash.com/photo-1580519542036-c47de6196ba5?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80'
 }
 </script>

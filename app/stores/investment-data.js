@@ -1,5 +1,5 @@
 // Données des secteurs d'investissement
-const investmentData = {
+export const investmentData = {
     "technologie-verte": {
         id: 1,
         name: "Technologies Vertes",
@@ -212,7 +212,7 @@ const investmentData = {
 };
 
 // Méthodes de paiement disponibles
-const paymentMethods = {
+export const paymentMethods = {
     bitcoin: {
         name: "Bitcoin",
         icon: "fab fa-bitcoin",
@@ -243,11 +243,7 @@ const paymentMethods = {
     }
 };
 
-// Fonction d'export pour compatibilité
-if (typeof module !== 'undefined' && module.exports) {
-    module.exports = { investmentData, paymentMethods };
-} else {
-    // Pour utilisation dans le navigateur
-    window.investmentData = investmentData;
-    window.paymentMethods = paymentMethods;
-}
+// Export par défaut + export nommé explicite (fiabilise la résolution TS)
+const defaultExport = investmentData;
+export default defaultExport;
+export { paymentMethods };
