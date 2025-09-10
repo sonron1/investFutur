@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - InvestFuture</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- DM Sans Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+            <i class="fas fa-chart-line text-primary me-2"></i>
+            <span class="brand-name">InvestFuture</span>
+        </a>
+
+        <div class="navbar-nav ms-auto">
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-user me-2"></i><span id="userName">John Doe</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item active" href="dashboard.html"><i class="fas fa-chart-pie me-2"></i>Dashboard</a></li>
+                    <li><a class="dropdown-item" href="investissements.html"><i class="fas fa-chart-line me-2"></i>Mes Investissements</a></li>
+                    <li><a class="dropdown-item" href="profile.html"><i class="fas fa-user-edit me-2"></i>Mon Profil</a></li>
+                    <li><a class="dropdown-item" href="accueil-connecte.html"><i class="fas fa-home me-2"></i>Accueil</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" id="logoutBtn"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenu Principal -->
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h2 class="mb-1">Bonjour <span data-user="firstName">John</span> 👋</h2>
+                    <p class="text-muted mb-0">Voici un aperçu de vos investissements</p>
+                </div>
+                <div>
+                    <button class="btn btn-primary" id="investBtn">
+                        <i class="fas fa-plus me-2"></i>Nouvel investissement
+                    </button>
+                    <button class="btn btn-outline-primary ms-2" id="refreshBtn">
+                        <i class="fas fa-sync-alt"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cartes de statistiques -->
+    <div class="row g-4 mb-4">
+        <div class="col-lg-3 col-md-6">
+            <div class="stats-card">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-primary bg-opacity-10 rounded-circle me-3">
+                        <i class="fas fa-wallet text-primary"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 text-primary" id="totalInvested">45 750€</h4>
+                        <small class="text-muted">Total investi</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="stats-card">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-success bg-opacity-10 rounded-circle me-3">
+                        <i class="fas fa-chart-line text-success"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 text-success" id="currentValue">52 340€</h4>
+                        <small class="text-muted">Valeur actuelle</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="stats-card">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-warning bg-opacity-10 rounded-circle me-3">
+                        <i class="fas fa-trending-up text-warning"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 text-warning" id="totalGain">+6 590€</h4>
+                        <small class="text-muted">Gains totaux</small>
+                        <div class="small text-success" id="gainPercentage">+14.4%</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6">
+            <div class="stats-card">
+                <div class="d-flex align-items-center">
+                    <div class="stats-icon bg-info bg-opacity-10 rounded-circle me-3">
+                        <i class="fas fa-project-diagram text-info"></i>
+                    </div>
+                    <div>
+                        <h4 class="mb-1 text-info" id="activeProjects">7</h4>
+                        <small class="text-muted">Projets actifs</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Graphiques -->
+    <div class="row g-4 mb-4">
+        <!-- Graphique de performance -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-chart-area text-primary me-2"></i>Performance du portefeuille</h5>
+                        <div class="btn-group btn-group-sm" role="group">
+                            <input type="radio" class="btn-check" name="period" id="period1m" value="1month" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="period1m">1M</label>
+
+                            <input type="radio" class="btn-check" name="period" id="period3m" value="3months" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="period3m">3M</label>
+
+                            <input type="radio" class="btn-check" name="period" id="period6m" value="6months" autocomplete="off">
+                            <label class="btn btn-outline-primary" for="period6m">6M</label>
+
+                            <input type="radio" class="btn-check" name="period" id="period1y" value="1year" autocomplete="off" checked>
+                            <label class="btn btn-outline-primary" for="period1y">1A</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div style="position: relative; height: 300px;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Répartition du portefeuille -->
+        <div class="col-lg-4">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0"><i class="fas fa-chart-pie text-primary me-2"></i>Répartition</h5>
+                </div>
+                <div class="card-body text-center">
+                    <div style="position: relative; height: 200px;">
+                        <canvas id="portfolioChart"></canvas>
+                    </div>
+
+                    <div class="mt-4">
+                        <div class="row g-2">
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="legend-color me-2" style="background-color: #1a237e;"></div>
+                                        <small>IA & Deep-Tech</small>
+                                    </div>
+                                    <small class="text-muted">32%</small>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="legend-color me-2" style="background-color: #00c853;"></div>
+                                        <small>Énergies Renouvelables</small>
+                                    </div>
+                                    <small class="text-muted">28%</small>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="legend-color me-2" style="background-color: #ff6f00;"></div>
+                                        <small>Biotechnologies</small>
+                                    </div>
+                                    <small class="text-muted">22%</small>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between mb-2">
+                                    <div class="d-flex align-items-center">
+                                        <div class="legend-color me-2" style="background-color: #3949ab;"></div>
+                                        <small>Fintech</small>
+                                    </div>
+                                    <small class="text-muted">12%</small>
+                                </div>
+                            </div>
+                            <div class="col-12">
+                                <div class="d-flex align-items-center justify-content-between">
+                                    <div class="d-flex align-items-center">
+                                        <div class="legend-color me-2" style="background-color: #6c757d;"></div>
+                                        <small>Autres</small>
+                                    </div>
+                                    <small class="text-muted">6%</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Investissements récents -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <h5 class="mb-0"><i class="fas fa-history text-primary me-2"></i>Investissements récents</h5>
+                        <a href="investissements.html" class="btn btn-outline-primary btn-sm">
+                            Voir tout <i class="fas fa-arrow-right ms-1"></i>
+                        </a>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                            <tr>
+                                <th>Projet</th>
+                                <th>Secteur</th>
+                                <th>Montant</th>
+                                <th>Date</th>
+                                <th>Performance</th>
+                                <th>Statut</th>
+                            </tr>
+                            </thead>
+                            <tbody id="recentInvestments">
+                            <!-- Les investissements seront chargés par JavaScript -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Actualités récentes -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0"><i class="fas fa-newspaper text-primary me-2"></i>Actualités récentes</h5>
+                </div>
+                <div class="card-body">
+                    <div id="recentNews">
+                        <!-- Les actualités seront chargées par JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="mt-5">
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-center py-3">
+            <div>
+                <span class="text-muted">&copy; 2024 InvestFuture. Tous droits réservés.</span>
+            </div>
+            <div class="d-flex align-items-center">
+                <small class="text-muted me-3">Plateforme régulée par FSMA, AMF, ACPR</small>
+                <div class="d-flex gap-2">
+                    <i class="fas fa-shield-alt text-success" title="Sécurisé"></i>
+                    <i class="fas fa-lock text-success" title="Confidentiel"></i>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<!-- Custom JS -->
+<script src="js/dashboard.js"></script>
+
+</body>
+</html>
