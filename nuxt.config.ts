@@ -27,6 +27,13 @@ export default defineNuxtConfig({
         transpile: []
     },
 
+    // Correction pour les middlewares
+    router: {
+        options: {
+            hashMode: false
+        }
+    },
+
     // Configuration des assets publics
     app: {
         head: {
@@ -55,6 +62,11 @@ export default defineNuxtConfig({
 
     // Configuration SSR optimisée pour éviter les mismatches
     ssr: true,
+
+    // Configuration d'hydration
+    experimental: {
+        payloadExtraction: false
+    },
 
     // Désactiver la prérendu pour les composants dynamiques
     nitro: {

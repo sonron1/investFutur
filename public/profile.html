@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Profil - InvestFuture</title>
+
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- DM Sans Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap" rel="stylesheet">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-light">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-sm sticky-top">
+    <div class="container">
+        <a class="navbar-brand fw-bold d-flex align-items-center" href="index.html">
+            <i class="fas fa-chart-line text-primary me-2"></i>
+            <span class="brand-name">InvestFuture</span>
+        </a>
+
+        <div class="navbar-nav ms-auto">
+            <div class="dropdown">
+                <button class="btn btn-outline-primary dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                    <i class="fas fa-user me-2"></i><span id="userName">John Doe</span>
+                </button>
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" href="dashboard.html"><i class="fas fa-chart-pie me-2"></i>Dashboard</a></li>
+                    <li><a class="dropdown-item" href="investissements.html"><i class="fas fa-chart-line me-2"></i>Mes Investissements</a></li>
+                    <li><a class="dropdown-item active" href="profile.html"><i class="fas fa-user-edit me-2"></i>Mon Profil</a></li>
+                    <li><a class="dropdown-item" href="accueil-connecte.html"><i class="fas fa-home me-2"></i>Accueil</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="index.html" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Déconnexion</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Contenu Principal -->
+<div class="container mt-4">
+    <!-- Header -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h2 class="mb-1">Mon Profil</h2>
+            <p class="text-muted mb-0">Gérez vos informations personnelles et préférences d'investissement</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <!-- Informations personnelles -->
+        <div class="col-lg-8">
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0"><i class="fas fa-user text-primary me-2"></i>Informations personnelles</h5>
+                </div>
+                <div class="card-body">
+                    <form id="personalInfoForm">
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="firstName" class="form-label">Prénom *</label>
+                                <input type="text" class="form-control" id="firstName" value="John" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="lastName" class="form-label">Nom *</label>
+                                <input type="text" class="form-control" id="lastName" value="Doe" required>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label">Email *</label>
+                                <input type="email" class="form-control" id="email" value="john.doe@example.com" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="phone" class="form-label">Téléphone</label>
+                                <input type="tel" class="form-control" id="phone" value="+33 6 12 34 56 78">
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="address" class="form-label">Adresse</label>
+                            <input type="text" class="form-control" id="address" value="123 Rue de la Paix">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-4 mb-3">
+                                <label for="city" class="form-label">Ville</label>
+                                <input type="text" class="form-control" id="city" value="Paris">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="postalCode" class="form-label">Code postal</label>
+                                <input type="text" class="form-control" id="postalCode" value="75001">
+                            </div>
+                            <div class="col-md-4 mb-3">
+                                <label for="country" class="form-label">Pays</label>
+                                <select class="form-select" id="country">
+                                    <option value="FR" selected>France</option>
+                                    <option value="BE">Belgique</option>
+                                    <option value="CH">Suisse</option>
+                                    <option value="LU">Luxembourg</option>
+                                    <option value="DE">Allemagne</option>
+                                    <option value="ES">Espagne</option>
+                                    <option value="IT">Italie</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="birthDate" class="form-label">Date de naissance</label>
+                            <input type="date" class="form-control" id="birthDate" value="1985-06-15">
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="button" class="btn btn-outline-secondary me-2" onclick="resetForm()">Annuler</button>
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Sauvegarder
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Préférences d'investissement -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0"><i class="fas fa-chart-line text-primary me-2"></i>Préférences d'investissement</h5>
+                </div>
+                <div class="card-body">
+                    <form id="investmentPreferencesForm">
+                        <div class="mb-3">
+                            <label for="riskProfile" class="form-label">Profil de risque</label>
+                            <select class="form-select" id="riskProfile">
+                                <option value="conservative">Conservateur</option>
+                                <option value="moderate" selected>Modéré</option>
+                                <option value="aggressive">Agressif</option>
+                            </select>
+                            <div class="form-text">Définit votre tolérance au risque pour les investissements</div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="investmentGoal" class="form-label">Objectif d'investissement</label>
+                            <select class="form-select" id="investmentGoal">
+                                <option value="growth" selected>Croissance du capital</option>
+                                <option value="income">Génération de revenus</option>
+                                <option value="preservation">Préservation du capital</option>
+                                <option value="speculation">Spéculation</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label">Secteurs préférés</label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="ia-deeptech" id="sectorIA" checked>
+                                        <label class="form-check-label" for="sectorIA">IA & Deep-Tech</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="energies-renouvelables" id="sectorEnergie" checked>
+                                        <label class="form-check-label" for="sectorEnergie">Énergies Renouvelables</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="biotechnologies" id="sectorBiotech">
+                                        <label class="form-check-label" for="sectorBiotech">Biotechnologies</label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="climat-tech" id="sectorClimat">
+                                        <label class="form-check-label" for="sectorClimat">Climat-Tech</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="spatial" id="sectorSpatial">
+                                        <label class="form-check-label" for="sectorSpatial">Spatial</label>
+                                    </div>
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="checkbox" value="semiconducteurs" id="sectorSemi">
+                                        <label class="form-check-label" for="sectorSemi">Semiconducteurs</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="monthlyBudget" class="form-label">Budget mensuel (€)</label>
+                                <select class="form-select" id="monthlyBudget">
+                                    <option value="5000-10000" selected>5 000 - 10 000€</option>
+                                    <option value="10000-25000">10 000 - 25 000€</option>
+                                    <option value="25000-50000">25 000 - 50 000€</option>
+                                    <option value="50000+">50 000€+</option>
+                                </select>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="investmentHorizon" class="form-label">Horizon d'investissement</label>
+                                <select class="form-select" id="investmentHorizon">
+                                    <option value="short">Court terme (< 2 ans)</option>
+                                    <option value="medium" selected>Moyen terme (2-5 ans)</option>
+                                    <option value="long">Long terme (> 5 ans)</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-save me-2"></i>Sauvegarder les préférences
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Sécurité -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h5 class="mb-0"><i class="fas fa-shield-alt text-primary me-2"></i>Sécurité</h5>
+                </div>
+                <div class="card-body">
+                    <form id="securityForm">
+                        <div class="mb-3">
+                            <label for="currentPassword" class="form-label">Mot de passe actuel</label>
+                            <input type="password" class="form-control" id="currentPassword" placeholder="••••••••">
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="newPassword" class="form-label">Nouveau mot de passe</label>
+                                <input type="password" class="form-control" id="newPassword" placeholder="••••••••">
+                                <div class="form-text">Minimum 8 caractères</div>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="confirmPassword" class="form-label">Confirmer le mot de passe</label>
+                                <input type="password" class="form-control" id="confirmPassword" placeholder="••••••••">
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" value="" id="twoFactorAuth">
+                                <label class="form-check-label" for="twoFactorAuth">
+                                    Activer l'authentification à deux facteurs (2FA)
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="d-flex justify-content-end">
+                            <button type="submit" class="btn btn-warning">
+                                <i class="fas fa-key me-2"></i>Modifier le mot de passe
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sidebar -->
+        <div class="col-lg-4">
+            <!-- Photo de profil -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-body text-center">
+                    <div class="profile-avatar mb-3">
+                        <img src="https://via.placeholder.com/120x120/007bff/ffffff?text=JD" alt="Photo de profil" class="rounded-circle" width="120" height="120">
+                    </div>
+                    <h5 class="mb-1" id="profileName">John Doe</h5>
+                    <p class="text-muted mb-3">Investisseur depuis Mars 2023</p>
+                    <button class="btn btn-outline-primary btn-sm">
+                        <i class="fas fa-camera me-2"></i>Changer la photo
+                    </button>
+                </div>
+            </div>
+
+            <!-- Statistiques du profil -->
+            <div class="card shadow-sm mb-4">
+                <div class="card-header bg-white border-0 py-3">
+                    <h6 class="mb-0"><i class="fas fa-chart-bar text-primary me-2"></i>Mes statistiques</h6>
+                </div>
+                <div class="card-body">
+                    <div class="profile-stat mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Total investi:</span>
+                            <span class="fw-bold text-primary">45 750€</span>
+                        </div>
+                    </div>
+                    <div class="profile-stat mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Gains totaux:</span>
+                            <span class="fw-bold text-success">+6 590€</span>
+                        </div>
+                    </div>
+                    <div class="profile-stat mb-3">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">ROI moyen:</span>
+                            <span class="fw-bold text-warning">14.4%</span>
+                        </div>
+                    </div>
+                    <div class="profile-stat">
+                        <div class="d-flex justify-content-between">
+                            <span class="text-muted">Projets actifs:</span>
+                            <span class="fw-bold text-info">4</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Notifications -->
+            <div class="card shadow-sm">
+                <div class="card-header bg-white border-0 py-3">
+                    <h6 class="mb-0"><i class="fas fa-bell text-primary me-2"></i>Notifications</h6>
+                </div>
+                <div class="card-body">
+                    <form id="notificationsForm">
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="" id="emailNotif" checked>
+                            <label class="form-check-label" for="emailNotif">
+                                Notifications par email
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="" id="smsNotif">
+                            <label class="form-check-label" for="smsNotif">
+                                Notifications par SMS
+                            </label>
+                        </div>
+                        <div class="form-check mb-3">
+                            <input class="form-check-input" type="checkbox" value="" id="marketingNotif">
+                            <label class="form-check-label" for="marketingNotif">
+                                Offres et actualités
+                            </label>
+                        </div>
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="" id="performanceNotif" checked>
+                            <label class="form-check-label" for="performanceNotif">
+                                Rapports de performance
+                            </label>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer class="bg-white border-top py-4 mt-5">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-6">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-chart-line text-primary me-2"></i>
+                    <span class="fw-bold">InvestFuture</span>
+                </div>
+                <small class="text-muted">Investissement dans l'innovation durable</small>
+            </div>
+            <div class="col-md-6 text-md-end">
+                <small class="text-muted">© 2024 InvestFuture. Tous droits réservés.</small>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- Scripts -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+<script src="js/profil.js"></script>
+
+</body>
+</html>

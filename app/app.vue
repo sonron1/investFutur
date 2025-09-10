@@ -5,15 +5,7 @@
 </template>
 
 <script setup>
-// Initialisation AOS au montage
-onMounted(() => {
-  if (process.client && window.AOS) {
-    window.AOS.init({
-      duration: 800,
-      easing: 'ease-in-out'
-    })
-  }
-})
+// Supprimer la logique AOS d'ici car elle est gérée dans le plugin
 </script>
 
 <style>
@@ -21,5 +13,14 @@ html, body {
   font-family: 'DM Sans', sans-serif;
   margin: 0;
   padding: 0;
+}
+
+/* Prévenir le flash des animations AOS */
+[data-aos] {
+  pointer-events: none;
+}
+
+[data-aos].aos-animate {
+  pointer-events: auto;
 }
 </style>
