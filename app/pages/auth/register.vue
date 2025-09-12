@@ -528,11 +528,13 @@
                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   >
                     <option value="">Sélectionnez un pays</option>
-                    <option value="FR">France</option>
-                    <option value="BE">Belgique</option>
-                    <option value="CH">Suisse</option>
-                    <option value="CA">Canada</option>
-                    <option value="US">États-Unis</option>
+                    <option 
+                        v-for="country in countries" 
+                        :key="country.code" 
+                        :value="country.code"
+                    >
+                      {{ country.name }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -547,11 +549,13 @@
                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   >
                     <option value="">Sélectionnez une nationalité</option>
-                    <option value="FR">Française</option>
-                    <option value="BE">Belge</option>
-                    <option value="CH">Suisse</option>
-                    <option value="CA">Canadienne</option>
-                    <option value="US">Américaine</option>
+                    <option
+                        v-for="country in countries"
+                        :key="country.code"
+                        :value="country.code"
+                    >
+                      {{ getNationality(country.code) }}
+                    </option>
                   </select>
                 </div>
                 <div>
@@ -565,6 +569,7 @@
                   >
                 </div>
               </div>
+
 
               <div>
                 <label for="codePostalNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Code postal de naissance *</label>
@@ -833,11 +838,13 @@
                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   >
                     <option value="">Sélectionner</option>
-                    <option value="FR">Française</option>
-                    <option value="BE">Belge</option>
-                    <option value="CH">Suisse</option>
-                    <option value="CA">Canadienne</option>
-                    <option value="US">Américaine</option>
+                    <option
+                        v-for="country in countries"
+                        :key="country.code"
+                        :value="country.code"
+                    >
+                      {{ getNationality(country.code) }}
+                    </option>
                   </select>
                 </div>
               </div>
@@ -904,11 +911,13 @@
                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               >
                 <option value="">Sélectionnez un pays</option>
-                <option value="FR">France</option>
-                <option value="BE">Belgique</option>
-                <option value="CH">Suisse</option>
-                <option value="CA">Canada</option>
-                <option value="US">États-Unis</option>
+                <option
+                    v-for="country in countries"
+                    :key="country.code"
+                    :value="country.code"
+                >
+                  {{ country.name }}
+                </option>
               </select>
             </div>
 
@@ -956,11 +965,13 @@
                   class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
               >
                 <option value="">Sélectionnez un pays</option>
-                <option value="FR">France</option>
-                <option value="BE">Belgique</option>
-                <option value="CH">Suisse</option>
-                <option value="CA">Canada</option>
-                <option value="US">États-Unis</option>
+                <option
+                    v-for="country in countries"
+                    :key="country.code"
+                    :value="country.code"
+                >
+                  {{ country.name }}
+                </option>
               </select>
             </div>
           </div>
@@ -1184,6 +1195,8 @@
 <script setup>
 import { useAuthStore } from '~/stores/auth'
 import { usePageRefresh } from '~/composables/usePageRefresh'
+import { useCountries } from '~/composables/useCountries'
+
 
 useSeoMeta({
   title: 'Inscription - InvestFuture',
@@ -1192,6 +1205,8 @@ useSeoMeta({
 
 const authStore = useAuthStore()
 const { markPageForRefresh } = usePageRefresh()
+const { countries, getNationality } = useCountries()
+
 
 // États pour la gestion des étapes
 const currentStep = ref('initial')
