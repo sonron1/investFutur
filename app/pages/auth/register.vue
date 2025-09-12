@@ -214,7 +214,7 @@
                 >
                 <label for="acceptTerms" class="text-sm text-gray-700 leading-relaxed">
                   J'ai lu et j'accepte les
-                  <a href="#" class="text-blue-600 hover:text-blue-500 underline">conditions générales d'utilisation</a>
+                  <a href="/terms" class="text-blue-600 hover:text-blue-500 underline">conditions générales d'utilisation</a>
                 </label>
               </div>
             </div>
@@ -315,8 +315,9 @@
           </div>
         </div>
 
-        <!-- Étape 1/5 - Informations personnelles -->
-        <div v-show="currentStep === 'step1'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <!-- Étape 1/5 - Informations spécifiques selon le type de personne -->
+        <!-- Personne physique -->
+        <div v-show="currentStep === 'step1' && form.personType === 'physique'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
           <div class="mb-8">
             <!-- Barre de progression -->
             <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
@@ -434,9 +435,69 @@
                     @blur="validateTelephone"
                 >
                 <div v-if="telephoneError" class="mt-1 text-red-600 text-sm">{{ telephoneError }}</div>
-                <p v-if="!telephoneError" class="mt-2 text-sm text-gray-500">
-                  Votre numéro sera utile pour signer vos futurs investissements en ligne.
-                </p>
+              </div>
+
+              <!-- Informations complémentaires personne physique -->
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="profession" class="block text-sm font-semibold text-gray-700 mb-2">Profession *</label>
+                  <input
+                      type="text"
+                      id="profession"
+                      v-model="form.profession"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+                <div>
+                  <label for="situationFamiliale" class="block text-sm font-semibold text-gray-700 mb-2">Situation familiale *</label>
+                  <select
+                      id="situationFamiliale"
+                      v-model="form.situationFamiliale"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="celibataire">Célibataire</option>
+                    <option value="marie">Marié(e)</option>
+                    <option value="pacse">Pacsé(e)</option>
+                    <option value="divorce">Divorcé(e)</option>
+                    <option value="veuf">Veuf/Veuve</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="revenusAnnuels" class="block text-sm font-semibold text-gray-700 mb-2">Revenus annuels *</label>
+                  <select
+                      id="revenusAnnuels"
+                      v-model="form.revenusAnnuels"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Sélectionner une tranche</option>
+                    <option value="moins-30k">Moins de 30 000€</option>
+                    <option value="30k-60k">30 000€ - 60 000€</option>
+                    <option value="60k-100k">60 000€ - 100 000€</option>
+                    <option value="100k-200k">100 000€ - 200 000€</option>
+                    <option value="plus-200k">Plus de 200 000€</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="experienceInvestissement" class="block text-sm font-semibold text-gray-700 mb-2">Expérience d'investissement *</label>
+                  <select
+                      id="experienceInvestissement"
+                      v-model="form.experienceInvestissement"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="debutant">Débutant</option>
+                    <option value="intermediaire">Intermédiaire</option>
+                    <option value="experimente">Expérimenté</option>
+                  </select>
+                </div>
               </div>
             </div>
 
@@ -506,7 +567,7 @@
               </div>
 
               <div>
-                <label for="codePostalNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Code postal *</label>
+                <label for="codePostalNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Code postal de naissance *</label>
                 <input
                     type="text"
                     id="codePostalNaissance"
@@ -530,7 +591,7 @@
             <button
                 type="button"
                 @click="continueToStep2"
-                :disabled="!isStep1Valid"
+                :disabled="!isStep1PhysiqueValid"
                 class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
             >
               Continuer
@@ -539,19 +600,297 @@
           </div>
         </div>
 
-        <!-- Étape 2/5 - Adresse -->
+        <!-- Personne morale -->
+        <div v-show="currentStep === 'step1' && form.personType === 'morale'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <div class="mb-8">
+            <!-- Barre de progression -->
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" style="width: 25%"></div>
+            </div>
+
+            <div class="text-center">
+              <span class="inline-block bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                Étape 1/4 - Informations entreprise
+              </span>
+              <h4 class="text-2xl font-bold text-gray-900 mb-4">Informations sur votre entreprise</h4>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Informations légales de l'entreprise -->
+            <div>
+              <h6 class="text-lg font-semibold text-gray-900 mb-4">Informations légales</h6>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="raisonSociale" class="block text-sm font-semibold text-gray-700 mb-2">Raison sociale *</label>
+                  <input
+                      type="text"
+                      id="raisonSociale"
+                      v-model="form.raisonSociale"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+                <div>
+                  <label for="formeJuridique" class="block text-sm font-semibold text-gray-700 mb-2">Forme juridique *</label>
+                  <select
+                      id="formeJuridique"
+                      v-model="form.formeJuridique"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="SARL">SARL</option>
+                    <option value="SAS">SAS</option>
+                    <option value="SA">SA</option>
+                    <option value="SCI">SCI</option>
+                    <option value="EURL">EURL</option>
+                    <option value="SASU">SASU</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="siret" class="block text-sm font-semibold text-gray-700 mb-2">N° SIRET *</label>
+                  <input
+                      type="text"
+                      id="siret"
+                      v-model="form.siret"
+                      required
+                      pattern="[0-9]{14}"
+                      placeholder="12345678901234"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+                <div>
+                  <label for="codeNaf" class="block text-sm font-semibold text-gray-700 mb-2">Code NAF/APE *</label>
+                  <input
+                      type="text"
+                      id="codeNaf"
+                      v-model="form.codeNaf"
+                      required
+                      placeholder="1234Z"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="capitalSocial" class="block text-sm font-semibold text-gray-700 mb-2">Capital social (€) *</label>
+                  <input
+                      type="number"
+                      id="capitalSocial"
+                      v-model="form.capitalSocial"
+                      required
+                      min="1"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+                <div>
+                  <label for="dateCreation" class="block text-sm font-semibold text-gray-700 mb-2">Date de création *</label>
+                  <input
+                      type="date"
+                      id="dateCreation"
+                      v-model="form.dateCreation"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+              </div>
+
+              <!-- Adresse du siège social -->
+              <div>
+                <h6 class="text-lg font-semibold text-gray-900 mb-4 mt-6">Siège social</h6>
+                <div>
+                  <label for="adresseSiege" class="block text-sm font-semibold text-gray-700 mb-2">Adresse complète *</label>
+                  <textarea
+                      id="adresseSiege"
+                      v-model="form.adresseSiege"
+                      required
+                      rows="3"
+                      placeholder="Numéro, rue, complément d'adresse, code postal, ville"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                  ></textarea>
+                </div>
+              </div>
+
+              <!-- Informations financières -->
+              <div>
+                <h6 class="text-lg font-semibold text-gray-900 mb-4">Informations financières</h6>
+                <div class="grid md:grid-cols-2 gap-6">
+                  <div>
+                    <label for="chiffreAffaires" class="block text-sm font-semibold text-gray-700 mb-2">CA annuel (€)</label>
+                    <select
+                        id="chiffreAffaires"
+                        v-model="form.chiffreAffaires"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    >
+                      <option value="">Non communiqué</option>
+                      <option value="0-100000">0 - 100 000€</option>
+                      <option value="100000-500000">100 000€ - 500 000€</option>
+                      <option value="500000-2000000">500 000€ - 2M€</option>
+                      <option value="2000000+">Plus de 2M€</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label for="effectifs" class="block text-sm font-semibold text-gray-700 mb-2">Nombre d'employés</label>
+                    <select
+                        id="effectifs"
+                        v-model="form.effectifs"
+                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    >
+                      <option value="">Non communiqué</option>
+                      <option value="0">0 (auto-entrepreneur)</option>
+                      <option value="1-10">1-10</option>
+                      <option value="11-50">11-50</option>
+                      <option value="50+">Plus de 50</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Représentant légal -->
+            <div>
+              <h6 class="text-lg font-semibold text-gray-900 mb-4">Représentant légal</h6>
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="representantCivilite" class="block text-sm font-semibold text-gray-700 mb-2">Civilité *</label>
+                  <select
+                      id="representantCivilite"
+                      v-model="form.representantCivilite"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="madame">Madame</option>
+                    <option value="monsieur">Monsieur</option>
+                  </select>
+                </div>
+                <div>
+                  <label for="representantQualite" class="block text-sm font-semibold text-gray-700 mb-2">Qualité *</label>
+                  <select
+                      id="representantQualite"
+                      v-model="form.representantQualite"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="gerant">Gérant</option>
+                    <option value="president">Président</option>
+                    <option value="directeur-general">Directeur Général</option>
+                    <option value="associe">Associé</option>
+                    <option value="autre">Autre</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="representantPrenom" class="block text-sm font-semibold text-gray-700 mb-2">Prénom *</label>
+                  <input
+                      type="text"
+                      id="representantPrenom"
+                      v-model="form.representantPrenom"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+                <div>
+                  <label for="representantNom" class="block text-sm font-semibold text-gray-700 mb-2">Nom *</label>
+                  <input
+                      type="text"
+                      id="representantNom"
+                      v-model="form.representantNom"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+              </div>
+
+              <div class="grid md:grid-cols-2 gap-6">
+                <div>
+                  <label for="representantDateNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Date de naissance *</label>
+                  <input
+                      type="date"
+                      id="representantDateNaissance"
+                      v-model="form.representantDateNaissance"
+                      required
+                      :max="maxDate"
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                </div>
+                <div>
+                  <label for="representantNationalite" class="block text-sm font-semibold text-gray-700 mb-2">Nationalité *</label>
+                  <select
+                      id="representantNationalite"
+                      v-model="form.representantNationalite"
+                      required
+                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  >
+                    <option value="">Sélectionner</option>
+                    <option value="FR">Française</option>
+                    <option value="BE">Belge</option>
+                    <option value="CH">Suisse</option>
+                    <option value="CA">Canadienne</option>
+                    <option value="US">Américaine</option>
+                  </select>
+                </div>
+              </div>
+
+              <div>
+                <label for="representantTelephone" class="block text-sm font-semibold text-gray-700 mb-2">Téléphone *</label>
+                <input
+                    type="tel"
+                    id="representantTelephone"
+                    v-model="form.representantTelephone"
+                    required
+                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                >
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between mt-8">
+            <button
+                type="button"
+                @click="backToPersonType"
+                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+            >
+              <i class="fas fa-arrow-left mr-2"></i>
+              Précédent
+            </button>
+            <button
+                type="button"
+                @click="continueToStep2"
+                :disabled="!isStep1MoraleValid"
+                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
+            >
+              Continuer
+              <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Étape 2/5 - Adresse (commune aux deux types) -->
         <div v-show="currentStep === 'step2'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
           <div class="mb-8">
             <!-- Barre de progression -->
             <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" style="width: 40%"></div>
+              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" :style="{ width: form.personType === 'physique' ? '40%' : '50%' }"></div>
             </div>
 
             <div class="text-center">
               <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
-                Étape 2/5 - Informations personnelles
+                Étape 2/{{ form.personType === 'physique' ? '5' : '4' }} - Adresse
               </span>
-              <h4 class="text-2xl font-bold text-gray-900 mb-4">Quelle est votre adresse ?</h4>
+              <h4 class="text-2xl font-bold text-gray-900 mb-4">
+                {{ form.personType === 'physique' ? 'Quelle est votre adresse ?' : 'Adresse de correspondance' }}
+              </h4>
             </div>
           </div>
 
@@ -608,7 +947,7 @@
               </div>
             </div>
 
-            <div>
+            <div v-if="form.personType === 'physique'">
               <label for="paysResidenceFiscale" class="block text-sm font-semibold text-gray-700 mb-2">Pays de résidence fiscale *</label>
               <select
                   id="paysResidenceFiscale"
@@ -637,8 +976,159 @@
             </button>
             <button
                 type="button"
-                @click="continueToFinal"
+                @click="continueToStep3"
                 :disabled="!isStep2Valid"
+                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
+            >
+              Continuer
+              <i class="fas fa-arrow-right ml-2"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Étape 3 - Documents et finalisation -->
+        <div v-show="currentStep === 'step3'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+          <div class="mb-8">
+            <!-- Barre de progression -->
+            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
+              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" :style="{ width: form.personType === 'physique' ? '80%' : '75%' }"></div>
+            </div>
+
+            <div class="text-center">
+              <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+                Étape finale - Documents
+              </span>
+              <h4 class="text-2xl font-bold text-gray-900 mb-4">Documents requis</h4>
+
+              <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
+                <i class="fas fa-info-circle mr-2"></i>
+                Ces documents sont nécessaires pour valider votre compte conformément à la réglementation française.
+              </div>
+            </div>
+          </div>
+
+          <div class="space-y-6">
+            <!-- Documents personne physique -->
+            <div v-if="form.personType === 'physique'">
+              <h6 class="text-lg font-semibold text-gray-900 mb-4">Documents à fournir</h6>
+
+              <div class="space-y-4">
+                <div class="border border-gray-200 rounded-xl p-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-id-card text-blue-500 mr-2"></i>
+                    Pièce d'identité * (CNI, Passeport)
+                  </label>
+                  <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      @change="handleFileUpload('pieceIdentite', $event)"
+                  >
+                  <p class="text-xs text-gray-500 mt-1">Formats acceptés: PDF, JPG, PNG - Max 5MB</p>
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-home text-green-500 mr-2"></i>
+                    Justificatif de domicile * (moins de 3 mois)
+                  </label>
+                  <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      @change="handleFileUpload('justificatifDomicile', $event)"
+                  >
+                  <p class="text-xs text-gray-500 mt-1">Facture électricité, gaz, téléphone, quittance loyer...</p>
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-university text-purple-500 mr-2"></i>
+                    RIB (Relevé d'Identité Bancaire) *
+                  </label>
+                  <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      @change="handleFileUpload('rib', $event)"
+                  >
+                </div>
+              </div>
+            </div>
+
+            <!-- Documents personne morale -->
+            <div v-if="form.personType === 'morale'">
+              <h6 class="text-lg font-semibold text-gray-900 mb-4">Documents entreprise à fournir</h6>
+
+              <div class="space-y-4">
+                <div class="border border-gray-200 rounded-xl p-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-certificate text-blue-500 mr-2"></i>
+                    Extrait Kbis * (moins de 3 mois)
+                  </label>
+                  <input
+                      type="file"
+                      accept=".pdf"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      @change="handleFileUpload('kbis', $event)"
+                  >
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-file-contract text-green-500 mr-2"></i>
+                    Statuts de l'entreprise *
+                  </label>
+                  <input
+                      type="file"
+                      accept=".pdf"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      @change="handleFileUpload('statuts', $event)"
+                  >
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-id-card text-purple-500 mr-2"></i>
+                    Pièce d'identité du représentant légal *
+                  </label>
+                  <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      @change="handleFileUpload('pieceIdentiteRepresentant', $event)"
+                  >
+                </div>
+
+                <div class="border border-gray-200 rounded-xl p-4">
+                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                    <i class="fas fa-university text-orange-500 mr-2"></i>
+                    RIB de l'entreprise *
+                  </label>
+                  <input
+                      type="file"
+                      accept=".pdf,.jpg,.jpeg,.png"
+                      class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500"
+                      @change="handleFileUpload('ribEntreprise', $event)"
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="flex justify-between mt-8">
+            <button
+                type="button"
+                @click="backToStep2"
+                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+            >
+              <i class="fas fa-arrow-left mr-2"></i>
+              Précédent
+            </button>
+            <button
+                type="button"
+                @click="continueToFinal"
+                :disabled="!isDocumentsValid"
                 class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
             >
               <span v-if="!isLoading" class="flex items-center">
@@ -668,7 +1158,8 @@
                 <div class="text-left">
                   <p class="font-semibold text-green-800">Bienvenue chez InvestFuture !</p>
                   <p class="text-green-700 text-sm mt-1">
-                    Vous pouvez maintenant accéder à votre tableau de bord et découvrir nos opportunités d'investissement.
+                    Votre compte est en cours de validation. Vous recevrez un email de confirmation une fois la vérification terminée.
+                    Vous pouvez déjà accéder à votre tableau de bord pour découvrir nos opportunités d'investissement.
                   </p>
                 </div>
               </div>
@@ -728,8 +1219,9 @@ const maxDate = computed(() => {
   return date.toISOString().split('T')[0]
 })
 
-// Données du formulaire
+// Données du formulaire complet
 const form = reactive({
+  // Informations de base
   email: '',
   password: '',
   confirmPassword: '',
@@ -737,6 +1229,8 @@ const form = reactive({
   riskAwareness: false,
   acceptTerms: false,
   personType: '',
+
+  // Personne physique
   civilite: '',
   prenom: '',
   nomNaissance: '',
@@ -747,12 +1241,56 @@ const form = reactive({
   nationalite: '',
   villeNaissance: '',
   codePostalNaissance: '',
+  profession: '',
+  situationFamiliale: '',
+  revenusAnnuels: '',
+  experienceInvestissement: '',
+
+  // Personne morale - entreprise
+  raisonSociale: '',
+  formeJuridique: '',
+  siret: '',
+  codeNaf: '',
+  capitalSocial: '',
+  dateCreation: '',
+  adresseSiege: '',
+  chiffreAffaires: '',
+  effectifs: '',
+
+  // Représentant légal (personne morale)
+  representantCivilite: '',
+  representantQualite: '',
+  representantPrenom: '',
+  representantNom: '',
+  representantDateNaissance: '',
+  representantNationalite: '',
+  representantTelephone: '',
+
+  // Adresse (commune)
   paysResidence: '',
   adresse: '',
   ville: '',
   codePostal: '',
-  paysResidenceFiscale: ''
+  paysResidenceFiscale: '', // Seulement pour personne physique
+
+  // Documents
+  documents: {}
 })
+
+// Gestion des fichiers
+const handleFileUpload = (fieldName, event) => {
+  const file = event.target.files[0]
+  if (file) {
+    // Validation taille fichier (5MB max)
+    if (file.size > 5 * 1024 * 1024) {
+      alert('Le fichier est trop volumineux. Taille maximum: 5MB')
+      event.target.value = ''
+      return
+    }
+
+    form.documents[fieldName] = file
+  }
+}
 
 // Validations en temps réel
 const validateEmail = async () => {
@@ -767,7 +1305,6 @@ const validateEmail = async () => {
     return
   }
 
-  // Vérifier si l'email existe déjà
   const exists = await authStore.checkEmailExists(form.email)
   if (exists) {
     emailError.value = 'Cet email est déjà utilisé'
@@ -868,7 +1405,7 @@ const isInitialFormValid = computed(() => {
       !confirmPasswordError.value
 })
 
-const isStep1Valid = computed(() => {
+const isStep1PhysiqueValid = computed(() => {
   return form.civilite &&
       form.prenom && form.prenom.length >= 2 &&
       form.nomNaissance && form.nomNaissance.length >= 2 &&
@@ -878,18 +1415,59 @@ const isStep1Valid = computed(() => {
       form.nationalite &&
       form.villeNaissance &&
       form.codePostalNaissance &&
+      form.profession &&
+      form.situationFamiliale &&
+      form.revenusAnnuels &&
+      form.experienceInvestissement &&
       !prenomError.value &&
       !nomNaissanceError.value &&
       !telephoneError.value &&
       !dateNaissanceError.value
 })
 
+const isStep1MoraleValid = computed(() => {
+  return form.raisonSociale &&
+      form.formeJuridique &&
+      form.siret &&
+      form.codeNaf &&
+      form.capitalSocial &&
+      form.dateCreation &&
+      form.adresseSiege &&
+      form.representantCivilite &&
+      form.representantQualite &&
+      form.representantPrenom &&
+      form.representantNom &&
+      form.representantDateNaissance &&
+      form.representantNationalite &&
+      form.representantTelephone
+})
+
 const isStep2Valid = computed(() => {
-  return form.paysResidence &&
-      form.adresse &&
-      form.ville &&
-      form.codePostal &&
-      form.paysResidenceFiscale
+  if (form.personType === 'physique') {
+    return form.paysResidence &&
+        form.adresse &&
+        form.ville &&
+        form.codePostal &&
+        form.paysResidenceFiscale
+  } else {
+    return form.paysResidence &&
+        form.adresse &&
+        form.ville &&
+        form.codePostal
+  }
+})
+
+const isDocumentsValid = computed(() => {
+  if (form.personType === 'physique') {
+    return form.documents.pieceIdentite &&
+        form.documents.justificatifDomicile &&
+        form.documents.rib
+  } else {
+    return form.documents.kbis &&
+        form.documents.statuts &&
+        form.documents.pieceIdentiteRepresentant &&
+        form.documents.ribEntreprise
+  }
 })
 
 // Helpers pour indicateur de mot de passe
@@ -937,7 +1515,8 @@ const backToPersonType = () => {
 }
 
 const continueToStep2 = () => {
-  if (isStep1Valid.value) {
+  const isValid = form.personType === 'physique' ? isStep1PhysiqueValid.value : isStep1MoraleValid.value
+  if (isValid) {
     currentStep.value = 'step2'
   }
 }
@@ -946,8 +1525,18 @@ const backToStep1 = () => {
   currentStep.value = 'step1'
 }
 
-const continueToFinal = () => {
+const continueToStep3 = () => {
   if (isStep2Valid.value) {
+    currentStep.value = 'step3'
+  }
+}
+
+const backToStep2 = () => {
+  currentStep.value = 'step2'
+}
+
+const continueToFinal = () => {
+  if (isDocumentsValid.value) {
     submitRegistration()
   }
 }
@@ -961,41 +1550,78 @@ const handleRegister = async () => {
 }
 
 const submitRegistration = async () => {
-  if (!isStep2Valid.value) return
+  if (!isDocumentsValid.value) return
 
   isLoading.value = true
   errorMessage.value = ''
   successMessage.value = ''
 
   try {
-    const result = await authStore.register({
-      name: `${form.prenom} ${form.nomNaissance}`,
+    // Préparer les données selon le type de personne
+    const userData = {
       email: form.email,
       password: form.password,
-      firstName: form.prenom,
-      lastName: form.nomNaissance,
       personType: form.personType,
-      civilite: form.civilite,
-      nomUsage: form.nomUsage,
-      telephone: form.telephone,
-      dateNaissance: form.dateNaissance,
-      paysNaissance: form.paysNaissance,
-      nationalite: form.nationalite,
-      villeNaissance: form.villeNaissance,
-      codePostalNaissance: form.codePostalNaissance,
-      adresse: form.adresse,
-      ville: form.ville,
-      codePostal: form.codePostal,
-      paysResidence: form.paysResidence,
-      paysResidenceFiscale: form.paysResidenceFiscale
-    })
+      acceptCommunications: form.acceptCommunications,
+      riskAwareness: form.riskAwareness,
+      acceptTerms: form.acceptTerms
+    }
+
+    if (form.personType === 'physique') {
+      userData.name = `${form.prenom} ${form.nomNaissance}`
+      userData.firstName = form.prenom
+      userData.lastName = form.nomNaissance
+      userData.civilite = form.civilite
+      userData.nomUsage = form.nomUsage
+      userData.telephone = form.telephone
+      userData.dateNaissance = form.dateNaissance
+      userData.paysNaissance = form.paysNaissance
+      userData.nationalite = form.nationalite
+      userData.villeNaissance = form.villeNaissance
+      userData.codePostalNaissance = form.codePostalNaissance
+      userData.profession = form.profession
+      userData.situationFamiliale = form.situationFamiliale
+      userData.revenusAnnuels = form.revenusAnnuels
+      userData.experienceInvestissement = form.experienceInvestissement
+      userData.paysResidenceFiscale = form.paysResidenceFiscale
+    } else {
+      userData.name = form.raisonSociale
+      userData.firstName = form.representantPrenom
+      userData.lastName = form.representantNom
+      userData.raisonSociale = form.raisonSociale
+      userData.formeJuridique = form.formeJuridique
+      userData.siret = form.siret
+      userData.codeNaf = form.codeNaf
+      userData.capitalSocial = form.capitalSocial
+      userData.dateCreation = form.dateCreation
+      userData.adresseSiege = form.adresseSiege
+      userData.chiffreAffaires = form.chiffreAffaires
+      userData.effectifs = form.effectifs
+      userData.representantCivilite = form.representantCivilite
+      userData.representantQualite = form.representantQualite
+      userData.representantPrenom = form.representantPrenom
+      userData.representantNom = form.representantNom
+      userData.representantDateNaissance = form.representantDateNaissance
+      userData.representantNationalite = form.representantNationalite
+      userData.representantTelephone = form.representantTelephone
+    }
+
+    // Adresse commune
+    userData.paysResidence = form.paysResidence
+    userData.adresse = form.adresse
+    userData.ville = form.ville
+    userData.codePostal = form.codePostal
+
+    // Documents (en production, ils seraient uploadés vers un service de stockage)
+    userData.documents = Object.keys(form.documents)
+
+    const result = await authStore.register(userData)
 
     if (result.success) {
       successMessage.value = result.message || 'Votre compte a été créé avec succès !'
       currentStep.value = 'final'
     } else {
       errorMessage.value = result.error || 'Une erreur est survenue lors de la création du compte'
-      // Retour à l'étape appropriée selon le type d'erreur
       if (result.error.includes('email')) {
         currentStep.value = 'initial'
       }
