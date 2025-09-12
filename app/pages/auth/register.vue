@@ -1,3 +1,4 @@
+
 <template>
   <div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
     <!-- Navigation minimaliste -->
@@ -528,9 +529,9 @@
                       class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
                   >
                     <option value="">Sélectionnez un pays</option>
-                    <option 
-                        v-for="country in countries" 
-                        :key="country.code" 
+                    <option
+                        v-for="country in availableCountries"
+                        :key="country.code"
                         :value="country.code"
                     >
                       {{ country.name }}
@@ -550,11 +551,11 @@
                   >
                     <option value="">Sélectionnez une nationalité</option>
                     <option
-                        v-for="country in countries"
+                        v-for="country in availableCountries"
                         :key="country.code"
                         :value="country.code"
                     >
-                      {{ getNationality(country.code) }}
+                      {{ country.nationality || country.name }}
                     </option>
                   </select>
                 </div>
@@ -569,7 +570,6 @@
                   >
                 </div>
               </div>
-
 
               <div>
                 <label for="codePostalNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Code postal de naissance *</label>
@@ -839,11 +839,11 @@
                   >
                     <option value="">Sélectionner</option>
                     <option
-                        v-for="country in countries"
+                        v-for="country in availableCountries"
                         :key="country.code"
                         :value="country.code"
                     >
-                      {{ getNationality(country.code) }}
+                      {{ country.nationality || country.name }}
                     </option>
                   </select>
                 </div>
@@ -912,7 +912,7 @@
               >
                 <option value="">Sélectionnez un pays</option>
                 <option
-                    v-for="country in countries"
+                    v-for="country in availableCountries"
                     :key="country.code"
                     :value="country.code"
                 >
@@ -966,7 +966,7 @@
               >
                 <option value="">Sélectionnez un pays</option>
                 <option
-                    v-for="country in countries"
+                    v-for="country in availableCountries"
                     :key="country.code"
                     :value="country.code"
                 >
@@ -1197,16 +1197,19 @@ import { useAuthStore } from '~/stores/auth'
 import { usePageRefresh } from '~/composables/usePageRefresh'
 import { useCountries } from '~/composables/useCountries'
 
-
 useSeoMeta({
   title: 'Inscription - InvestFuture',
   description: 'Créez votre compte InvestFuture et commencez à investir dans l\'innovation'
 })
 
 const authStore = useAuthStore()
-const { markPageForRefresh } = usePageRefresh()
-const { countries, getNationality } = useCountries()
+const { markPageRefresh } = usePageRefresh()
 
+// Utilisation du composable des pays
+const { countries } = useCountries()
+
+// Compute disponible partout dans le template
+const availableCountries = computed(() => countries.value)
 
 // États pour la gestion des étapes
 const currentStep = ref('initial')
@@ -1651,7 +1654,7 @@ const submitRegistration = async () => {
 }
 
 const redirectToDashboard = () => {
-  markPageForRefresh()
+  markPageRefresh()
   navigateTo('/dashboard')
 }
 
