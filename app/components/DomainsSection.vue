@@ -1,177 +1,262 @@
-
 <template>
-  <section id="domaines" class="py-24 bg-white">
+  <section id="domaines" class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- En-tête amélioré -->
-      <div class="text-center mb-20" data-aos="fade-up">
-        <div class="inline-flex items-center space-x-2 bg-blue-50 rounded-full px-4 py-2 mb-6">
-          <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-          <span class="text-sm font-medium text-blue-700">Secteurs d'avenir</span>
-        </div>
-        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
-          Investissez dans les
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
-            technologies de demain
-          </span>
+      <!-- En-tête -->
+      <div class="text-center mb-16" data-aos="fade-up">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+          Secteurs d'investissement
         </h2>
-        <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-          Diversifiez votre portefeuille avec nos secteurs d'avenir soigneusement sélectionnés par nos experts.
-          <strong class="text-green-600">Performance moyenne de +22.3%</strong> sur les 12 derniers mois.
+        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+          Diversifiez votre portefeuille avec nos 10 secteurs d'innovation les plus prometteurs
         </p>
       </div>
 
-      <!-- Filtre par secteur -->
-      <div class="flex flex-wrap justify-center gap-3 mb-16" data-aos="fade-up" data-aos-delay="200">
-        <button
-            v-for="filter in sectorFilters"
-            :key="filter.id"
-            @click="activeSectorFilter = filter.id"
-            :class="activeSectorFilter === filter.id
-            ? 'bg-blue-600 text-white shadow-lg'
-            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'"
-            class="px-6 py-3 rounded-full font-semibold transition-all duration-300 transform hover:scale-105"
-        >
-          <i :class="filter.icon" class="mr-2"></i>
-          {{ filter.name }}
+      <!-- Filtres -->
+      <div class="mb-12" data-aos="fade-up" data-aos-delay="100">
+        <div class="bg-white rounded-2xl shadow-lg p-6">
+          <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
+            <!-- Filtre par secteur -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Secteur</label>
+              <select v-model="selectedSector" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="">Tous les secteurs</option>
+                <option value="ia-deeptech">IA & Deep-Tech</option>
+                <option value="energies-renouvelables">Énergies Renouvelables</option>
+                <option value="biotechnologies">Biotechnologies</option>
+                <option value="fintech">Fintech</option>
+                <option value="mobilite-durable">Mobilité Durable</option>
+                <option value="agritech">AgriTech</option>
+                <option value="economie-circulaire">Économie Circulaire</option>
+                <option value="sante-digitale">Santé Digitale</option>
+                <option value="edtech">EdTech</option>
+                <option value="spatial">Espace & Satellites</option>
+              </select>
+            </div>
+
+            <!-- Filtre par investissement minimum -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Investissement min.</label>
+              <select v-model="selectedInvestment" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="">Tous les montants</option>
+                <option value="0-50">10€ - 50€</option>
+                <option value="50-100">50€ - 100€</option>
+                <option value="100-500">100€ - 500€</option>
+                <option value="500+">Plus de 500€</option>
+              </select>
+            </div>
+
+            <!-- Filtre par ROI -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">ROI minimum</label>
+              <select v-model="selectedRoi" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+                <option value="">Tous les ROI</option>
+                <option value="15">Plus de 15%</option>
+                <option value="20">Plus de 20%</option>
+                <option value="25">Plus de 25%</option>
+                <option value="30">Plus de 30%</option>
+              </select>
+            </div>
+
+            <!-- Recherche -->
+            <div>
+              <label class="block text-sm font-semibold text-gray-700 mb-2">Rechercher</label>
+              <div class="relative">
+                <input
+                    v-model="searchQuery"
+                    type="text"
+                    class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Nom du secteur..."
+                >
+                <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              </div>
+            </div>
+          </div>
+
+          <!-- Bouton de réinitialisation -->
+          <div class="flex justify-between items-center">
+            <div class="text-sm text-gray-600">
+              {{ filteredSectors.length }} secteur{{ filteredSectors.length > 1 ? 's' : '' }} trouvé{{ filteredSectors.length > 1 ? 's' : '' }}
+            </div>
+            <button
+                @click="resetFilters"
+                class="px-4 py-2 text-blue-600 hover:text-blue-700 text-sm font-medium"
+            >
+              Réinitialiser les filtres
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Statistiques générales -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-6 mb-16" data-aos="fade-up" data-aos-delay="200">
+        <div class="text-center">
+          <div class="text-3xl font-bold text-blue-600 mb-2">{{ totalStats.totalProjects }}</div>
+          <div class="text-gray-600">Projets actifs</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-green-600 mb-2">{{ totalStats.avgRoi }}%</div>
+          <div class="text-gray-600">ROI moyen</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-purple-600 mb-2">{{ formatCurrency(totalStats.minInvestment) }}</div>
+          <div class="text-gray-600">À partir de</div>
+        </div>
+        <div class="text-center">
+          <div class="text-3xl font-bold text-orange-600 mb-2">{{ totalStats.totalInvestors }}+</div>
+          <div class="text-gray-600">Investisseurs</div>
+        </div>
+      </div>
+
+      <!-- Message si aucun résultat -->
+      <div v-if="filteredSectors.length === 0" class="text-center py-12" data-aos="fade-up">
+        <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
+          <i class="fas fa-search text-gray-400 text-3xl"></i>
+        </div>
+        <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucun secteur trouvé</h3>
+        <p class="text-gray-600 mb-6">Essayez de modifier vos critères de recherche</p>
+        <button @click="resetFilters" class="btn-primary">
+          Voir tous les secteurs
         </button>
       </div>
 
-      <!-- Grille des secteurs améliorée -->
-      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+      <!-- Grille des secteurs -->
+      <div v-else class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
         <div
             v-for="(sector, index) in filteredSectors"
-            :key="sector.id"
+            :key="sector.slug"
             :data-aos="'fade-up'"
-            :data-aos-delay="index * 150"
-            class="group relative"
+            :data-aos-delay="index * 100"
+            class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 group cursor-pointer"
+            @click="openInvestmentModal(sector)"
         >
-          <div class="bg-white rounded-3xl shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 overflow-hidden border border-gray-100">
-            <!-- Header avec image -->
-            <div class="relative h-56 overflow-hidden">
-              <ImageWithFallback
-                  :src="sector.image"
-                  :alt="sector.name"
-                  container-class="h-full group"
-                  img-class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-              />
+          <!-- Image du secteur -->
+          <div class="relative h-48 overflow-hidden">
+            <img
+                :src="sector.image"
+                :alt="sector.name"
+                class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            >
+            <div class="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent"></div>
 
-              <!-- Overlay gradient -->
-              <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
-
-              <!-- Badge ROI -->
-              <div class="absolute top-4 right-4">
-                <div class="bg-green-500 text-white px-4 py-2 rounded-full font-bold text-sm shadow-lg">
-                  <i class="fas fa-chart-line mr-1"></i>
-                  ROI {{ sector.roi }}%
-                </div>
+            <!-- Badge ROI -->
+            <div class="absolute top-4 right-4">
+              <div class="bg-white bg-opacity-95 backdrop-blur-sm rounded-lg px-3 py-1 shadow-lg">
+                <div class="text-sm font-bold text-green-600">ROI {{ sector.roi }}</div>
               </div>
+            </div>
 
-              <!-- Badge trending -->
-              <div v-if="sector.trending" class="absolute top-4 left-4">
-                <div class="bg-red-500 text-white px-3 py-2 rounded-full font-semibold text-xs animate-pulse">
-                  🔥 Trending
-                </div>
+            <!-- Icône du secteur -->
+            <div class="absolute top-4 left-4">
+              <div :class="`w-12 h-12 bg-white bg-opacity-95 backdrop-blur-sm rounded-xl flex items-center justify-center shadow-lg`">
+                <i :class="`${sector.icon} text-${sector.color}-600 text-xl`"></i>
               </div>
+            </div>
 
-              <!-- Stats overlay -->
-              <div class="absolute bottom-4 left-4 right-4">
-                <div class="flex justify-between text-white text-sm font-medium">
-                  <span><i class="fas fa-project-diagram mr-1"></i>{{ sector.projects }} projets</span>
-                  <span><i class="fas fa-users mr-1"></i>{{ sector.investors }}+ investisseurs</span>
+            <!-- Nombre de projets -->
+            <div class="absolute bottom-4 left-4">
+              <div class="bg-white bg-opacity-95 backdrop-blur-sm rounded-lg px-3 py-1 shadow-lg">
+                <div class="text-xs font-semibold text-gray-700">{{ sector.projetsCount }} projets</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contenu -->
+          <div class="p-6">
+            <!-- Titre et description -->
+            <div class="mb-4">
+              <h3 class="text-xl font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">
+                {{ sector.name }}
+              </h3>
+              <p class="text-gray-600 text-sm leading-relaxed">{{ sector.description }}</p>
+            </div>
+
+            <!-- Métriques -->
+            <div class="grid grid-cols-2 gap-4 mb-4">
+              <div class="text-center p-3 bg-gray-50 rounded-lg">
+                <div class="text-lg font-bold text-blue-600">{{ formatCurrency(sector.minInvestment) }}</div>
+                <div class="text-xs text-gray-500">À partir de</div>
+              </div>
+              <div class="text-center p-3 bg-gray-50 rounded-lg">
+                <div class="text-lg font-bold text-green-600">{{ sector.roi }}</div>
+                <div class="text-xs text-gray-500">ROI moyen</div>
+              </div>
+            </div>
+
+            <!-- Points forts -->
+            <div class="mb-4">
+              <div class="text-sm font-medium text-gray-900 mb-2">Points forts :</div>
+              <ul class="space-y-1">
+                <li v-for="highlight in sector.highlights.slice(0, 2)" :key="highlight" class="text-xs text-gray-600 flex items-center">
+                  <i class="fas fa-check text-green-500 mr-2 text-xs"></i>
+                  {{ highlight }}
+                </li>
+              </ul>
+            </div>
+
+            <!-- Méthodes de paiement -->
+            <div class="mb-4">
+              <div class="text-sm font-medium text-gray-900 mb-2">Paiements acceptés :</div>
+              <div class="flex space-x-2">
+                <span
+                    v-for="method in sector.paymentMethods.slice(0, 3)"
+                    :key="method"
+                    class="inline-flex items-center px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded-full"
+                >
+                  <i :class="getPaymentIcon(method)" class="mr-1"></i>
+                  {{ getPaymentName(method) }}
+                </span>
+              </div>
+            </div>
+
+            <!-- Projets en vedette -->
+            <div v-if="sector.projects && sector.projects.length > 0" class="mb-4">
+              <div class="text-sm font-medium text-gray-900 mb-2">Projet en vedette :</div>
+              <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-3 rounded-lg">
+                <div class="text-sm font-semibold text-gray-900">{{ sector.projects[0].name }}</div>
+                <div class="text-xs text-gray-600 mt-1">{{ sector.projects[0].description.substring(0, 60) }}...</div>
+                <div class="flex justify-between items-center mt-2">
+                  <span class="text-xs text-gray-500">{{ sector.projects[0].investors }} investisseurs</span>
+                  <span class="text-xs font-semibold text-green-600">+{{ sector.projects[0].roi }}%</span>
                 </div>
               </div>
             </div>
 
-            <!-- Contenu -->
-            <div class="p-8">
-              <div class="flex items-center justify-between mb-4">
-                <h3 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                  {{ sector.name }}
-                </h3>
-                <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center text-white">
-                  <i :class="sector.icon" class="text-xl"></i>
-                </div>
+            <!-- Bouton d'action -->
+            <button
+                @click.stop="openInvestmentModal(sector)"
+                :class="`w-full bg-gradient-to-r from-${sector.color}-600 to-${sector.color}-700 hover:from-${sector.color}-700 hover:to-${sector.color}-800 text-white py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-[1.02] shadow-lg hover:shadow-xl`"
+            >
+              <i class="fas fa-rocket mr-2"></i>
+              Investir dès {{ formatCurrency(sector.minInvestment) }}
+            </button>
+
+            <!-- Badge de confiance -->
+            <div class="mt-3 text-center">
+              <div class="inline-flex items-center text-xs text-gray-500">
+                <i class="fas fa-shield-alt text-green-500 mr-1"></i>
+                <span>Vérifié & sécurisé par InvestFuture</span>
               </div>
-
-              <p class="text-gray-600 mb-6 leading-relaxed">{{ sector.description }}</p>
-
-              <!-- Métriques -->
-              <div class="grid grid-cols-2 gap-4 mb-6">
-                <div class="text-center p-3 bg-gray-50 rounded-xl">
-                  <div class="text-2xl font-bold text-blue-600">{{ formatCurrency(sector.minInvestment) }}</div>
-                  <div class="text-xs text-gray-500 uppercase tracking-wide">Minimum</div>
-                </div>
-                <div class="text-center p-3 bg-gray-50 rounded-xl">
-                  <div class="text-2xl font-bold text-green-600">{{ sector.avgReturn }}%</div>
-                  <div class="text-xs text-gray-500 uppercase tracking-wide">Rendement moyen</div>
-                </div>
-              </div>
-
-              <!-- Barres de progression -->
-              <div class="space-y-3 mb-6">
-                <div>
-                  <div class="flex justify-between text-sm mb-1">
-                    <span class="text-gray-600">Popularité</span>
-                    <span class="font-semibold">{{ sector.popularity }}%</span>
-                  </div>
-                  <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-gradient-to-r from-blue-500 to-blue-600 h-2 rounded-full transition-all duration-1000"
-                         :style="{ width: sector.popularity + '%' }"></div>
-                  </div>
-                </div>
-                <div>
-                  <div class="flex justify-between text-sm mb-1">
-                    <span class="text-gray-600">Potentiel de croissance</span>
-                    <span class="font-semibold">{{ sector.growth }}%</span>
-                  </div>
-                  <div class="w-full bg-gray-200 rounded-full h-2">
-                    <div class="bg-gradient-to-r from-green-500 to-green-600 h-2 rounded-full transition-all duration-1000"
-                         :style="{ width: sector.growth + '%' }"></div>
-                  </div>
-                </div>
-              </div>
-
-              <!-- Tags -->
-              <div class="flex flex-wrap gap-2 mb-6">
-                <span v-for="tag in sector.tags" :key="tag"
-                      class="px-3 py-1 bg-blue-50 text-blue-700 text-xs font-medium rounded-full">
-                  {{ tag }}
-                </span>
-              </div>
-
-              <!-- Bouton d'action -->
-              <button
-                  @click="openInvestmentModal(sector)"
-                  class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 text-white py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 hover:shadow-lg group"
-              >
-                <span class="flex items-center justify-center">
-                  <i class="fas fa-plus mr-2 group-hover:animate-spin"></i>
-                  Investir maintenant
-                </span>
-              </button>
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Section comparative -->
-      <div class="bg-gradient-to-r from-gray-50 to-gray-100 rounded-3xl p-12" data-aos="zoom-in">
-        <div class="text-center mb-12">
-          <h3 class="text-3xl font-bold text-gray-900 mb-4">Comparaison des performances</h3>
-          <p class="text-gray-600 max-w-2xl mx-auto">
-            Découvrez pourquoi nos secteurs surperforment les investissements traditionnels
+      <!-- Call to Action -->
+      <div class="mt-16 text-center" data-aos="zoom-in">
+        <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-3xl p-8 text-white">
+          <h3 class="text-2xl md:text-3xl font-bold mb-4">Commencez à investir dès aujourd'hui</h3>
+          <p class="text-blue-100 mb-6 max-w-2xl mx-auto">
+            Rejoignez plus de 2 500 investisseurs qui ont déjà fait confiance à InvestFuture. Investissement minimum : seulement 10€ !
           </p>
-        </div>
-
-        <div class="grid md:grid-cols-3 gap-8">
-          <div v-for="comparison in performanceComparison" :key="comparison.label"
-               class="text-center bg-white rounded-2xl p-6 shadow-lg">
-            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i :class="comparison.icon" class="text-2xl text-white"></i>
-            </div>
-            <h4 class="font-bold text-gray-900 mb-2">{{ comparison.label }}</h4>
-            <div class="text-3xl font-bold mb-2" :class="comparison.colorClass">{{ comparison.performance }}</div>
-            <p class="text-sm text-gray-600">{{ comparison.description }}</p>
+          <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <NuxtLink to="/auth/register" class="bg-white text-blue-600 px-8 py-4 rounded-xl font-semibold hover:bg-gray-100 transition-colors shadow-lg">
+              <i class="fas fa-user-plus mr-2"></i>
+              Créer un compte gratuit
+            </NuxtLink>
+            <button class="border-2 border-white text-white px-8 py-4 rounded-xl font-semibold hover:bg-white hover:text-blue-600 transition-colors">
+              <i class="fas fa-phone mr-2"></i>
+              Parler à un conseiller
+            </button>
           </div>
         </div>
       </div>
@@ -181,170 +266,230 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { nextTick } from 'vue'
+import { useInvestmentData } from '~/composables/useInvestmentData'
 
-const activeSectorFilter = ref('all')
+const { getSectors, getPaymentMethods } = useInvestmentData()
+const paymentMethods = getPaymentMethods()
 
-const sectorFilters = [
-  { id: 'all', name: 'Tous les secteurs', icon: 'fas fa-th-large' },
-  { id: 'tech', name: 'Technologies', icon: 'fas fa-microchip' },
-  { id: 'green', name: 'Énergies vertes', icon: 'fas fa-leaf' },
-  { id: 'finance', name: 'Finance', icon: 'fas fa-coins' },
-  { id: 'bio', name: 'Biotechnologies', icon: 'fas fa-dna' }
-]
+// États des filtres
+const selectedSector = ref('')
+const selectedInvestment = ref('')
+const selectedRoi = ref('')
+const searchQuery = ref('')
 
-const sectors = [
-  {
-    id: 1,
-    name: 'Technologies Vertes',
-    description: 'Investissez dans les énergies renouvelables et les technologies propres pour un avenir durable',
-    roi: 22,
-    projects: 45,
-    investors: 289,
-    image: 'https://images.unsplash.com/photo-1559302504-64aae6ca6b6d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-    minInvestment: 5000,
-    avgReturn: 24.5,
-    popularity: 85,
-    growth: 92,
-    trending: true,
-    category: 'green',
-    icon: 'fas fa-solar-panel',
-    tags: ['Énergie solaire', 'Éolien', 'Hydrogène vert']
-  },
-  {
-    id: 2,
-    name: 'Biotechnologies',
-    description: 'Soutenez l\'innovation médicale et pharmaceutique de demain',
-    roi: 18,
-    projects: 32,
-    investors: 187,
-    image: 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-    minInvestment: 7500,
-    avgReturn: 19.8,
-    popularity: 78,
-    growth: 88,
-    trending: false,
-    category: 'bio',
-    icon: 'fas fa-dna',
-    tags: ['Thérapie génique', 'Diagnostic', 'Pharmacologie']
-  },
-  {
-    id: 3,
-    name: 'Fintech',
-    description: 'Participez à la révolution des services financiers digitaux',
-    roi: 25,
-    projects: 28,
-    investors: 345,
-    image: 'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-    minInvestment: 5000,
-    avgReturn: 26.3,
-    popularity: 90,
-    growth: 95,
-    trending: true,
-    category: 'finance',
-    icon: 'fas fa-credit-card',
-    tags: ['Blockchain', 'Paiements', 'Néobanques']
-  },
-  {
-    id: 4,
-    name: 'Intelligence Artificielle',
-    description: 'Investissez dans l\'IA et l\'automatisation intelligente',
-    roi: 30,
-    projects: 21,
-    investors: 198,
-    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-    minInvestment: 10000,
-    avgReturn: 31.2,
-    popularity: 95,
-    growth: 98,
-    trending: true,
-    category: 'tech',
-    icon: 'fas fa-robot',
-    tags: ['Machine Learning', 'Deep Learning', 'Computer Vision']
-  },
-  {
-    id: 5,
-    name: 'E-commerce',
-    description: 'Soutenez les plateformes de commerce en ligne innovantes',
-    roi: 16,
-    projects: 38,
-    investors: 234,
-    image: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-    minInvestment: 5000,
-    avgReturn: 17.5,
-    popularity: 72,
-    growth: 80,
-    trending: false,
-    category: 'tech',
-    icon: 'fas fa-shopping-cart',
-    tags: ['Marketplace', 'Logistique', 'B2B']
-  },
-  {
-    id: 6,
-    name: 'Blockchain',
-    description: 'Participez à l\'économie décentralisée et aux cryptomonnaies',
-    roi: 28,
-    projects: 15,
-    investors: 298,
-    image: 'https://images.unsplash.com/photo-1518546305927-5a555bb7020d?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80',
-    minInvestment: 10000,
-    avgReturn: 29.4,
-    popularity: 88,
-    growth: 93,
-    trending: true,
-    category: 'finance',
-    icon: 'fas fa-link',
-    tags: ['DeFi', 'NFT', 'Web3']
-  }
-]
+// Secteurs avec leurs couleurs et icônes
+const sectors = computed(() => {
+  const allSectors = getSectors()
 
-const performanceComparison = [
-  {
-    label: 'InvestFuture',
-    performance: '+22.3%',
-    description: 'Rendement moyen de notre plateforme',
-    icon: 'fas fa-rocket',
-    colorClass: 'text-green-600'
-  },
-  {
-    label: 'Marchés traditionnels',
-    performance: '+8.7%',
-    description: 'CAC 40 sur la même période',
-    icon: 'fas fa-chart-bar',
-    colorClass: 'text-gray-600'
-  },
-  {
-    label: 'Livret A',
-    performance: '+3.0%',
-    description: 'Taux de rémunération annuel',
-    icon: 'fas fa-piggy-bank',
-    colorClass: 'text-red-500'
-  }
-]
-
-const filteredSectors = computed(() => {
-  if (activeSectorFilter.value === 'all') {
-    return sectors
-  }
-  return sectors.filter(sector => sector.category === activeSectorFilter.value)
+  return allSectors.map(sector => ({
+    ...sector,
+    color: getSectorColor(sector.slug),
+    icon: getSectorIcon(sector.slug),
+    image: getSectorImage(sector.slug)
+  }))
 })
+
+// Secteurs filtrés
+const filteredSectors = computed(() => {
+  let result = [...sectors.value]
+
+  // Filtre par secteur
+  if (selectedSector.value) {
+    result = result.filter(sector => sector.slug === selectedSector.value)
+  }
+
+  // Filtre par investissement minimum
+  if (selectedInvestment.value) {
+    const [min, max] = selectedInvestment.value.split('-').map(v => v === '+' ? Infinity : parseInt(v))
+    result = result.filter(sector => {
+      if (max === undefined) return sector.minInvestment >= min
+      return sector.minInvestment >= min && sector.minInvestment <= max
+    })
+  }
+
+  // Filtre par ROI
+  if (selectedRoi.value) {
+    const minRoi = parseInt(selectedRoi.value)
+    result = result.filter(sector => parseFloat(sector.roi) >= minRoi)
+  }
+
+  // Filtre par recherche
+  if (searchQuery.value) {
+    const query = searchQuery.value.toLowerCase()
+    result = result.filter(sector =>
+        sector.name.toLowerCase().includes(query) ||
+        sector.description.toLowerCase().includes(query)
+    )
+  }
+
+  return result
+})
+
+// Statistiques globales
+const totalStats = computed(() => {
+  const allSectors = getSectors()
+
+  const totalProjects = allSectors.reduce((sum, sector) => sum + sector.projetsCount, 0)
+  const avgRoi = (allSectors.reduce((sum, sector) => sum + parseFloat(sector.roi), 0) / allSectors.length).toFixed(1)
+  const minInvestment = Math.min(...allSectors.map(sector => sector.minInvestment))
+  const totalInvestors = allSectors.reduce((sum, sector) => {
+    if (sector.projects) {
+      return sum + sector.projects.reduce((projectSum, project) => projectSum + project.investors, 0)
+    }
+    return sum
+  }, 0)
+
+  return {
+    totalProjects,
+    avgRoi,
+    minInvestment,
+    totalInvestors
+  }
+})
+
+// Réinitialiser les filtres
+const resetFilters = () => {
+  selectedSector.value = ''
+  selectedInvestment.value = ''
+  selectedRoi.value = ''
+  searchQuery.value = ''
+}
+
+// Mapping des couleurs par secteur
+const getSectorColor = (sectorSlug) => {
+  const colors = {
+    'ia-deeptech': 'blue',
+    'energies-renouvelables': 'green',
+    'biotechnologies': 'purple',
+    'fintech': 'indigo',
+    'mobilite-durable': 'emerald',
+    'agritech': 'lime',
+    'economie-circulaire': 'teal',
+    'sante-digitale': 'red',
+    'edtech': 'amber',
+    'spatial': 'gray'
+  }
+  return colors[sectorSlug] || 'blue'
+}
+
+// Mapping des icônes par secteur
+const getSectorIcon = (sectorSlug) => {
+  const icons = {
+    'ia-deeptech': 'fas fa-robot',
+    'energies-renouvelables': 'fas fa-leaf',
+    'biotechnologies': 'fas fa-dna',
+    'fintech': 'fas fa-coins',
+    'mobilite-durable': 'fas fa-charging-station',
+    'agritech': 'fas fa-seedling',
+    'economie-circulaire': 'fas fa-recycle',
+    'sante-digitale': 'fas fa-heartbeat',
+    'edtech': 'fas fa-graduation-cap',
+    'spatial': 'fas fa-satellite'
+  }
+  return icons[sectorSlug] || 'fas fa-chart-line'
+}
+
+// Mapping des images par secteur
+const getSectorImage = (sectorSlug) => {
+  const images = {
+    'ia-deeptech': 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'energies-renouvelables': 'https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'biotechnologies': 'https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'fintech': 'https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'mobilite-durable': 'https://images.unsplash.com/photo-1593941707882-a5bac6861d75?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'agritech': 'https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'economie-circulaire': 'https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'sante-digitale': 'https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'edtech': 'https://images.unsplash.com/photo-1588072432836-e10032774350?w=500&h=300&fit=crop&crop=center&auto=format&q=80',
+    'spatial': 'https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=500&h=300&fit=crop&crop=center&auto=format&q=80'
+  }
+  return images[sectorSlug] || 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=500&h=300&fit=crop&crop=center&auto=format&q=80'
+}
+
+// Utilitaires pour les méthodes de paiement
+const getPaymentIcon = (method) => {
+  return paymentMethods[method]?.icon || 'fas fa-coins'
+}
+
+const getPaymentName = (method) => {
+  const names = {
+    bitcoin: 'BTC',
+    ethereum: 'ETH',
+    usdt: 'USDT',
+    bnb: 'BNB'
+  }
+  return names[method] || method.toUpperCase()
+}
 
 const formatCurrency = (amount) => {
   return new Intl.NumberFormat('fr-FR', {
     style: 'currency',
     currency: 'EUR',
-    minimumFractionDigits: 0,
-    maximumFractionDigits: 0
+    minimumFractionDigits: 0
   }).format(amount)
 }
 
-const openInvestmentModal = async (sector) => {
-  const selectedSector = useState('selectedSector')
-  const investmentModalOpen = useState('investmentModalOpen')
-
-  selectedSector.value = sector
-  investmentModalOpen.value = true
-
-  await nextTick()
+const openInvestmentModal = (sector) => {
+  console.log('Ouvrir modal d\'investissement pour le secteur:', sector.name)
 }
 </script>
+
+<style scoped>
+/* Styles identiques au précédent */
+.group:hover .group-hover\:scale-110 {
+  transform: scale(1.1);
+}
+
+.group:hover .group-hover\:text-blue-600 {
+  color: #2563eb;
+}
+
+/* Classes de couleurs dynamiques */
+.bg-blue-600 { background-color: #2563eb; }
+.bg-green-600 { background-color: #16a34a; }
+.bg-purple-600 { background-color: #9333ea; }
+.bg-indigo-600 { background-color: #4f46e5; }
+.bg-emerald-600 { background-color: #059669; }
+.bg-lime-600 { background-color: #65a30d; }
+.bg-teal-600 { background-color: #0d9488; }
+.bg-red-600 { background-color: #dc2626; }
+.bg-amber-600 { background-color: #d97706; }
+.bg-gray-600 { background-color: #4b5563; }
+
+.from-blue-600 { --tw-gradient-from: #2563eb; }
+.from-green-600 { --tw-gradient-from: #16a34a; }
+.from-purple-600 { --tw-gradient-from: #9333ea; }
+.from-indigo-600 { --tw-gradient-from: #4f46e5; }
+.from-emerald-600 { --tw-gradient-from: #059669; }
+.from-lime-600 { --tw-gradient-from: #65a30d; }
+.from-teal-600 { --tw-gradient-from: #0d9488; }
+.from-red-600 { --tw-gradient-from: #dc2626; }
+.from-amber-600 { --tw-gradient-from: #d97706; }
+.from-gray-600 { --tw-gradient-from: #4b5563; }
+
+.to-blue-700 { --tw-gradient-to: #1d4ed8; }
+.to-green-700 { --tw-gradient-to: #15803d; }
+.to-purple-700 { --tw-gradient-to: #7c3aed; }
+.to-indigo-700 { --tw-gradient-to: #4338ca; }
+.to-emerald-700 { --tw-gradient-to: #047857; }
+.to-lime-700 { --tw-gradient-to: #4d7c0f; }
+.to-teal-700 { --tw-gradient-to: #0f766e; }
+.to-red-700 { --tw-gradient-to: #b91c1c; }
+.to-amber-700 { --tw-gradient-to: #b45309; }
+.to-gray-700 { --tw-gradient-to: #374151; }
+
+.text-blue-600 { color: #2563eb; }
+.text-green-600 { color: #16a34a; }
+.text-purple-600 { color: #9333ea; }
+.text-indigo-600 { color: #4f46e5; }
+.text-emerald-600 { color: #059669; }
+.text-lime-600 { color: #65a30d; }
+.text-teal-600 { color: #0d9488; }
+.text-red-600 { color: #dc2626; }
+.text-amber-600 { color: #d97706; }
+.text-gray-600 { color: #4b5563; }
+
+.btn-primary {
+  @apply bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded-lg transition-colors;
+}
+</style>

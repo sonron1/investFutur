@@ -1,4 +1,3 @@
-
 <template>
   <div class="overflow-x-hidden" >
     <!-- Navigation -->
@@ -16,8 +15,11 @@
     <!-- Section Statistiques en temps réel -->
     <LiveStatsSection />
 
-    <!-- Section Domaines -->
+    <!-- Section Domaines avec investissements complets -->
     <DomainsSection />
+
+    <!-- Section Investissements populaires (nouvelle) -->
+    <PopularInvestmentsSection />
 
     <!-- Section Témoignages -->
     <TestimonialsSection />
@@ -46,10 +48,10 @@ import { usePageRefresh } from '~/composables/usePageRefresh'
 useSeoMeta({
   title: 'InvestFuture - Plateforme d\'investissement dans l\'innovation',
   description: 'Investissez dans l\'avenir avec InvestFuture. ROI moyen de 22%, investissement minimum 5000€. Technologies vertes, IA, Fintech et plus.',
-  ogTitle: 'InvestFuture - Plateforme d\'investissement dans l\'innovation',
-  ogDescription: 'Investissez dans l\'avenir avec InvestFuture. ROI moyen de 22%, investissement minimum 5000€.',
-  ogImage: '/images/og-image.jpg',
-  keywords: 'investissement, innovation, fintech, technologies vertes, ROI, startup'
+ogTitle: 'InvestFuture - Plateforme d\'investissement dans l\'innovation',
+    ogDescription: 'Investissez dans l\'avenir avec InvestFuture. ROI moyen de 22%, investissement minimum 5000€.',
+ogImage: '/images/og-image.jpg',
+    keywords: 'investissement, innovation, fintech, technologies vertes, ROI, startup'
 })
 
 // Système de rafraîchissement de page

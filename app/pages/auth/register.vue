@@ -1161,16 +1161,30 @@
               <i class="fas fa-check text-white text-4xl"></i>
             </div>
             <h2 class="text-3xl font-bold text-green-600 mb-4">Félicitations !</h2>
-            <p class="text-gray-600 mb-8">Votre compte a été créé avec succès</p>
+            <p class="text-gray-600 mb-8">Votre demande d'inscription a été soumise avec succès</p>
+
+            <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">
+              <div class="flex items-start justify-center">
+                <i class="fas fa-info-circle text-blue-600 mr-3 mt-1"></i>
+                <div class="text-left">
+                  <p class="font-semibold text-blue-800">Validation en cours</p>
+                  <p class="text-blue-700 text-sm mt-1">
+                    Votre dossier d'inscription est actuellement en cours d'analyse par notre équipe.
+                    Vous recevrez un email de confirmation une fois la vérification terminée.
+                    Cette étape prend généralement 24 à 48 heures ouvrées.
+                  </p>
+                </div>
+              </div>
+            </div>
 
             <div class="bg-green-50 border border-green-200 rounded-xl p-6 mb-8">
               <div class="flex items-start justify-center">
-                <i class="fas fa-info-circle text-green-600 mr-3 mt-1"></i>
+                <i class="fas fa-clock text-green-600 mr-3 mt-1"></i>
                 <div class="text-left">
-                  <p class="font-semibold text-green-800">Bienvenue chez InvestFuture !</p>
+                  <p class="font-semibold text-green-800">Prochaines étapes</p>
                   <p class="text-green-700 text-sm mt-1">
-                    Votre compte est en cours de validation. Vous recevrez un email de confirmation une fois la vérification terminée.
-                    Vous pouvez déjà accéder à votre tableau de bord pour découvrir nos opportunités d'investissement.
+                    En attendant la validation, vous pouvez déjà accéder à votre tableau de bord pour découvrir
+                    nos opportunités d'investissement et vous familiariser avec la plateforme.
                   </p>
                 </div>
               </div>
@@ -1179,13 +1193,30 @@
             <button
                 type="button"
                 @click="redirectToDashboard"
-                class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 text-white rounded-xl font-semibold transition-all transform hover:scale-105"
+                :disabled="isLoading"
+                class="inline-flex items-center px-8 py-4 bg-gradient-to-r from-green-600 to-emerald-600 hover:from-green-700 hover:to-emerald-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all transform hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed"
             >
-              <i class="fas fa-tachometer-alt mr-3"></i>
-              Accéder à mon tableau de bord
+              <span v-if="!isLoading" class="flex items-center">
+                <i class="fas fa-tachometer-alt mr-3"></i>
+                Accéder à mon tableau de bord
+              </span>
+              <span v-else class="flex items-center">
+                <div class="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin mr-3"></div>
+                Redirection...
+              </span>
             </button>
+
+            <div class="mt-6 text-center">
+              <p class="text-sm text-gray-500">
+                Une question ? Contactez-nous à
+                <a href="mailto:support@investfuture.com" class="text-blue-600 hover:text-blue-500">
+                  support@investfuture.com
+                </a>
+              </p>
+            </div>
           </div>
         </div>
+
 
       </div>
     </div>
@@ -1196,6 +1227,8 @@
 import { useAuthStore } from '~/stores/auth'
 import { usePageRefresh } from '~/composables/usePageRefresh'
 import { useCountries } from '~/composables/useCountries'
+import { nextTick } from 'vue'
+
 
 useSeoMeta({
   title: 'Inscription - InvestFuture',
@@ -1307,8 +1340,17 @@ const handleFileUpload = (fieldName, event) => {
     }
 
     form.documents[fieldName] = file
+    // Forcer la réactivité pour que la validation se mette à jour
+    nextTick(() => {
+      // Vérification immédiate de la validation
+      console.log('Document uploadé:', fieldName, 'Documents actuels:', Object.keys(form.documents))
+    })
+  } else {
+    // Supprimer le document si aucun fichier sélectionné
+    delete form.documents[fieldName]
   }
 }
+
 
 // Validations en temps réel
 const validateEmail = async () => {
@@ -1330,6 +1372,32 @@ const validateEmail = async () => {
     emailError.value = ''
   }
 }
+
+const isDocumentsValid = computed(() => {
+  if (form.personType === 'physique') {
+    return !!(form.documents.pieceIdentite &&
+        form.documents.justificatifDomicile &&
+        form.documents.rib)
+  } else {
+    return !!(form.documents.kbis &&
+        form.documents.statuts &&
+        form.documents.pieceIdentiteRepresentant &&
+        form.documents.ribEntreprise)
+  }
+})
+
+const continueToFinal = async () => {
+  console.log('Tentative de finalisation, documents valides:', isDocumentsValid.value)
+  console.log('Documents actuels:', form.documents)
+
+  if (isDocumentsValid.value) {
+    await submitRegistration()
+  } else {
+    errorMessage.value = 'Veuillez uploader tous les documents requis avant de continuer.'
+  }
+}
+
+
 
 const validatePassword = () => {
   const password = form.password
@@ -1475,18 +1543,6 @@ const isStep2Valid = computed(() => {
   }
 })
 
-const isDocumentsValid = computed(() => {
-  if (form.personType === 'physique') {
-    return form.documents.pieceIdentite &&
-        form.documents.justificatifDomicile &&
-        form.documents.rib
-  } else {
-    return form.documents.kbis &&
-        form.documents.statuts &&
-        form.documents.pieceIdentiteRepresentant &&
-        form.documents.ribEntreprise
-  }
-})
 
 // Helpers pour indicateur de mot de passe
 const getPasswordStrengthColor = () => {
@@ -1553,11 +1609,6 @@ const backToStep2 = () => {
   currentStep.value = 'step2'
 }
 
-const continueToFinal = () => {
-  if (isDocumentsValid.value) {
-    submitRegistration()
-  }
-}
 
 const togglePasswordVisibility = () => {
   showPassword.value = !showPassword.value
@@ -1582,7 +1633,16 @@ const submitRegistration = async () => {
       personType: form.personType,
       acceptCommunications: form.acceptCommunications,
       riskAwareness: form.riskAwareness,
-      acceptTerms: form.acceptTerms
+      acceptTerms: form.acceptTerms,
+      status: 'pending', // Statut en attente de validation admin
+      submittedAt: new Date().toISOString(),
+      adminValidation: {
+        status: 'pending',
+        submittedAt: new Date().toISOString(),
+        reviewedBy: null,
+        reviewedAt: null,
+        notes: ''
+      }
     }
 
     if (form.personType === 'physique') {
@@ -1630,12 +1690,21 @@ const submitRegistration = async () => {
     userData.ville = form.ville
     userData.codePostal = form.codePostal
 
-    // Documents (en production, ils seraient uploadés vers un service de stockage)
+    // Documents (noms des fichiers pour la validation admin)
     userData.documents = Object.keys(form.documents)
+    userData.documentsDetails = Object.keys(form.documents).map(docType => ({
+      type: docType,
+      fileName: form.documents[docType]?.name || 'fichier_uploade',
+      size: form.documents[docType]?.size || 0,
+      uploadedAt: new Date().toISOString()
+    }))
 
     const result = await authStore.register(userData)
 
     if (result.success) {
+      // Envoyer une notification aux administrateurs
+      await sendAdminNotification(userData)
+
       successMessage.value = result.message || 'Votre compte a été créé avec succès !'
       currentStep.value = 'final'
     } else {
@@ -1653,10 +1722,60 @@ const submitRegistration = async () => {
   }
 }
 
-const redirectToDashboard = () => {
-  markPageRefresh()
-  navigateTo('/dashboard')
+// Fonction pour envoyer une notification aux admins
+const sendAdminNotification = async (userData) => {
+  try {
+    // Simulation d'envoi de notification aux admins
+    // En production, cela ferait appel à votre API backend
+    const adminNotification = {
+      type: 'new_registration',
+      priority: 'medium',
+      title: `Nouvelle inscription : ${userData.name}`,
+      message: `Une nouvelle inscription ${userData.personType === 'physique' ? 'particulier' : 'entreprise'} nécessite votre validation.`,
+      data: {
+        userId: userData.email, // Identifiant temporaire
+        userType: userData.personType,
+        name: userData.name,
+        email: userData.email,
+        submittedAt: userData.submittedAt,
+        documentsCount: userData.documents.length,
+        requiresReview: true
+      },
+      createdAt: new Date().toISOString()
+    }
+
+    // Stocker temporairement en localStorage pour simulation
+    const existingNotifications = JSON.parse(localStorage.getItem('adminNotifications') || '[]')
+    existingNotifications.push(adminNotification)
+    localStorage.setItem('adminNotifications', JSON.stringify(existingNotifications))
+
+    console.log('Notification admin envoyée:', adminNotification)
+  } catch (error) {
+    console.error('Erreur envoi notification admin:', error)
+  }
 }
+
+const redirectToDashboard = async () => {
+  try {
+    // S'assurer que l'utilisateur est bien connecté
+    if (!authStore.isAuthenticated) {
+      console.log('Utilisateur non authentifié, redirection vers login')
+      await navigateTo('/auth/login')
+      return
+    }
+
+    // Marquer le rafraîchissement de page et naviguer vers dashboard
+    markPageRefresh()
+
+    // Ajouter un paramètre pour indiquer que c'est un nouvel utilisateur
+    await navigateTo('/dashboard?new=true')
+  } catch (error) {
+    console.error('Erreur lors de la redirection:', error)
+    // Fallback : redirection simple
+    await navigateTo('/dashboard')
+  }
+}
+
 
 // Redirect si déjà connecté
 onMounted(() => {
