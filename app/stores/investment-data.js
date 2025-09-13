@@ -1,211 +1,479 @@
-// Données des secteurs d'investissement
+// Données complètes des secteurs et projets d'investissement avec prix accessibles
 export const investmentData = {
-    "technologie-verte": {
+    "ia-deeptech": {
         id: 1,
-        name: "Technologies Vertes",
-        description: "Investissez dans les énergies renouvelables et les technologies propres pour un avenir durable",
-        image: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-        roi: "22%",
-        projetsCount: 45,
-        minInvestment: 5000,
+        name: "IA & Deep-Tech",
+        description: "Investissez dans l'intelligence artificielle et les technologies de rupture",
+        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=1000&h=500&fit=crop&crop=center",
+        roi: "28.5%",
+        projetsCount: 15,
+        minInvestment: 50,
         paymentMethods: ["bitcoin", "ethereum", "usdt"],
         highlights: [
-            "Croissance du marché de 15% par an",
-            "Soutien gouvernemental aux énergies vertes",
-            "Technologie de pointe certifiée",
-            "Impact environnemental positif"
+            "Ordinateurs quantiques commerciaux",
+            "Interface cerveau-machine approuvée FDA",
+            "Robots autonomes pour la logistique",
+            "Leader sur le marché européen"
         ],
         projects: [
             {
-                name: "SolarTech Innovation",
-                description: "Panneaux solaires nouvelle génération avec 40% d'efficacité en plus",
-                raised: "2.1M€",
-                target: "3.5M€",
+                id: "quantum-leap-1",
+                name: "QuantumLeap Computing",
+                description: "Ordinateurs quantiques commerciaux pour résoudre des problèmes complexes d'optimisation",
+                raised: "750",
+                target: "1200",
                 investors: 156,
-                minInvest: 5000
+                minInvest: 50,
+                roi: 28.5,
+                status: "actif",
+                progress: 85,
+                dateInvestment: "2024-01-15",
+                image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=150&fit=crop&crop=center",
+                badge: "Leader",
+                badgeColor: "success"
             },
             {
-                name: "WindPower Solutions",
-                description: "Éoliennes offshore pour zones côtières",
-                raised: "4.8M€",
-                target: "7.2M€",
+                id: "neurotech-2",
+                name: "NeuroTech Analytics",
+                description: "Interface cerveau-machine pour personnes handicapées, approuvé FDA",
+                raised: "425",
+                target: "600",
+                investors: 98,
+                minInvest: 25,
+                roi: 15.2,
+                status: "actif",
+                progress: 72,
+                dateInvestment: "2024-02-20",
+                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=150&fit=crop&crop=center",
+                badge: "Innovation",
+                badgeColor: "warning"
+            },
+            {
+                id: "ai-robotics-3",
+                name: "AI Robotics Lab",
+                description: "Robots autonomes pour la logistique industrielle avec IA avancée",
+                raised: "600",
+                target: "900",
+                investors: 127,
+                minInvest: 100,
+                roi: 19.7,
+                status: "actif",
+                progress: 65,
+                dateInvestment: "2023-12-10",
+                image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=150&fit=crop&crop=center",
+                badge: "Robotique",
+                badgeColor: "info"
+            }
+        ]
+    },
+
+    "energies-renouvelables": {
+        id: 2,
+        name: "Énergies Renouvelables",
+        description: "Soutenez la transition énergétique avec des technologies durables",
+        image: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?w=1000&h=500&fit=crop&crop=center",
+        roi: "24.2%",
+        projetsCount: 18,
+        minInvestment: 10,
+        paymentMethods: ["bitcoin", "ethereum", "usdt", "bnb"],
+        highlights: [
+            "Éoliennes offshore nouvelle génération",
+            "Stockage d'énergie révolutionnaire",
+            "Micro-turbines hydroélectriques",
+            "Rendement amélioré de 35%"
+        ],
+        projects: [
+            {
+                id: "windtech-1",
+                name: "WindTech Solutions",
+                description: "Éoliennes offshore nouvelle génération avec rendement amélioré de 35%",
+                raised: "625",
+                target: "900",
                 investors: 289,
-                minInvest: 10000
+                minInvest: 20,
+                roi: 24.2,
+                status: "actif",
+                progress: 85,
+                dateInvestment: "2023-12-15",
+                image: "https://images.unsplash.com/photo-1509391366360-2e959784a276?w=400&h=150&fit=crop&crop=center",
+                badge: "Écologique",
+                badgeColor: "success"
+            },
+            {
+                id: "solargrid-2",
+                name: "SolarGrid Innovation",
+                description: "Stockage d'énergie solaire avec batteries sodium-ion révolutionnaires",
+                raised: "487",
+                target: "750",
+                investors: 187,
+                minInvest: 15,
+                roi: 22.8,
+                status: "actif",
+                progress: 45,
+                dateInvestment: "2024-01-20",
+                image: "https://images.unsplash.com/photo-1615390547971-4b57b9c21b96?w=400&h=150&fit=crop&crop=center",
+                badge: "Solaire",
+                badgeColor: "warning"
+            },
+            {
+                id: "hydro-power-3",
+                name: "Hydro Power Tech",
+                description: "Micro-turbines hydroélectriques pour cours d'eau urbains",
+                raised: "360",
+                target: "600",
+                investors: 143,
+                minInvest: 10,
+                roi: 18.9,
+                status: "actif",
+                progress: 62,
+                dateInvestment: "2023-11-25",
+                image: "https://images.unsplash.com/photo-1483728642387-6c3bdd6c93e5?w=400&h=150&fit=crop&crop=center",
+                badge: "Hydraulique",
+                badgeColor: "info"
             }
         ]
     },
 
     "biotechnologies": {
-        id: 2,
+        id: 3,
         name: "Biotechnologies",
         description: "Soutenez l'innovation médicale et pharmaceutique de demain",
-        image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-        roi: "18%",
-        projetsCount: 32,
-        minInvestment: 7500,
+        image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=1000&h=500&fit=crop&crop=center",
+        roi: "35.2%",
+        projetsCount: 12,
+        minInvestment: 75,
         paymentMethods: ["bitcoin", "ethereum", "usdt", "bnb"],
         highlights: [
-            "Secteur en croissance de 12% annuel",
-            "Innovations révolutionnaires en cours",
-            "Partenariats avec laboratoires renommés",
-            "Potentiel de retour sur investissement élevé"
+            "Vaccins ARNm personnalisés contre le cancer",
+            "Thérapie génique phase 3",
+            "Partenariats laboratoires renommés",
+            "Innovations révolutionnaires"
         ],
         projects: [
             {
-                name: "GeneTherapy Plus",
-                description: "Thérapie génique pour maladies rares",
-                raised: "1.8M€",
-                target: "4.0M€",
-                investors: 98,
-                minInvest: 7500
+                id: "mrna-therapeutics-1",
+                name: "mRNA Therapeutics",
+                description: "Vaccins ARNm personnalisés contre différents types de cancer",
+                raised: "912",
+                target: "1250",
+                investors: 156,
+                minInvest: 100,
+                roi: 31.7,
+                status: "actif",
+                progress: 91,
+                dateInvestment: "2023-11-20",
+                image: "https://images.unsplash.com/photo-1576086213369-97a306d36557?w=400&h=150&fit=crop&crop=center",
+                badge: "Médical",
+                badgeColor: "danger"
             },
             {
-                name: "BioMed Diagnostics",
-                description: "Tests diagnostiques rapides et précis",
-                raised: "3.2M€",
-                target: "5.5M€",
-                investors: 187,
-                minInvest: 5000
+                id: "gentherapy-2",
+                name: "GenTherapy Plus",
+                description: "Thérapie génique contre les maladies rares, essais phase 3",
+                raised: "725",
+                target: "1000",
+                investors: 98,
+                minInvest: 75,
+                roi: 35.2,
+                status: "actif",
+                progress: 89,
+                dateInvestment: "2023-10-15",
+                image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?w=400&h=150&fit=crop&crop=center",
+                badge: "Génétique",
+                badgeColor: "info"
             }
         ]
     },
 
     "fintech": {
-        id: 3,
+        id: 4,
         name: "Fintech",
         description: "Participez à la révolution des services financiers digitaux",
-        image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-        roi: "25%",
-        projetsCount: 28,
-        minInvestment: 5000,
+        image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?w=1000&h=500&fit=crop&crop=center",
+        roi: "19.8%",
+        projetsCount: 14,
+        minInvestment: 25,
         paymentMethods: ["bitcoin", "ethereum", "usdt", "bnb"],
         highlights: [
-            "Digitalisation croissante des services bancaires",
-            "Technologies blockchain avancées",
-            "Partenariats avec institutions financières",
-            "Marché en expansion rapide"
+            "Plateforme DeFi écologique",
+            "Banque numérique spécialisée financement vert",
+            "Staking carbon-neutral",
+            "Partenariats institutions financières"
         ],
         projects: [
             {
-                name: "CryptoPay Solutions",
-                description: "Plateforme de paiement crypto pour e-commerce",
-                raised: "5.1M€",
-                target: "8.0M€",
+                id: "blockfin-1",
+                name: "BlockFin Solutions",
+                description: "Plateforme DeFi écologique avec staking carbon-neutral",
+                raised: "525",
+                target: "800",
                 investors: 345,
-                minInvest: 5000
+                minInvest: 50,
+                roi: 19.8,
+                status: "actif",
+                progress: 63,
+                dateInvestment: "2024-01-25",
+                image: "https://images.unsplash.com/photo-1559526324-4b87b5e36e44?w=400&h=150&fit=crop&crop=center",
+                badge: "Crypto",
+                badgeColor: "primary"
             },
             {
-                name: "SmartInvest AI",
-                description: "Robo-advisor basé sur l'intelligence artificielle",
-                raised: "2.7M€",
-                target: "4.5M€",
-                investors: 156,
-                minInvest: 7500
+                id: "neobank-2",
+                name: "NeoBank Green",
+                description: "Banque numérique spécialisée dans le financement vert",
+                raised: "340",
+                target: "600",
+                investors: 234,
+                minInvest: 25,
+                roi: 16.4,
+                status: "actif",
+                progress: 78,
+                dateInvestment: "2023-12-20",
+                image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=400&h=150&fit=crop&crop=center",
+                badge: "Banque",
+                badgeColor: "success"
             }
         ]
     },
 
-    "intelligence-artificielle": {
-        id: 4,
-        name: "Intelligence Artificielle",
-        description: "Investissez dans l'IA et l'automatisation intelligente",
-        image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-        roi: "30%",
-        projetsCount: 21,
-        minInvestment: 10000,
+    "mobilite-durable": {
+        id: 5,
+        name: "Mobilité Durable",
+        description: "Investissez dans les transports du futur",
+        image: "https://images.unsplash.com/photo-1593941707882-a5bac6861d75?w=1000&h=500&fit=crop&crop=center",
+        roi: "24.1%",
+        projetsCount: 10,
+        minInvestment: 30,
         paymentMethods: ["bitcoin", "ethereum", "usdt"],
         highlights: [
-            "Marché de l'IA en croissance explosive",
-            "Applications dans tous les secteurs",
-            "Équipe de recherche de classe mondiale",
-            "Brevets technologiques déjà déposés"
+            "Réseau bornes recharge 100% renouvelable",
+            "Camions hydrogène longue distance",
+            "Technologies électriques avancées",
+            "Expansion européenne"
         ],
         projects: [
             {
-                name: "AI Vision Pro",
-                description: "Intelligence artificielle pour reconnaissance d'images médicales",
-                raised: "3.8M€",
-                target: "6.2M€",
-                investors: 127,
-                minInvest: 10000
+                id: "ecomobility-1",
+                name: "EcoMobility Hub",
+                description: "Réseau de bornes de recharge ultra-rapide 100% renouvelable",
+                raised: "560",
+                target: "900",
+                investors: 267,
+                minInvest: 30,
+                roi: 24.1,
+                status: "actif",
+                progress: 55,
+                dateInvestment: "2023-11-30",
+                image: "https://images.unsplash.com/photo-1593941707882-a5bac6861d75?w=400&h=150&fit=crop&crop=center",
+                badge: "Électrique",
+                badgeColor: "success"
             },
             {
-                name: "AutoML Platform",
-                description: "Plateforme d'apprentissage automatique sans code",
-                raised: "4.5M€",
-                target: "7.8M€",
-                investors: 198,
-                minInvest: 10000
+                id: "hydrogen-2",
+                name: "Hydrogen Transport",
+                description: "Camions à hydrogène pour le transport longue distance",
+                raised: "475",
+                target: "750",
+                investors: 189,
+                minInvest: 40,
+                roi: 17.3,
+                status: "actif",
+                progress: 42,
+                dateInvestment: "2023-09-15",
+                image: "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=400&h=150&fit=crop&crop=center",
+                badge: "Hydrogène",
+                badgeColor: "info"
             }
         ]
     },
 
-    "e-commerce": {
-        id: 5,
-        name: "E-commerce",
-        description: "Soutenez les plateformes de commerce en ligne innovantes",
-        image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-        roi: "16%",
-        projetsCount: 38,
-        minInvestment: 5000,
-        paymentMethods: ["bitcoin", "ethereum", "usdt", "bnb"],
-        highlights: [
-            "Croissance continue du commerce en ligne",
-            "Technologies de personnalisation avancées",
-            "Expansion internationale prévue",
-            "Modèle économique éprouvé"
-        ],
-        projects: [
-            {
-                name: "EcoMarket Pro",
-                description: "Marketplace pour produits écologiques et durables",
-                raised: "6.2M€",
-                target: "9.5M€",
-                investors: 445,
-                minInvest: 5000
-            },
-            {
-                name: "LocalBuy Network",
-                description: "Plateforme de commerce local et circuits courts",
-                raised: "2.9M€",
-                target: "5.2M€",
-                investors: 234,
-                minInvest: 5000
-            }
-        ]
-    },
-
-    "blockchain": {
+    "agritech": {
         id: 6,
-        name: "Blockchain",
-        description: "Participez à l'économie décentralisée et aux cryptomonnaies",
-        image: "https://images.unsplash.com/photo-1639762681485-074b7f938ba0?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80",
-        roi: "28%",
-        projetsCount: 15,
-        minInvestment: 10000,
-        paymentMethods: ["bitcoin", "ethereum", "usdt", "bnb"],
+        name: "AgriTech",
+        description: "Révolutionnez l'agriculture avec les technologies intelligentes",
+        image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=1000&h=500&fit=crop&crop=center",
+        roi: "26.1%",
+        projetsCount: 8,
+        minInvestment: 15,
+        paymentMethods: ["bitcoin", "ethereum", "usdt"],
         highlights: [
-            "Adoption croissante de la blockchain",
-            "Applications DeFi révolutionnaires",
-            "Équipe technique expérimentée",
-            "Partenariats stratégiques établis"
+            "Agriculture de précision avec IA",
+            "Réduction 40% des pesticides",
+            "Fermes verticales urbaines",
+            "Éclairage LED optimisé"
         ],
         projects: [
             {
-                name: "DeFi Protocol",
-                description: "Protocole de finance décentralisée nouvelle génération",
-                raised: "8.7M€",
-                target: "12.0M€",
-                investors: 523,
-                minInvest: 10000
+                id: "smartfarm-1",
+                name: "SmartFarm AI",
+                description: "Agriculture de précision avec IA, réduction 40% des pesticides",
+                raised: "437",
+                target: "750",
+                investors: 198,
+                minInvest: 20,
+                roi: 26.1,
+                status: "actif",
+                progress: 38,
+                dateInvestment: "2023-10-20",
+                image: "https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=400&h=150&fit=crop&crop=center",
+                badge: "Agriculture",
+                badgeColor: "warning"
             },
             {
-                name: "NFT Marketplace",
-                description: "Plateforme de trading NFT avec fonctionnalités avancées",
-                raised: "4.1M€",
-                target: "7.5M€",
-                investors: 298,
-                minInvest: 10000
+                id: "vertical-farms-2",
+                name: "Vertical Farms Pro",
+                description: "Fermes verticales urbaines avec éclairage LED optimisé",
+                raised: "315",
+                target: "600",
+                investors: 145,
+                minInvest: 15,
+                roi: 21.7,
+                status: "actif",
+                progress: 68,
+                dateInvestment: "2023-08-25",
+                image: "https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?w=400&h=150&fit=crop&crop=center",
+                badge: "Vertical",
+                badgeColor: "info"
+            }
+        ]
+    },
+
+    "economie-circulaire": {
+        id: 7,
+        name: "Économie Circulaire",
+        description: "Investissez dans le recyclage et l'économie durable",
+        image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=1000&h=500&fit=crop&crop=center",
+        roi: "21.5%",
+        projetsCount: 6,
+        minInvestment: 20,
+        paymentMethods: ["bitcoin", "ethereum", "usdt"],
+        highlights: [
+            "Transformation déchets plastiques",
+            "Matériaux haute performance",
+            "Procédés révolutionnaires",
+            "Impact environnemental positif"
+        ],
+        projects: [
+            {
+                id: "circulartech-1",
+                name: "CircularTech Waste",
+                description: "Transformation des déchets plastiques en matériaux haute performance",
+                raised: "390",
+                target: "650",
+                investors: 156,
+                minInvest: 20,
+                roi: 21.5,
+                status: "actif",
+                progress: 67,
+                dateInvestment: "2023-09-10",
+                image: "https://images.unsplash.com/photo-1532996122724-e3c354a0b15b?w=400&h=150&fit=crop&crop=center",
+                badge: "Recyclage",
+                badgeColor: "success"
+            }
+        ]
+    },
+
+    "sante-digitale": {
+        id: 8,
+        name: "Santé Digitale",
+        description: "Révolutionnez la santé avec le numérique",
+        image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=1000&h=500&fit=crop&crop=center",
+        roi: "31.2%",
+        projetsCount: 5,
+        minInvestment: 40,
+        paymentMethods: ["bitcoin", "ethereum", "usdt"],
+        highlights: [
+            "Monitoring cardiaque temps réel",
+            "Dispositifs médicaux connectés",
+            "Certification médicale européenne",
+            "Partenariats hôpitaux"
+        ],
+        projects: [
+            {
+                id: "healthmonitor-1",
+                name: "HealthMonitor Pro",
+                description: "Dispositif médical connecté pour monitoring cardiaque temps réel",
+                raised: "680",
+                target: "1000",
+                investors: 89,
+                minInvest: 50,
+                roi: 31.2,
+                status: "actif",
+                progress: 78,
+                dateInvestment: "2023-07-15",
+                image: "https://images.unsplash.com/photo-1559757148-5c350d0d3c56?w=400&h=150&fit=crop&crop=center",
+                badge: "Médical",
+                badgeColor: "danger"
+            }
+        ]
+    },
+
+    "edtech": {
+        id: 9,
+        name: "EdTech",
+        description: "Transformez l'éducation avec les nouvelles technologies",
+        image: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=1000&h=500&fit=crop&crop=center",
+        roi: "18.4%",
+        projetsCount: 4,
+        minInvestment: 25,
+        paymentMethods: ["bitcoin", "ethereum", "usdt"],
+        highlights: [
+            "Réalité virtuelle pour écoles",
+            "Apprentissage immersif",
+            "Partenariats établissements",
+            "Innovation pédagogique"
+        ],
+        projects: [
+            {
+                id: "eduvr-1",
+                name: "EduVR Learning",
+                description: "Plateforme d'apprentissage en réalité virtuelle pour écoles",
+                raised: "290",
+                target: "600",
+                investors: 127,
+                minInvest: 25,
+                roi: 18.4,
+                status: "actif",
+                progress: 42,
+                dateInvestment: "2023-06-20",
+                image: "https://images.unsplash.com/photo-1588072432836-e10032774350?w=400&h=150&fit=crop&crop=center",
+                badge: "Éducation",
+                badgeColor: "warning"
+            }
+        ]
+    },
+
+    "spatial": {
+        id: 10,
+        name: "Espace & Satellites",
+        description: "Participez à la conquête spatiale et aux satellites",
+        image: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=1000&h=500&fit=crop&crop=center",
+        roi: "12.5%",
+        projetsCount: 3,
+        minInvestment: 200,
+        paymentMethods: ["bitcoin", "ethereum", "usdt"],
+        highlights: [
+            "Constellation nanosatellites IoT",
+            "Couverture mondiale",
+            "Technologies spatiales avancées",
+            "Partenariats agences spatiales"
+        ],
+        projects: [
+            {
+                id: "satellitenet-1",
+                name: "SatelliteNet IoT",
+                description: "Constellation de nanosatellites pour IoT mondial",
+                raised: "825",
+                target: "1250",
+                investors: 67,
+                minInvest: 200,
+                roi: 12.5,
+                status: "en_cours",
+                progress: 23,
+                dateInvestment: "2024-03-15",
+                image: "https://images.unsplash.com/photo-1446776653964-20c1d3a81b06?w=400&h=150&fit=crop&crop=center",
+                badge: "Spatial",
+                badgeColor: "dark"
             }
         ]
     }
@@ -243,6 +511,6 @@ export const paymentMethods = {
     }
 };
 
-// Export par défaut + export nommé explicite (fiabilise la résolution TS)
+// Export par défaut
 const defaultExport = investmentData;
 export default defaultExport;

@@ -136,9 +136,13 @@
                   Se souvenir de moi
                 </label>
               </div>
-              <button type="button" class="text-sm text-blue-600 hover:text-blue-500 transition-colors">
+              <NuxtLink
+                  to="/auth/forgot-password"
+                  class="text-sm text-blue-600 hover:text-blue-500 transition-colors flex items-center group"
+              >
+                <i class="fas fa-key mr-1 group-hover:rotate-12 transition-transform"></i>
                 Mot de passe oublié ?
-              </button>
+              </NuxtLink>
             </div>
 
             <!-- Bouton de connexion -->
@@ -214,8 +218,6 @@
   </div>
 </template>
 
-<!-- Le template reste identique, seul le script change -->
-
 <script setup>
 import { useAuthStore } from '~/stores/auth'
 
@@ -256,7 +258,6 @@ const togglePasswordVisibility = () => {
 }
 
 const handleReturnHome = () => {
-  // Navigation simple vers l'accueil
   navigateTo('/')
 }
 
@@ -276,13 +277,11 @@ const handleLogin = async () => {
     if (result.success) {
       successMessage.value = 'Connexion réussie ! Redirection vers votre dashboard...'
 
-      // Redirection directe sans système de rafraîchissement
       await new Promise(resolve => setTimeout(resolve, 1500))
       await navigateTo('/dashboard')
     } else {
       errorMessage.value = result.error || 'Email ou mot de passe incorrect'
 
-      // Animation d'erreur
       setTimeout(() => {
         errorMessage.value = ''
       }, 5000)
@@ -299,15 +298,12 @@ const handleLogin = async () => {
   }
 }
 
-// Redirect si déjà connecté
 onMounted(() => {
   if (authStore.isAuthenticated) {
     navigateTo('/dashboard')
   }
 })
 </script>
-
-<!-- Styles restent identiques -->
 
 <style scoped>
 /* Animations */

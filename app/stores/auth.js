@@ -1,38 +1,98 @@
-
 import { defineStore } from 'pinia'
 
 export const useAuthStore = defineStore('auth', {
     state: () => ({
         user: null,
         token: null,
-        isAuthenticated: false,
         isLoading: false,
         error: null
     }),
 
     getters: {
-        isAdmin: (state) => state.user?.role === 'admin',
-        userName: (state) => state.user?.name || '',
-        userEmail: (state) => state.user?.email || ''
+        isAuthenticated: (state) => !!state.token,
+        isAdmin: (state) => state.user?.role === 'admin'
     },
 
     actions: {
         // Initialisation de l'auth depuis le localStorage
         initAuth() {
             if (process.client) {
-                const token = localStorage.getItem('auth-token')
-                const userData = localStorage.getItem('user')
+                const token = localStorage.getItem('authToken')
+                const userData = localStorage.getItem('userData')
 
                 if (token && userData) {
                     try {
                         this.token = token
                         this.user = JSON.parse(userData)
-                        this.isAuthenticated = true
                     } catch (error) {
                         console.error('Erreur lors de la récupération des données utilisateur:', error)
                         this.logout()
                     }
                 }
+            }
+        },
+
+        // Méthode pour créer un compte admin par défaut
+        async createDefaultAdmin() {
+            const adminUser = {
+                id: 'admin-001',
+                email: 'admin@investfuture.com',
+                name: 'Administrateur InvestFuture',
+                firstName: 'Admin',
+                lastName: 'InvestFuture',
+                role: 'admin',
+                permissions: ['validate_accounts', 'manage_users', 'view_analytics', 'manage_investments'],
+                createdAt: new Date().toISOString(),
+                isActive: true
+            }
+
+            // Stocker l'admin en localStorage
+            if (process.client) {
+                const existingUsers = JSON.parse(localStorage.getItem('users') || '[]')
+                const adminExists = existingUsers.find(u => u.email === adminUser.email)
+
+                if (!adminExists) {
+                    existingUsers.push(adminUser)
+                    localStorage.setItem('users', JSON.stringify(existingUsers))
+                    console.log('Compte admin créé:', adminUser.email)
+                }
+            }
+        },
+
+        // Connexion admin simplifiée pour les tests
+        async loginAsAdmin() {
+            try {
+                this.isLoading = true
+
+                // Créer le compte admin s'il n'existe pas
+                await this.createDefaultAdmin()
+
+                const adminUser = {
+                    id: 'admin-001',
+                    email: 'admin@investfuture.com',
+                    name: 'Administrateur InvestFuture',
+                    firstName: 'Admin',
+                    lastName: 'InvestFuture',
+                    role: 'admin',
+                    permissions: ['validate_accounts', 'manage_users', 'view_analytics', 'manage_investments'],
+                    createdAt: new Date().toISOString(),
+                    isActive: true
+                }
+
+                this.user = adminUser
+                this.token = 'admin-token-' + Date.now()
+
+                if (process.client) {
+                    localStorage.setItem('authToken', this.token)
+                    localStorage.setItem('userData', JSON.stringify(adminUser))
+                }
+
+                return { success: true, user: adminUser }
+            } catch (error) {
+                console.error('Erreur connexion admin:', error)
+                return { success: false, error: 'Erreur de connexion administrateur' }
+            } finally {
+                this.isLoading = false
             }
         },
 
@@ -70,83 +130,94 @@ export const useAuthStore = defineStore('auth', {
 
         // Simulation d'existence d'email
         async checkEmailExists(email) {
-            // Simulation de vérification côté serveur
-            const existingEmails = ['test@exist.com', 'admin@investfuture.com', 'demo@test.fr']
-            return existingEmails.includes(email.toLowerCase())
+            if (process.client) {
+                // Vérifier dans les utilisateurs existants
+                const existingUsers = JSON.parse(localStorage.getItem('users') || '[]')
+                const emailExists = existingUsers.some(user => user.email.toLowerCase() === email.toLowerCase())
+
+                // Vérifier dans les inscriptions en attente
+                const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '[]')
+                const pendingExists = pendingRegistrations.some(reg => reg.email.toLowerCase() === email.toLowerCase())
+
+                return emailExists || pendingExists
+            }
+            return false
         },
 
-        // Inscription améliorée
+        // Inscription améliorée avec gestion admin
         async register(userData) {
-            this.isLoading = true
-            this.error = null
-
             try {
-                // Validation des données
-                const validationErrors = this.validateRegistrationData(userData)
-                if (validationErrors.length > 0) {
-                    throw new Error(validationErrors[0])
-                }
+                this.isLoading = true
+                console.log('Tentative d\'inscription:', userData.email)
 
-                // Vérification de l'existence de l'email
-                const emailExists = await this.checkEmailExists(userData.email)
-                if (emailExists) {
-                    throw new Error('Cet email est déjà utilisé. Essayez de vous connecter ou utilisez un autre email.')
-                }
+                // Vérifier si l'email existe déjà
+                if (process.client) {
+                    const existingUsers = JSON.parse(localStorage.getItem('users') || '[]')
+                    const emailExists = existingUsers.some(user => user.email === userData.email)
 
-                // Simulation d'appel API avec délai réaliste
-                await new Promise(resolve => setTimeout(resolve, 1500))
+                    if (emailExists) {
+                        return {
+                            success: false,
+                            error: 'Un compte existe déjà avec cette adresse email'
+                        }
+                    }
 
-                // Données complètes pour la simulation
-                const completeUserData = {
-                    id: Date.now(),
-                    name: userData.name || `${userData.firstName} ${userData.lastName}`,
-                    email: userData.email.toLowerCase(),
-                    firstName: userData.firstName,
-                    lastName: userData.lastName,
-                    role: 'user',
-                    personType: userData.personType,
-                    telephone: userData.telephone,
-                    dateNaissance: userData.dateNaissance,
-                    adresse: userData.adresse,
-                    ville: userData.ville,
-                    codePostal: userData.codePostal,
-                    createdAt: new Date().toISOString(),
-                    isVerified: false,
-                    investmentProfile: {
-                        totalInvested: 0,
-                        portfolioValue: 0,
-                        riskProfile: 'moderate'
+                    // Générer un ID unique pour l'inscription
+                    const registrationId = 'reg_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9)
+
+                    // Préparer les données d'inscription avec métadonnées admin
+                    const registrationData = {
+                        ...userData,
+                        id: registrationId,
+                        status: 'pending',
+                        submittedAt: new Date().toISOString(),
+                        adminValidation: {
+                            status: 'pending',
+                            submittedAt: new Date().toISOString(),
+                            reviewedBy: null,
+                            reviewedAt: null,
+                            notes: ''
+                        }
+                    }
+
+                    // Sauvegarder dans les inscriptions en attente
+                    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '[]')
+                    pendingRegistrations.push(registrationData)
+                    localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations))
+
+                    // Créer un compte utilisateur temporaire (en attente de validation)
+                    const tempUser = {
+                        id: registrationId,
+                        email: userData.email,
+                        name: userData.name,
+                        firstName: userData.firstName,
+                        lastName: userData.lastName,
+                        role: 'user',
+                        status: 'pending',
+                        isActive: false,
+                        createdAt: new Date().toISOString()
+                    }
+
+                    // Connecter automatiquement l'utilisateur même si en attente
+                    this.user = tempUser
+                    this.token = 'temp-token-' + registrationId
+
+                    localStorage.setItem('authToken', this.token)
+                    localStorage.setItem('userData', JSON.stringify(tempUser))
+
+                    console.log('Inscription sauvegardée pour validation admin')
+                    return {
+                        success: true,
+                        message: 'Votre inscription a été soumise avec succès. Elle sera examinée par nos équipes sous 48h.',
+                        user: tempUser
                     }
                 }
 
-                const mockResponse = {
-                    user: completeUserData,
-                    token: 'invest-jwt-token-' + Date.now(),
-                    message: 'Compte créé avec succès'
-                }
-
-                // Mise à jour du store
-                this.user = mockResponse.user
-                this.token = mockResponse.token
-                this.isAuthenticated = true
-
-                // Sauvegarde dans localStorage
-                if (process.client) {
-                    localStorage.setItem('auth-token', mockResponse.token)
-                    localStorage.setItem('user', JSON.stringify(mockResponse.user))
-                }
-
-                return {
-                    success: true,
-                    user: mockResponse.user,
-                    message: mockResponse.message
-                }
-
             } catch (error) {
-                this.error = error.message
+                console.error('Erreur lors de l\'inscription:', error)
                 return {
                     success: false,
-                    error: error.message
+                    error: 'Une erreur est survenue lors de l\'inscription. Veuillez réessayer.'
                 }
             } finally {
                 this.isLoading = false
@@ -178,7 +249,9 @@ export const useAuthStore = defineStore('auth', {
                             email: 'demo@investfuture.com',
                             firstName: 'Demo',
                             lastName: 'User',
-                            role: 'user'
+                            role: 'user',
+                            status: 'active',
+                            isActive: true
                         }
                     },
                     {
@@ -190,7 +263,9 @@ export const useAuthStore = defineStore('auth', {
                             email: 'admin@investfuture.com',
                             firstName: 'Admin',
                             lastName: 'User',
-                            role: 'admin'
+                            role: 'admin',
+                            status: 'active',
+                            isActive: true
                         }
                     }
                 ]
@@ -211,11 +286,10 @@ export const useAuthStore = defineStore('auth', {
 
                 this.user = mockResponse.user
                 this.token = mockResponse.token
-                this.isAuthenticated = true
 
                 if (process.client) {
-                    localStorage.setItem('auth-token', mockResponse.token)
-                    localStorage.setItem('user', JSON.stringify(mockResponse.user))
+                    localStorage.setItem('authToken', mockResponse.token)
+                    localStorage.setItem('userData', JSON.stringify(mockResponse.user))
                 }
 
                 return { success: true, user: mockResponse.user }
@@ -229,15 +303,14 @@ export const useAuthStore = defineStore('auth', {
         },
 
         // Déconnexion
-        logout() {
+        async logout() {
             this.user = null
             this.token = null
-            this.isAuthenticated = false
             this.error = null
 
             if (process.client) {
-                localStorage.removeItem('auth-token')
-                localStorage.removeItem('user')
+                localStorage.removeItem('authToken')
+                localStorage.removeItem('userData')
             }
         },
 
@@ -256,7 +329,7 @@ export const useAuthStore = defineStore('auth', {
                 }
 
                 if (process.client) {
-                    localStorage.setItem('user', JSON.stringify(this.user))
+                    localStorage.setItem('userData', JSON.stringify(this.user))
                 }
 
                 return { success: true, user: this.user }
@@ -285,6 +358,89 @@ export const useAuthStore = defineStore('auth', {
                 this.logout()
                 return false
             }
+        },
+
+        // Approuver une inscription (admin)
+        async approveRegistration(registrationId) {
+            if (process.client && this.isAdmin) {
+                try {
+                    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '[]')
+                    const registrationIndex = pendingRegistrations.findIndex(reg => reg.id === registrationId)
+
+                    if (registrationIndex !== -1) {
+                        const registration = pendingRegistrations[registrationIndex]
+
+                        // Mettre à jour le statut
+                        registration.adminValidation = {
+                            ...registration.adminValidation,
+                            status: 'approved',
+                            reviewedBy: this.user?.name,
+                            reviewedAt: new Date().toISOString(),
+                            notes: 'Inscription approuvée'
+                        }
+
+                        // Créer le compte utilisateur activé
+                        const activeUser = {
+                            id: registration.id,
+                            email: registration.email,
+                            name: registration.name,
+                            firstName: registration.firstName,
+                            lastName: registration.lastName,
+                            role: 'user',
+                            status: 'active',
+                            isActive: true,
+                            createdAt: registration.submittedAt,
+                            approvedAt: new Date().toISOString()
+                        }
+
+                        // Ajouter aux utilisateurs actifs
+                        const users = JSON.parse(localStorage.getItem('users') || '[]')
+                        users.push(activeUser)
+                        localStorage.setItem('users', JSON.stringify(users))
+
+                        // Sauvegarder les modifications
+                        localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations))
+
+                        return { success: true, message: 'Inscription approuvée avec succès' }
+                    }
+                } catch (error) {
+                    console.error('Erreur lors de l\'approbation:', error)
+                    return { success: false, error: 'Erreur lors de l\'approbation' }
+                }
+            }
+            return { success: false, error: 'Action non autorisée' }
+        },
+
+        // Refuser une inscription (admin)
+        async rejectRegistration(registrationId, reason) {
+            if (process.client && this.isAdmin) {
+                try {
+                    const pendingRegistrations = JSON.parse(localStorage.getItem('pendingRegistrations') || '[]')
+                    const registrationIndex = pendingRegistrations.findIndex(reg => reg.id === registrationId)
+
+                    if (registrationIndex !== -1) {
+                        const registration = pendingRegistrations[registrationIndex]
+
+                        // Mettre à jour le statut
+                        registration.adminValidation = {
+                            ...registration.adminValidation,
+                            status: 'rejected',
+                            reviewedBy: this.user?.name,
+                            reviewedAt: new Date().toISOString(),
+                            notes: reason || 'Inscription refusée'
+                        }
+
+                        // Sauvegarder les modifications
+                        localStorage.setItem('pendingRegistrations', JSON.stringify(pendingRegistrations))
+
+                        return { success: true, message: 'Inscription refusée' }
+                    }
+                } catch (error) {
+                    console.error('Erreur lors du refus:', error)
+                    return { success: false, error: 'Erreur lors du refus' }
+                }
+            }
+            return { success: false, error: 'Action non autorisée' }
         }
     }
 })
