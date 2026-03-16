@@ -1,7 +1,14 @@
 {
   "permissions": {
     "allow": [
-      "Bash(cd:*)"
+      "Bash(cd:*)",
+      "Bash(npx prisma:*)",
+      "Bash(ls:*)",
+      "Bash(find:*)",
+      "Bash(for f:*)",
+      "Bash(do echo:*)",
+      "Read(//c/Users/Ange/Documents/Dev/investFutur/**)",
+      "Bash(done)"
     ]
   }
 }

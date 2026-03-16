@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { requireAdmin } from '../../../../utils/guards'
-import { prisma } from '../../../../utils/db'
+import { useDb } from '../../../../utils/db'
 
 const schema = z.object({
   status: z.enum(['APPROVED', 'REJECTED']),
@@ -10,21 +10,21 @@ const schema = z.object({
 export default defineEventHandler(async (event) => {
   requireAdmin(event)
   const id = getRouterParam(event, 'id')
-  const { status, notes } = await readValidatedBody(event, schema.parse)
+  const { status } = await readValidatedBody(event, schema.parse)
 
-  const user = await prisma.user.findUnique({ where: { id } })
-  if (!user) {
+  const sql = useDb()
+
+  const existingRows = await sql`SELECT id FROM users WHERE id = ${id} LIMIT 1`
+  if (existingRows.length === 0) {
     throw createError({ statusCode: 404, message: 'Utilisateur introuvable' })
   }
 
-  const updatedUser = await prisma.user.update({
-    where: { id },
-    data: {
-      kycStatus: status,
-      kycTier: status === 'APPROVED' ? 1 : 0,
-    },
-    select: { id: true, email: true, firstName: true, kycStatus: true, kycTier: true },
-  })
+  const tier = status === 'APPROVED' ? 1 : 0
 
-  return { data: updatedUser }
+  const updatedRows = await sql`
+    UPDATE users SET "kycStatus" = ${status}, "kycTier" = ${tier}, "updatedAt" = NOW()
+    WHERE id = ${id}
+    RETURNING id, email, "firstName", "kycStatus", "kycTier"`
+
+  return { data: updatedRows[0] }
 })

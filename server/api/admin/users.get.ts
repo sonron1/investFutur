@@ -1,5 +1,5 @@
 import { requireAdmin } from '../../utils/guards'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 
 export default defineEventHandler(async (event) => {
   requireAdmin(event)
@@ -11,38 +11,56 @@ export default defineEventHandler(async (event) => {
   const search = query.search as string | undefined
   const kycStatus = query.kycStatus as string | undefined
 
-  const where = {
-    ...(search ? {
-      OR: [
-        { email: { contains: search, mode: 'insensitive' as const } },
-        { firstName: { contains: search, mode: 'insensitive' as const } },
-        { lastName: { contains: search, mode: 'insensitive' as const } },
-      ],
-    } : {}),
-    ...(kycStatus && kycStatus !== 'all' ? { kycStatus: kycStatus.toUpperCase() as any } : {}),
+  const sql = useDb()
+
+  const hasSearch = !!(search && search.trim())
+  const hasKycFilter = !!(kycStatus && kycStatus !== 'all')
+  const kycStatusValue = hasKycFilter ? kycStatus!.toUpperCase() : null
+  const searchValue = hasSearch ? `%${search}%` : null
+
+  let users: any[]
+  let countRows: any[]
+
+  if (hasSearch && hasKycFilter) {
+    users = await sql`
+      SELECT id, email, "firstName", "lastName", role, "isVerified", "kycStatus", "kycTier", "createdAt"
+      FROM users
+      WHERE (email ILIKE ${searchValue} OR "firstName" ILIKE ${searchValue} OR "lastName" ILIKE ${searchValue})
+        AND "kycStatus" = ${kycStatusValue}
+      ORDER BY "createdAt" DESC
+      LIMIT ${limit} OFFSET ${skip}`
+    countRows = await sql`
+      SELECT COUNT(*) as count FROM users
+      WHERE (email ILIKE ${searchValue} OR "firstName" ILIKE ${searchValue} OR "lastName" ILIKE ${searchValue})
+        AND "kycStatus" = ${kycStatusValue}`
+  } else if (hasSearch) {
+    users = await sql`
+      SELECT id, email, "firstName", "lastName", role, "isVerified", "kycStatus", "kycTier", "createdAt"
+      FROM users
+      WHERE email ILIKE ${searchValue} OR "firstName" ILIKE ${searchValue} OR "lastName" ILIKE ${searchValue}
+      ORDER BY "createdAt" DESC
+      LIMIT ${limit} OFFSET ${skip}`
+    countRows = await sql`
+      SELECT COUNT(*) as count FROM users
+      WHERE email ILIKE ${searchValue} OR "firstName" ILIKE ${searchValue} OR "lastName" ILIKE ${searchValue}`
+  } else if (hasKycFilter) {
+    users = await sql`
+      SELECT id, email, "firstName", "lastName", role, "isVerified", "kycStatus", "kycTier", "createdAt"
+      FROM users
+      WHERE "kycStatus" = ${kycStatusValue}
+      ORDER BY "createdAt" DESC
+      LIMIT ${limit} OFFSET ${skip}`
+    countRows = await sql`SELECT COUNT(*) as count FROM users WHERE "kycStatus" = ${kycStatusValue}`
+  } else {
+    users = await sql`
+      SELECT id, email, "firstName", "lastName", role, "isVerified", "kycStatus", "kycTier", "createdAt"
+      FROM users
+      ORDER BY "createdAt" DESC
+      LIMIT ${limit} OFFSET ${skip}`
+    countRows = await sql`SELECT COUNT(*) as count FROM users`
   }
 
-  const [users, total] = await prisma.$transaction([
-    prisma.user.findMany({
-      where,
-      skip,
-      take: limit,
-      orderBy: { createdAt: 'desc' },
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        isVerified: true,
-        kycStatus: true,
-        kycTier: true,
-        createdAt: true,
-        _count: { select: { investments: true } },
-      },
-    }),
-    prisma.user.count({ where }),
-  ])
+  const total = Number(countRows[0]?.count ?? 0)
 
   return {
     data: users,

@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 import { verifyPassword, signAccessToken, signRefreshToken } from '../../utils/auth'
 
 const schema = z.object({
@@ -11,20 +11,10 @@ const schema = z.object({
 export default defineEventHandler(async (event) => {
   const body = await readValidatedBody(event, schema.parse)
 
-  const user = await prisma.user.findUnique({
-    where: { email: body.email },
-    select: {
-      id: true,
-      email: true,
-      password: true,
-      firstName: true,
-      lastName: true,
-      role: true,
-      isVerified: true,
-      kycStatus: true,
-      kycTier: true,
-    },
-  })
+  const sql = useDb()
+
+  const rows = await sql`SELECT id, email, password, "firstName", "lastName", role, "isVerified", "kycStatus", "kycTier" FROM users WHERE email = ${body.email} LIMIT 1`
+  const user = rows[0] ?? null
 
   // Use same error message for both "not found" and "wrong password" (prevent user enumeration)
   if (!user || !(await verifyPassword(body.password, user.password))) {
@@ -44,15 +34,12 @@ export default defineEventHandler(async (event) => {
     ? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000) // 30 days
     : new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)  // 7 days
 
-  await prisma.session.create({
-    data: {
-      userId: user.id,
-      refreshToken,
-      expiresAt: sessionExpiry,
-      userAgent: getHeader(event, 'user-agent'),
-      ipAddress: getRequestIP(event),
-    },
-  })
+  const sessionId = crypto.randomUUID()
+  const userAgent = getHeader(event, 'user-agent') ?? null
+  const ipAddress = getRequestIP(event) ?? null
+
+  await sql`INSERT INTO sessions (id, "userId", "refreshToken", "expiresAt", "userAgent", "ipAddress", "createdAt")
+            VALUES (${sessionId}, ${user.id}, ${refreshToken}, ${sessionExpiry.toISOString()}, ${userAgent}, ${ipAddress}, NOW())`
 
   const accessToken = signAccessToken({
     userId: user.id,

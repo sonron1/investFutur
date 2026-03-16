@@ -1,11 +1,12 @@
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 
 export default defineEventHandler(async (event) => {
   const refreshToken = getCookie(event, 'refresh_token')
 
   if (refreshToken) {
+    const sql = useDb()
     // Delete session from DB
-    await prisma.session.deleteMany({ where: { refreshToken } }).catch(() => {})
+    await sql`DELETE FROM sessions WHERE "refreshToken" = ${refreshToken}`.catch(() => {})
   }
 
   // Clear cookie

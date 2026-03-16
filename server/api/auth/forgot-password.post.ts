@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 import { generateSecureToken } from '../../utils/auth'
 import { sendPasswordResetEmail } from '../../utils/email'
 
@@ -10,24 +10,21 @@ const schema = z.object({
 export default defineEventHandler(async (event) => {
   const { email } = await readValidatedBody(event, schema.parse)
 
+  const sql = useDb()
+
   // Always return success (prevent user enumeration)
-  const user = await prisma.user.findUnique({ where: { email } })
+  const rows = await sql`SELECT id, email, "firstName" FROM users WHERE email = ${email} LIMIT 1`
+  const user = rows[0] ?? null
 
   if (user) {
     // Invalidate existing tokens
-    await prisma.passwordResetToken.updateMany({
-      where: { userId: user.id, used: false },
-      data: { used: true },
-    })
+    await sql`UPDATE password_reset_tokens SET used = true WHERE "userId" = ${user.id} AND used = false`
 
     const token = generateSecureToken()
-    await prisma.passwordResetToken.create({
-      data: {
-        userId: user.id,
-        token,
-        expiresAt: new Date(Date.now() + 60 * 60 * 1000), // 1 hour
-      },
-    })
+    const expiresAt = new Date(Date.now() + 60 * 60 * 1000) // 1 hour
+
+    await sql`INSERT INTO password_reset_tokens (id, "userId", token, "expiresAt", used, "createdAt")
+              VALUES (${crypto.randomUUID()}, ${user.id}, ${token}, ${expiresAt.toISOString()}, false, NOW())`
 
     sendPasswordResetEmail(user.email, user.firstName, token).catch(console.error)
   }

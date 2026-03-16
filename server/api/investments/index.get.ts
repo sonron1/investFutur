@@ -1,5 +1,5 @@
 import { requireAuth } from '../../utils/guards'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 
 export default defineEventHandler(async (event) => {
   const user = requireAuth(event)
@@ -10,26 +10,36 @@ export default defineEventHandler(async (event) => {
   const limit = Math.min(50, parseInt(query.limit as string) || 20)
   const skip = (page - 1) * limit
 
-  const where = {
-    userId: user.id,
-    ...(status && status !== 'all' ? { status: status.toUpperCase() as any } : {}),
-  }
+  const sql = useDb()
 
-  const [investments, total] = await prisma.$transaction([
-    prisma.investment.findMany({
-      where,
-      orderBy: { createdAt: 'desc' },
-      skip,
-      take: limit,
-      include: {
-        transactions: {
-          where: { status: 'CONFIRMED' },
-          select: { amount: true, type: true, createdAt: true },
-        },
-      },
-    }),
-    prisma.investment.count({ where }),
-  ])
+  const hasStatusFilter = status && status !== 'all'
+  const statusValue = hasStatusFilter ? status!.toUpperCase() : null
+
+  const investments = hasStatusFilter
+    ? await sql`
+        SELECT i.*, (
+          SELECT json_agg(t) FROM transactions t
+          WHERE t."investmentId" = i.id AND t.status = 'CONFIRMED'
+        ) as transactions
+        FROM investments i
+        WHERE i."userId" = ${user.id} AND i.status = ${statusValue}
+        ORDER BY i."createdAt" DESC
+        LIMIT ${limit} OFFSET ${skip}`
+    : await sql`
+        SELECT i.*, (
+          SELECT json_agg(t) FROM transactions t
+          WHERE t."investmentId" = i.id AND t.status = 'CONFIRMED'
+        ) as transactions
+        FROM investments i
+        WHERE i."userId" = ${user.id}
+        ORDER BY i."createdAt" DESC
+        LIMIT ${limit} OFFSET ${skip}`
+
+  const countRows = hasStatusFilter
+    ? await sql`SELECT COUNT(*) as count FROM investments WHERE "userId" = ${user.id} AND status = ${statusValue}`
+    : await sql`SELECT COUNT(*) as count FROM investments WHERE "userId" = ${user.id}`
+
+  const total = Number(countRows[0]?.count ?? 0)
 
   return {
     data: investments,

@@ -1,11 +1,14 @@
 import { requireAuth } from '../../utils/guards'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 
 export default defineEventHandler(async (event) => {
   const user = requireAuth(event)
   const id = getRouterParam(event, 'id')
 
-  const investment = await prisma.investment.findUnique({ where: { id } })
+  const sql = useDb()
+
+  const rows = await sql`SELECT id, "userId", status FROM investments WHERE id = ${id} LIMIT 1`
+  const investment = rows[0] ?? null
 
   if (!investment) {
     throw createError({ statusCode: 404, message: 'Investissement introuvable' })
@@ -19,10 +22,7 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: 'Impossible d\'annuler un investissement actif ou terminé' })
   }
 
-  await prisma.investment.update({
-    where: { id },
-    data: { status: 'CANCELLED' },
-  })
+  await sql`UPDATE investments SET status = 'CANCELLED', "updatedAt" = NOW() WHERE id = ${id}`
 
   return { data: { message: 'Investissement annulé' } }
 })

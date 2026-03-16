@@ -1,5 +1,5 @@
 import { verifyAccessToken, getTokenFromEvent } from '../utils/auth'
-import { prisma } from '../utils/db'
+import { useDb } from '../utils/db'
 
 // This middleware runs on every request matching /api/auth/me, /api/investments/**, /api/admin/**
 // Routes that need auth should call requireAuth() from their handler instead
@@ -11,19 +11,9 @@ export default defineEventHandler(async (event) => {
 
   try {
     const payload = verifyAccessToken(token)
-    const user = await prisma.user.findUnique({
-      where: { id: payload.userId },
-      select: {
-        id: true,
-        email: true,
-        firstName: true,
-        lastName: true,
-        role: true,
-        isVerified: true,
-        kycStatus: true,
-        kycTier: true,
-      },
-    })
+    const sql = useDb()
+    const rows = await sql`SELECT id, email, "firstName", "lastName", role, "isVerified", "kycStatus", "kycTier" FROM users WHERE id = ${payload.userId} LIMIT 1`
+    const user = rows[0] ?? null
     if (user) {
       event.context.user = user
     }

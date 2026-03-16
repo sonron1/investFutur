@@ -1,5 +1,5 @@
 import { z } from 'zod'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 import { hashPassword, validatePasswordStrength } from '../../utils/auth'
 
 const schema = z.object({
@@ -15,22 +15,26 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 400, message: strength.message })
   }
 
-  const resetToken = await prisma.passwordResetToken.findUnique({
-    where: { token },
-    include: { user: true },
-  })
+  const sql = useDb()
 
-  if (!resetToken || resetToken.used || resetToken.expiresAt < new Date()) {
+  const rows = await sql`
+    SELECT prt.id, prt."userId", prt.used, prt."expiresAt"
+    FROM password_reset_tokens prt
+    WHERE token = ${token}
+    LIMIT 1`
+
+  const resetToken = rows[0] ?? null
+
+  if (!resetToken || resetToken.used || new Date(resetToken.expiresAt) < new Date()) {
     throw createError({ statusCode: 400, message: 'Token invalide ou expiré' })
   }
 
   const hashedPassword = await hashPassword(password)
 
-  await prisma.$transaction([
-    prisma.user.update({ where: { id: resetToken.userId }, data: { password: hashedPassword } }),
-    prisma.passwordResetToken.update({ where: { id: resetToken.id }, data: { used: true } }),
-    // Revoke all sessions (force re-login everywhere)
-    prisma.session.deleteMany({ where: { userId: resetToken.userId } }),
+  await sql.transaction([
+    sql`UPDATE users SET password = ${hashedPassword}, "updatedAt" = NOW() WHERE id = ${resetToken.userId}`,
+    sql`UPDATE password_reset_tokens SET used = true WHERE id = ${resetToken.id}`,
+    sql`DELETE FROM sessions WHERE "userId" = ${resetToken.userId}`,
   ])
 
   return { data: { message: 'Mot de passe réinitialisé avec succès. Vous pouvez maintenant vous connecter.' } }

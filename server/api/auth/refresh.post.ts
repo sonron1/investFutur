@@ -1,4 +1,4 @@
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 import { verifyRefreshToken, signAccessToken, signRefreshToken } from '../../utils/auth'
 
 export default defineEventHandler(async (event) => {
@@ -17,18 +17,20 @@ export default defineEventHandler(async (event) => {
     throw createError({ statusCode: 401, message: 'Refresh token invalide ou expiré' })
   }
 
+  const sql = useDb()
+
   // Check session exists in DB (revocation support)
-  const session = await prisma.session.findUnique({ where: { refreshToken } })
-  if (!session || session.expiresAt < new Date()) {
+  const sessionRows = await sql`SELECT id, "userId", "expiresAt" FROM sessions WHERE "refreshToken" = ${refreshToken} LIMIT 1`
+  const session = sessionRows[0] ?? null
+
+  if (!session || new Date(session.expiresAt) < new Date()) {
     deleteCookie(event, 'refresh_token', { path: '/' })
     throw createError({ statusCode: 401, message: 'Session expirée, veuillez vous reconnecter' })
   }
 
   // Load user
-  const user = await prisma.user.findUnique({
-    where: { id: payload.userId },
-    select: { id: true, email: true, role: true, isVerified: true },
-  })
+  const userRows = await sql`SELECT id, email, role, "isVerified" FROM users WHERE id = ${payload.userId} LIMIT 1`
+  const user = userRows[0] ?? null
 
   if (!user) {
     throw createError({ statusCode: 401, message: 'Utilisateur introuvable' })
@@ -36,13 +38,9 @@ export default defineEventHandler(async (event) => {
 
   // Rotate refresh token (security best practice)
   const newRefreshToken = signRefreshToken(user.id)
-  await prisma.session.update({
-    where: { id: session.id },
-    data: {
-      refreshToken: newRefreshToken,
-      expiresAt: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
-    },
-  })
+  const newExpiry = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+
+  await sql`UPDATE sessions SET "refreshToken" = ${newRefreshToken}, "expiresAt" = ${newExpiry.toISOString()} WHERE id = ${session.id}`
 
   setCookie(event, 'refresh_token', newRefreshToken, {
     httpOnly: true,

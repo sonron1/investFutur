@@ -1,39 +1,34 @@
 import { requireAdmin } from '../../utils/guards'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 
 export default defineEventHandler(async (event) => {
   requireAdmin(event)
 
-  const [
-    totalUsers,
-    pendingKyc,
-    totalInvestments,
-    activeInvestments,
-    recentUsers,
-  ] = await prisma.$transaction([
-    prisma.user.count(),
-    prisma.user.count({ where: { kycStatus: 'SUBMITTED' } }),
-    prisma.investment.count(),
-    prisma.investment.count({ where: { status: 'ACTIVE' } }),
-    prisma.user.findMany({
-      orderBy: { createdAt: 'desc' },
-      take: 5,
-      select: { id: true, firstName: true, lastName: true, email: true, kycStatus: true, createdAt: true },
-    }),
-  ])
+  const sql = useDb()
 
-  const totalInvestedResult = await prisma.investment.aggregate({
-    where: { status: { in: ['ACTIVE', 'COMPLETED'] } },
-    _sum: { amount: true },
-  })
+  const [
+    totalUsersRows,
+    pendingKycRows,
+    totalInvestmentsRows,
+    activeInvestmentsRows,
+    totalInvestedRows,
+    recentUsers,
+  ] = await Promise.all([
+    sql`SELECT COUNT(*) as count FROM users`,
+    sql`SELECT COUNT(*) as count FROM users WHERE "kycStatus" = 'SUBMITTED'`,
+    sql`SELECT COUNT(*) as count FROM investments`,
+    sql`SELECT COUNT(*) as count FROM investments WHERE status = 'ACTIVE'`,
+    sql`SELECT COALESCE(SUM(amount), 0) as total FROM investments WHERE status IN ('ACTIVE', 'COMPLETED')`,
+    sql`SELECT id, "firstName", "lastName", email, "kycStatus", "createdAt" FROM users ORDER BY "createdAt" DESC LIMIT 5`,
+  ])
 
   return {
     data: {
-      totalUsers,
-      pendingKyc,
-      totalInvestments,
-      activeInvestments,
-      totalInvested: totalInvestedResult._sum.amount ?? 0,
+      totalUsers: Number(totalUsersRows[0]?.count ?? 0),
+      pendingKyc: Number(pendingKycRows[0]?.count ?? 0),
+      totalInvestments: Number(totalInvestmentsRows[0]?.count ?? 0),
+      activeInvestments: Number(activeInvestmentsRows[0]?.count ?? 0),
+      totalInvested: Number(totalInvestedRows[0]?.total ?? 0),
       recentUsers,
     },
   }

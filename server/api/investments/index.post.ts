@@ -1,6 +1,6 @@
 import { z } from 'zod'
 import { requireVerified } from '../../utils/guards'
-import { prisma } from '../../utils/db'
+import { useDb } from '../../utils/db'
 import { sendInvestmentConfirmationEmail } from '../../utils/email'
 
 const schema = z.object({
@@ -25,41 +25,24 @@ export default defineEventHandler(async (event) => {
   const maturityDate = new Date()
   maturityDate.setMonth(maturityDate.getMonth() + body.durationMonths)
 
-  const investment = await prisma.$transaction(async (tx) => {
-    const investment = await tx.investment.create({
-      data: {
-        userId: user.id,
-        sectorId: body.sectorId,
-        projectId: body.projectId,
-        projectName: body.projectName,
-        amount: body.amount,
-        paymentMethod: body.paymentMethod,
-        status: 'PENDING',
-        expectedRoi: body.expectedRoi,
-        durationMonths: body.durationMonths,
-        maturityDate,
-      },
-    })
+  const sql = useDb()
 
-    await tx.transaction.create({
-      data: {
-        userId: user.id,
-        investmentId: investment.id,
-        type: 'INVESTMENT',
-        amount: body.amount,
-        status: 'PENDING',
-        metadata: { paymentMethod: body.paymentMethod },
-      },
-    })
+  const investmentId = crypto.randomUUID()
+  const transactionId = crypto.randomUUID()
 
-    return investment
-  })
+  const results = await sql.transaction([
+    sql`INSERT INTO investments (id, "userId", "sectorId", "projectId", "projectName", amount, currency, "paymentMethod", status, "expectedRoi", "durationMonths", "maturityDate", "createdAt", "updatedAt")
+        VALUES (${investmentId}, ${user.id}, ${body.sectorId}, ${body.projectId}, ${body.projectName}, ${body.amount}, 'EUR', ${body.paymentMethod}, 'PENDING', ${body.expectedRoi}, ${body.durationMonths}, ${maturityDate.toISOString()}, NOW(), NOW())
+        RETURNING *`,
+    sql`INSERT INTO transactions (id, "userId", "investmentId", type, amount, currency, status, metadata, "createdAt", "updatedAt")
+        VALUES (${transactionId}, ${user.id}, ${investmentId}, 'INVESTMENT', ${body.amount}, 'EUR', 'PENDING', ${JSON.stringify({ paymentMethod: body.paymentMethod })}, NOW(), NOW())`,
+  ])
+
+  const investment = results[0][0]
 
   // Send confirmation email (non-blocking)
-  const fullUser = await prisma.user.findUnique({
-    where: { id: user.id },
-    select: { email: true, firstName: true },
-  })
+  const userRows = await sql`SELECT email, "firstName" FROM users WHERE id = ${user.id} LIMIT 1`
+  const fullUser = userRows[0] ?? null
 
   if (fullUser) {
     sendInvestmentConfirmationEmail(fullUser.email, fullUser.firstName, {

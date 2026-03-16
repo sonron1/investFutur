@@ -60,12 +60,4 @@ export default defineNuxtConfig({
     },
   },
 
-  nitro: {
-    rollupConfig: {
-      external: ['@prisma/client', '.prisma/client', '@prisma/adapter-neon', '@neondatabase/serverless'],
-    },
-    externals: {
-      external: ['@prisma/client', '.prisma/client', '@prisma/adapter-neon', '@neondatabase/serverless'],
-    },
-  },
 })
