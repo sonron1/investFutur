@@ -19,9 +19,24 @@ function createPrismaClient(): PrismaClient {
   })
 }
 
-// Singleton — prevent multiple Prisma instances during hot reload in dev
-export const prisma = globalThis.__prisma ?? createPrismaClient()
+// Lazy getter — client is created on first access, not at module load time.
+// This prevents cold-start crashes on Vercel when env vars are injected after
+// the module is first imported.
+function getPrisma(): PrismaClient {
+  if (globalThis.__prisma) return globalThis.__prisma
 
-if (process.env.NODE_ENV !== 'production') {
-  globalThis.__prisma = prisma
+  const client = createPrismaClient()
+
+  if (process.env.NODE_ENV !== 'production') {
+    // Prevent multiple instances during hot reload in dev
+    globalThis.__prisma = client
+  }
+
+  return client
 }
+
+export const prisma = new Proxy({} as PrismaClient, {
+  get(_target, prop) {
+    return (getPrisma() as any)[prop]
+  },
+})

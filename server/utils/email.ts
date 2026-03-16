@@ -1,16 +1,29 @@
 import { Resend } from 'resend'
 
-const resend = new Resend(process.env.RESEND_API_KEY)
-const FROM = process.env.EMAIL_FROM ?? 'InvestFutur <noreply@investfutur.fr>'
-const APP_URL = process.env.APP_URL ?? 'http://localhost:3000'
+// Lazy getter — Resend is instantiated on first use, not at module load time.
+// This prevents cold-start crashes on Vercel when RESEND_API_KEY is injected
+// after the module is first imported.
+function getResend(): Resend {
+  const key = process.env.RESEND_API_KEY
+  if (!key) throw new Error('RESEND_API_KEY is not set')
+  return new Resend(key)
+}
+
+function getFrom(): string {
+  return process.env.EMAIL_FROM ?? 'InvestFutur <noreply@investfutur.fr>'
+}
+
+function getAppUrl(): string {
+  return process.env.APP_URL ?? 'http://localhost:3000'
+}
 
 // ─── Email verification ───────────────────────────────────────────────────────
 
 export async function sendVerificationEmail(to: string, firstName: string, token: string) {
-  const verifyUrl = `${APP_URL}/auth/verify-email?token=${token}`
+  const verifyUrl = `${getAppUrl()}/auth/verify-email?token=${token}`
 
-  return resend.emails.send({
-    from: FROM,
+  return getResend().emails.send({
+    from: getFrom(),
     to,
     subject: 'Vérifiez votre adresse email — InvestFutur',
     html: `
@@ -53,10 +66,10 @@ export async function sendVerificationEmail(to: string, firstName: string, token
 // ─── Password reset ───────────────────────────────────────────────────────────
 
 export async function sendPasswordResetEmail(to: string, firstName: string, token: string) {
-  const resetUrl = `${APP_URL}/auth/reset-password?token=${token}`
+  const resetUrl = `${getAppUrl()}/auth/reset-password?token=${token}`
 
-  return resend.emails.send({
-    from: FROM,
+  return getResend().emails.send({
+    from: getFrom(),
     to,
     subject: 'Réinitialisation de votre mot de passe — InvestFutur',
     html: `
@@ -96,8 +109,8 @@ export async function sendPasswordResetEmail(to: string, firstName: string, toke
 // ─── Welcome email (after KYC approved) ──────────────────────────────────────
 
 export async function sendWelcomeEmail(to: string, firstName: string) {
-  return resend.emails.send({
-    from: FROM,
+  return getResend().emails.send({
+    from: getFrom(),
     to,
     subject: 'Bienvenue sur InvestFutur — Votre compte est activé !',
     html: `
@@ -116,7 +129,7 @@ export async function sendWelcomeEmail(to: string, firstName: string) {
               Vous pouvez dès maintenant explorer nos opportunités d'investissement et commencer à faire fructifier votre capital.
             </p>
             <div style="text-align: center; margin: 32px 0;">
-              <a href="${APP_URL}/dashboard" style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 16px; display: inline-block;">
+              <a href="${getAppUrl()}/dashboard" style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 16px; display: inline-block;">
                 Accéder à mon tableau de bord
               </a>
             </div>
@@ -141,8 +154,8 @@ export async function sendInvestmentConfirmationEmail(
     maturityDate: Date
   }
 ) {
-  return resend.emails.send({
-    from: FROM,
+  return getResend().emails.send({
+    from: getFrom(),
     to,
     subject: `Confirmation d'investissement — ${investment.projectName}`,
     html: `
@@ -166,7 +179,7 @@ export async function sendInvestmentConfirmationEmail(
               </table>
             </div>
             <div style="text-align: center;">
-              <a href="${APP_URL}/investments" style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 16px; display: inline-block;">
+              <a href="${getAppUrl()}/investments" style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; text-decoration: none; padding: 16px 40px; border-radius: 8px; font-weight: 600; font-size: 16px; display: inline-block;">
                 Voir mon portefeuille
               </a>
             </div>
