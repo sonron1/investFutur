@@ -61,9 +61,15 @@ export default defineNuxtConfig({
   },
 
   nitro: {
-    // Vercel serverless — bundle Prisma client correctly
+    // Tell Rollup to NOT bundle Prisma — let Node.js resolve it at runtime.
+    // Rollup cannot handle package names starting with '.' like '.prisma/client/default'.
+    rollupConfig: {
+      external: ['@prisma/client', '.prisma/client'],
+    },
+    // Ensure Prisma binary is included in the Vercel serverless output
     externals: {
-      inline: ['@prisma/client', '.prisma/client'],
+      external: ['@prisma/client', '.prisma/client'],
+      traceInclude: ['./node_modules/.prisma/client/libquery_engine-rhel-openssl-3.0.x.so.node'],
     },
   },
 })
