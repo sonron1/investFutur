@@ -1,11 +1,11 @@
-import { PrismaClient } from '../../app/generated/prisma'
+import { PrismaClient } from '@prisma/client'
 
 declare global {
   // eslint-disable-next-line no-var
   var __prisma: PrismaClient | undefined
 }
 
-// Singleton pattern — prevent multiple Prisma instances in dev (hot reload)
+// Singleton — prevent multiple Prisma instances during hot reload in dev
 export const prisma = globalThis.__prisma ?? new PrismaClient({
   log: process.env.NODE_ENV === 'development' ? ['error', 'warn'] : ['error'],
 })
