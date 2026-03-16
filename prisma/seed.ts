@@ -6,8 +6,17 @@ const prisma = new PrismaClient()
 async function main() {
   console.log('🌱 Seeding database...')
 
-  // Create admin user
-  const adminPassword = await bcrypt.hash('***REDACTED***', 12)
+  const adminPass = process.env.SEED_ADMIN_PASSWORD
+  const demoPass  = process.env.SEED_DEMO_PASSWORD
+
+  if (!adminPass || !demoPass) {
+    throw new Error(
+      'SEED_ADMIN_PASSWORD and SEED_DEMO_PASSWORD must be set in .env before running seed.\n' +
+      'Example: SEED_ADMIN_PASSWORD="..." SEED_DEMO_PASSWORD="..." npm run db:seed'
+    )
+  }
+
+  const adminPassword = await bcrypt.hash(adminPass, 12)
   const admin = await prisma.user.upsert({
     where: { email: 'admin@investfutur.fr' },
     update: {},
@@ -24,8 +33,7 @@ async function main() {
   })
   console.log('✅ Admin created:', admin.email)
 
-  // Create demo user
-  const demoPassword = await bcrypt.hash('***REDACTED***', 12)
+  const demoPassword = await bcrypt.hash(demoPass, 12)
   const demo = await prisma.user.upsert({
     where: { email: 'demo@investfutur.fr' },
     update: {},
@@ -44,7 +52,6 @@ async function main() {
   })
   console.log('✅ Demo user created:', demo.email)
 
-  // Seed demo investments
   const investments = await prisma.investment.createMany({
     skipDuplicates: true,
     data: [
@@ -76,11 +83,7 @@ async function main() {
   })
   console.log('✅ Demo investments created:', investments.count)
 
-  console.log('\n🎉 Seed complete!')
-  console.log('─────────────────────────────────────')
-  console.log('Admin:     admin@investfutur.fr / ***REDACTED***')
-  console.log('Demo user: demo@investfutur.fr  / ***REDACTED***')
-  console.log('─────────────────────────────────────')
+  console.log('\n🎉 Seed complete! Check your .env for the credentials.')
 }
 
 main()
