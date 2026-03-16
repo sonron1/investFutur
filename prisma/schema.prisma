@@ -1,0 +1,186 @@
+generator client {
+  provider = "prisma-client-js"
+  output   = "../app/generated/prisma"
+}
+
+datasource db {
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
+}
+
+// ─── Enums ────────────────────────────────────────────────────────────────────
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum KYCStatus {
+  PENDING
+  SUBMITTED
+  APPROVED
+  REJECTED
+}
+
+enum InvestmentStatus {
+  PENDING
+  ACTIVE
+  COMPLETED
+  CANCELLED
+}
+
+enum TransactionType {
+  DEPOSIT
+  INVESTMENT
+  RETURN
+  WITHDRAWAL
+}
+
+enum TransactionStatus {
+  PENDING
+  CONFIRMED
+  FAILED
+  REFUNDED
+}
+
+// ─── Models ───────────────────────────────────────────────────────────────────
+
+model User {
+  id         String    @id @default(cuid())
+  email      String    @unique
+  password   String
+  firstName  String
+  lastName   String
+  phone      String?
+  country    String?
+  address    String?
+  role       Role      @default(USER)
+  isVerified Boolean   @default(false)
+  kycStatus  KYCStatus @default(PENDING)
+  kycTier    Int       @default(0)
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  sessions            Session[]
+  investments         Investment[]
+  transactions        Transaction[]
+  kycDocuments        KYCDocument[]
+  passwordResetTokens PasswordResetToken[]
+  emailVerifications  EmailVerification[]
+  gdprConsents        GdprConsent[]
+
+  @@map("users")
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  userId       String
+  refreshToken String   @unique
+  userAgent    String?
+  ipAddress    String?
+  expiresAt    DateTime
+  createdAt    DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("sessions")
+}
+
+model EmailVerification {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("email_verifications")
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  userId    String
+  token     String   @unique
+  expiresAt DateTime
+  used      Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("password_reset_tokens")
+}
+
+model Investment {
+  id             String           @id @default(cuid())
+  userId         String
+  sectorId       String
+  projectId      String
+  projectName    String
+  amount         Float
+  currency       String           @default("EUR")
+  paymentMethod  String
+  status         InvestmentStatus @default(PENDING)
+  expectedRoi    Float
+  durationMonths Int              @default(12)
+  maturityDate   DateTime?
+  createdAt      DateTime         @default(now())
+  updatedAt      DateTime         @updatedAt
+
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  transactions Transaction[]
+
+  @@map("investments")
+}
+
+model Transaction {
+  id             String            @id @default(cuid())
+  userId         String
+  investmentId   String?
+  type           TransactionType
+  amount         Float
+  currency       String            @default("EUR")
+  cryptoAmount   Float?
+  cryptoCurrency String?
+  txHash         String?
+  status         TransactionStatus @default(PENDING)
+  metadata       Json?
+  createdAt      DateTime          @default(now())
+  updatedAt      DateTime          @updatedAt
+
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  investment Investment? @relation(fields: [investmentId], references: [id])
+
+  @@map("transactions")
+}
+
+model KYCDocument {
+  id        String    @id @default(cuid())
+  userId    String
+  type      String
+  fileName  String
+  fileUrl   String
+  status    KYCStatus @default(PENDING)
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("kyc_documents")
+}
+
+model GdprConsent {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String
+  granted   Boolean
+  ipAddress String?
+  userAgent String?
+  createdAt DateTime @default(now())
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("gdpr_consents")
+}
