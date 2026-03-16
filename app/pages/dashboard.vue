@@ -187,7 +187,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '~/stores/auth'
-import { useUserInvestmentsStore } from '~/stores/user-investments'
+import { useInvestmentStore } from '~/stores/user-investments'
 import { useInvestmentData } from '~/composables/useInvestmentData'
 
 useSeoMeta({
@@ -196,7 +196,7 @@ useSeoMeta({
 })
 
 const authStore = useAuthStore()
-const userInvestments = useUserInvestmentsStore()
+const userInvestments = useInvestmentStore()
 const { getSectors } = useInvestmentData()
 
 const isNewUser = ref(false)

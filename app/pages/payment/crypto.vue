@@ -73,7 +73,7 @@
 import { computed, ref } from 'vue'
 import { useRoute, navigateTo } from '#imports'
 import { useInvestmentData } from '~/composables/useInvestmentData'
-import { useUserInvestmentsStore } from '~/stores/user-investments'
+import { useInvestmentStore } from '~/stores/user-investments'
 
 useSeoMeta({
   title: 'Paiement crypto - InvestFuture',
@@ -82,7 +82,7 @@ useSeoMeta({
 
 const route = useRoute()
 const { getSectorById } = useInvestmentData()
-const userInvestments = useUserInvestmentsStore()
+const userInvestments = useInvestmentStore()
 
 const amount = Number(route.query.amount || 0)
 const method = String(route.query.method || '').toLowerCase()

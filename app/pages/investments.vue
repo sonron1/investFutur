@@ -288,7 +288,7 @@
 <script setup>
 import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '~/stores/auth'
-import { useUserInvestmentsStore } from '~/stores/user-investments'
+import { useInvestmentStore } from '~/stores/user-investments'
 
 useSeoMeta({
   title: 'Mes Investissements - InvestFuture',
@@ -296,7 +296,7 @@ useSeoMeta({
 })
 
 const authStore = useAuthStore()
-const userInvestments = useUserInvestmentsStore()
+const userInvestments = useInvestmentStore()
 const selectedProject = ref(null)
 
 // Filtres réactifs
