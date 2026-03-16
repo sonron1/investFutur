@@ -1,23 +1,23 @@
 
 <template>
-  <div class="min-h-screen bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50">
-    <!-- Navigation minimaliste -->
-    <nav class="bg-white shadow-sm border-b">
+  <div class="min-h-screen bg-slate-50">
+    <!-- Navigation -->
+    <nav class="bg-white/95 backdrop-blur-sm border-b border-slate-100 sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between items-center h-16">
-          <NuxtLink to="/" class="flex items-center space-x-3 group">
-            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-lg flex items-center justify-center group-hover:scale-110 transition-transform">
+          <NuxtLink to="/" class="flex items-center space-x-2.5 group">
+            <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center shadow-sm">
               <i class="fas fa-chart-line text-white text-sm"></i>
             </div>
-            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-              InvestFuture
+            <span class="text-xl font-bold bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">
+              InvestFutur
             </span>
           </NuxtLink>
           <NuxtLink
               to="/"
-              class="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-blue-600 transition-colors"
+              class="flex items-center space-x-2 px-4 py-2 text-slate-500 hover:text-blue-600 transition-colors text-sm font-medium"
           >
-            <i class="fas fa-arrow-left"></i>
+            <i class="fas fa-arrow-left text-xs"></i>
             <span>Retour à l'accueil</span>
           </NuxtLink>
         </div>
@@ -28,48 +28,48 @@
     <div class="py-8 px-4 sm:px-6 lg:px-8">
       <div class="max-w-4xl mx-auto">
         <!-- Étape initiale d'inscription -->
-        <div v-show="currentStep === 'initial'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-          <div class="text-center mb-8">
-            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-              <i class="fas fa-user-plus text-white text-2xl"></i>
+        <div v-show="currentStep === 'initial'" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
+          <div class="text-center mb-7">
+            <div class="w-14 h-14 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+              <i class="fas fa-user-plus text-white text-xl"></i>
             </div>
-            <h2 class="text-3xl font-bold text-gray-900 mb-2">Créer un compte</h2>
-            <p class="text-gray-600">Rejoignez +2 500 investisseurs</p>
+            <h2 class="text-2xl font-bold text-slate-900 mb-1.5">Créer un compte</h2>
+            <p class="text-slate-500 text-sm">Rejoignez +2 500 investisseurs</p>
 
-            <!-- Statistiques motivantes -->
-            <div class="mt-6 flex items-center justify-center space-x-8 text-sm">
-              <div class="flex items-center text-blue-600">
-                <i class="fas fa-users mr-2"></i>
-                <span>2,500+ investisseurs</span>
+            <!-- Stats -->
+            <div class="mt-5 flex items-center justify-center gap-5 text-xs">
+              <div class="flex items-center text-blue-600 font-medium">
+                <i class="fas fa-users mr-1.5"></i>
+                <span>2 500+ investisseurs</span>
               </div>
-              <div class="flex items-center text-green-600">
-                <i class="fas fa-chart-line mr-2"></i>
+              <div class="flex items-center text-emerald-600 font-medium">
+                <i class="fas fa-chart-line mr-1.5"></i>
                 <span>ROI 22.3%</span>
               </div>
-              <div class="flex items-center text-purple-600">
-                <i class="fas fa-shield-alt mr-2"></i>
+              <div class="flex items-center text-indigo-600 font-medium">
+                <i class="fas fa-shield-alt mr-1.5"></i>
                 <span>100% sécurisé</span>
               </div>
             </div>
           </div>
 
-          <!-- Alerts améliorées -->
+          <!-- Alerts -->
           <Transition name="alert" appear>
-            <div v-if="errorMessage" class="mb-6 p-4 bg-red-50 border border-red-200 text-red-800 rounded-xl flex items-start">
-              <i class="fas fa-exclamation-circle text-red-500 mr-3 mt-0.5 flex-shrink-0"></i>
+            <div v-if="errorMessage" class="mb-5 p-3.5 bg-red-50 border border-red-100 text-red-700 rounded-lg flex items-start text-sm">
+              <i class="fas fa-exclamation-circle text-red-400 mr-2.5 mt-0.5 flex-shrink-0"></i>
               <div>
-                <div class="font-medium">Erreur lors de l'inscription</div>
-                <div class="text-sm mt-1">{{ errorMessage }}</div>
+                <div class="font-semibold">Erreur lors de l'inscription</div>
+                <div class="mt-0.5">{{ errorMessage }}</div>
               </div>
             </div>
           </Transition>
 
           <Transition name="alert" appear>
-            <div v-if="successMessage" class="mb-6 p-4 bg-green-50 border border-green-200 text-green-800 rounded-xl flex items-start">
-              <i class="fas fa-check-circle text-green-500 mr-3 mt-0.5 flex-shrink-0"></i>
+            <div v-if="successMessage" class="mb-5 p-3.5 bg-emerald-50 border border-emerald-100 text-emerald-700 rounded-lg flex items-start text-sm">
+              <i class="fas fa-check-circle text-emerald-400 mr-2.5 mt-0.5 flex-shrink-0"></i>
               <div>
-                <div class="font-medium">Parfait !</div>
-                <div class="text-sm mt-1">{{ successMessage }}</div>
+                <div class="font-semibold">Parfait !</div>
+                <div class="mt-0.5">{{ successMessage }}</div>
               </div>
             </div>
           </Transition>
@@ -77,7 +77,7 @@
           <form @submit.prevent="handleRegister" class="space-y-6">
             <div class="grid md:grid-cols-2 gap-6">
               <div>
-                <label for="registerEmail" class="block text-sm font-semibold text-gray-700 mb-2">
+                <label for="registerEmail" class="block text-sm font-medium text-slate-700 mb-1.5">
                   <i class="fas fa-envelope text-blue-500 mr-2"></i>
                   Email *
                 </label>
@@ -101,7 +101,7 @@
               </div>
 
               <div>
-                <label for="registerPassword" class="block text-sm font-semibold text-gray-700 mb-2">
+                <label for="registerPassword" class="block text-sm font-medium text-slate-700 mb-1.5">
                   <i class="fas fa-lock text-purple-500 mr-2"></i>
                   Mot de passe *
                 </label>
@@ -150,7 +150,7 @@
             </div>
 
             <div>
-              <label for="confirmPassword" class="block text-sm font-semibold text-gray-700 mb-2">
+              <label for="confirmPassword" class="block text-sm font-medium text-slate-700 mb-1.5">
                 <i class="fas fa-check-double text-green-500 mr-2"></i>
                 Confirmation du mot de passe *
               </label>
@@ -248,9 +248,9 @@
         </div>
 
         <!-- Sélection du type de personne -->
-        <div v-show="currentStep === 'personType'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div v-show="currentStep === 'personType'" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
           <div class="text-center mb-8">
-            <h3 class="text-2xl font-bold text-gray-900 mb-4">Vous souhaitez investir en tant que :</h3>
+            <h3 class="text-2xl font-bold text-slate-900 mb-3">Vous souhaitez investir en tant que :</h3>
           </div>
 
           <div class="grid md:grid-cols-2 gap-6 mb-8">
@@ -299,7 +299,7 @@
             <button
                 type="button"
                 @click="backToInitial"
-                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-lg font-medium transition-all text-sm"
             >
               <i class="fas fa-arrow-left mr-2"></i>
               Précédent
@@ -308,7 +308,7 @@
                 type="button"
                 @click="continueToStep1"
                 :disabled="!form.personType"
-                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
+                class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all text-sm"
             >
               Continuer
               <i class="fas fa-arrow-right ml-2"></i>
@@ -318,18 +318,18 @@
 
         <!-- Étape 1/5 - Informations spécifiques selon le type de personne -->
         <!-- Personne physique -->
-        <div v-show="currentStep === 'step1' && form.personType === 'physique'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div v-show="currentStep === 'step1' && form.personType === 'physique'" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
           <div class="mb-8">
             <!-- Barre de progression -->
-            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" style="width: 20%"></div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mb-5">
+              <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-1.5 rounded-full transition-all duration-300" style="width: 20%"></div>
             </div>
 
             <div class="text-center">
-              <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+              <span class="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
                 Étape 1/5 - Informations personnelles
               </span>
-              <h4 class="text-2xl font-bold text-gray-900 mb-4">Vos informations personnelles</h4>
+              <h4 class="text-2xl font-bold text-slate-900 mb-3">Vos informations personnelles</h4>
 
               <div class="bg-blue-50 border border-blue-200 rounded-xl p-4 text-sm text-blue-800">
                 <i class="fas fa-info-circle mr-2"></i>
@@ -341,7 +341,7 @@
 
           <div class="space-y-6">
             <div>
-              <h6 class="text-lg font-semibold text-gray-900 mb-4">Quelle est votre identité ?</h6>
+              <h6 class="text-lg font-semibold text-slate-900 mb-3">Quelle est votre identité ?</h6>
 
               <!-- Civilité -->
               <div class="mb-6">
@@ -383,28 +383,28 @@
               <!-- Noms avec validation -->
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="prenom" class="block text-sm font-semibold text-gray-700 mb-2">Prénom *</label>
+                  <label for="prenom" class="block text-sm font-medium text-slate-700 mb-1.5">Prénom *</label>
                   <input
                       type="text"
                       id="prenom"
                       v-model="form.prenom"
                       required
                       minlength="2"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                       :class="{ 'border-red-300 bg-red-50': prenomError }"
                       @blur="validatePrenom"
                   >
                   <div v-if="prenomError" class="mt-1 text-red-600 text-sm">{{ prenomError }}</div>
                 </div>
                 <div>
-                  <label for="nomNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Nom de naissance *</label>
+                  <label for="nomNaissance" class="block text-sm font-medium text-slate-700 mb-1.5">Nom de naissance *</label>
                   <input
                       type="text"
                       id="nomNaissance"
                       v-model="form.nomNaissance"
                       required
                       minlength="2"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                       :class="{ 'border-red-300 bg-red-50': nomNaissanceError }"
                       @blur="validateNomNaissance"
                   >
@@ -413,25 +413,25 @@
               </div>
 
               <div>
-                <label for="nomUsage" class="block text-sm font-semibold text-gray-700 mb-2">
+                <label for="nomUsage" class="block text-sm font-medium text-slate-700 mb-1.5">
                   Nom d'usage <span class="text-gray-500 font-normal">(Optionnel)</span>
                 </label>
                 <input
                     type="text"
                     id="nomUsage"
                     v-model="form.nomUsage"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                 >
               </div>
 
               <div>
-                <label for="telephone" class="block text-sm font-semibold text-gray-700 mb-2">Téléphone *</label>
+                <label for="telephone" class="block text-sm font-medium text-slate-700 mb-1.5">Téléphone *</label>
                 <input
                     type="tel"
                     id="telephone"
                     v-model="form.telephone"
                     required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                     :class="{ 'border-red-300 bg-red-50': telephoneError }"
                     @blur="validateTelephone"
                 >
@@ -441,22 +441,22 @@
               <!-- Informations complémentaires personne physique -->
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="profession" class="block text-sm font-semibold text-gray-700 mb-2">Profession *</label>
+                  <label for="profession" class="block text-sm font-medium text-slate-700 mb-1.5">Profession *</label>
                   <input
                       type="text"
                       id="profession"
                       v-model="form.profession"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
                 <div>
-                  <label for="situationFamiliale" class="block text-sm font-semibold text-gray-700 mb-2">Situation familiale *</label>
+                  <label for="situationFamiliale" class="block text-sm font-medium text-slate-700 mb-1.5">Situation familiale *</label>
                   <select
                       id="situationFamiliale"
                       v-model="form.situationFamiliale"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionner</option>
                     <option value="celibataire">Célibataire</option>
@@ -470,12 +470,12 @@
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="revenusAnnuels" class="block text-sm font-semibold text-gray-700 mb-2">Revenus annuels *</label>
+                  <label for="revenusAnnuels" class="block text-sm font-medium text-slate-700 mb-1.5">Revenus annuels *</label>
                   <select
                       id="revenusAnnuels"
                       v-model="form.revenusAnnuels"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionner une tranche</option>
                     <option value="moins-30k">Moins de 30 000€</option>
@@ -486,12 +486,12 @@
                   </select>
                 </div>
                 <div>
-                  <label for="experienceInvestissement" class="block text-sm font-semibold text-gray-700 mb-2">Expérience d'investissement *</label>
+                  <label for="experienceInvestissement" class="block text-sm font-medium text-slate-700 mb-1.5">Expérience d'investissement *</label>
                   <select
                       id="experienceInvestissement"
                       v-model="form.experienceInvestissement"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionner</option>
                     <option value="debutant">Débutant</option>
@@ -503,30 +503,30 @@
             </div>
 
             <div>
-              <h6 class="text-lg font-semibold text-gray-900 mb-4">Où êtes-vous né·e ?</h6>
+              <h6 class="text-lg font-semibold text-slate-900 mb-3">Où êtes-vous né·e ?</h6>
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="dateNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Date de naissance *</label>
+                  <label for="dateNaissance" class="block text-sm font-medium text-slate-700 mb-1.5">Date de naissance *</label>
                   <input
                       type="date"
                       id="dateNaissance"
                       v-model="form.dateNaissance"
                       required
                       :max="maxDate"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                       :class="{ 'border-red-300 bg-red-50': dateNaissanceError }"
                       @blur="validateDateNaissance"
                   >
                   <div v-if="dateNaissanceError" class="mt-1 text-red-600 text-sm">{{ dateNaissanceError }}</div>
                 </div>
                 <div>
-                  <label for="paysNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Pays de naissance *</label>
+                  <label for="paysNaissance" class="block text-sm font-medium text-slate-700 mb-1.5">Pays de naissance *</label>
                   <select
                       id="paysNaissance"
                       v-model="form.paysNaissance"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionnez un pays</option>
                     <option
@@ -542,12 +542,12 @@
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="nationalite" class="block text-sm font-semibold text-gray-700 mb-2">Nationalité *</label>
+                  <label for="nationalite" class="block text-sm font-medium text-slate-700 mb-1.5">Nationalité *</label>
                   <select
                       id="nationalite"
                       v-model="form.nationalite"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionnez une nationalité</option>
                     <option
@@ -560,35 +560,35 @@
                   </select>
                 </div>
                 <div>
-                  <label for="villeNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Ville de naissance *</label>
+                  <label for="villeNaissance" class="block text-sm font-medium text-slate-700 mb-1.5">Ville de naissance *</label>
                   <input
                       type="text"
                       id="villeNaissance"
                       v-model="form.villeNaissance"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
               </div>
 
               <div>
-                <label for="codePostalNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Code postal de naissance *</label>
+                <label for="codePostalNaissance" class="block text-sm font-medium text-slate-700 mb-1.5">Code postal de naissance *</label>
                 <input
                     type="text"
                     id="codePostalNaissance"
                     v-model="form.codePostalNaissance"
                     required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                 >
               </div>
             </div>
           </div>
 
-          <div class="flex justify-between mt-8">
+          <div class="flex justify-between mt-6 pt-5 border-t border-slate-100">
             <button
                 type="button"
                 @click="backToPersonType"
-                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-lg font-medium transition-all text-sm"
             >
               <i class="fas fa-arrow-left mr-2"></i>
               Précédent
@@ -597,7 +597,7 @@
                 type="button"
                 @click="continueToStep2"
                 :disabled="!isStep1PhysiqueValid"
-                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
+                class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all text-sm"
             >
               Continuer
               <i class="fas fa-arrow-right ml-2"></i>
@@ -606,44 +606,44 @@
         </div>
 
         <!-- Personne morale -->
-        <div v-show="currentStep === 'step1' && form.personType === 'morale'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div v-show="currentStep === 'step1' && form.personType === 'morale'" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
           <div class="mb-8">
             <!-- Barre de progression -->
-            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" style="width: 25%"></div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mb-5">
+              <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-1.5 rounded-full transition-all duration-300" style="width: 25%"></div>
             </div>
 
             <div class="text-center">
-              <span class="inline-block bg-purple-100 text-purple-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+              <span class="inline-block bg-indigo-50 text-indigo-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
                 Étape 1/4 - Informations entreprise
               </span>
-              <h4 class="text-2xl font-bold text-gray-900 mb-4">Informations sur votre entreprise</h4>
+              <h4 class="text-2xl font-bold text-slate-900 mb-3">Informations sur votre entreprise</h4>
             </div>
           </div>
 
           <div class="space-y-6">
             <!-- Informations légales de l'entreprise -->
             <div>
-              <h6 class="text-lg font-semibold text-gray-900 mb-4">Informations légales</h6>
+              <h6 class="text-lg font-semibold text-slate-900 mb-3">Informations légales</h6>
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="raisonSociale" class="block text-sm font-semibold text-gray-700 mb-2">Raison sociale *</label>
+                  <label for="raisonSociale" class="block text-sm font-medium text-slate-700 mb-1.5">Raison sociale *</label>
                   <input
                       type="text"
                       id="raisonSociale"
                       v-model="form.raisonSociale"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
                 <div>
-                  <label for="formeJuridique" class="block text-sm font-semibold text-gray-700 mb-2">Forme juridique *</label>
+                  <label for="formeJuridique" class="block text-sm font-medium text-slate-700 mb-1.5">Forme juridique *</label>
                   <select
                       id="formeJuridique"
                       v-model="form.formeJuridique"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionner</option>
                     <option value="SARL">SARL</option>
@@ -659,7 +659,7 @@
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="siret" class="block text-sm font-semibold text-gray-700 mb-2">N° SIRET *</label>
+                  <label for="siret" class="block text-sm font-medium text-slate-700 mb-1.5">N° SIRET *</label>
                   <input
                       type="text"
                       id="siret"
@@ -667,42 +667,42 @@
                       required
                       pattern="[0-9]{14}"
                       placeholder="12345678901234"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
                 <div>
-                  <label for="codeNaf" class="block text-sm font-semibold text-gray-700 mb-2">Code NAF/APE *</label>
+                  <label for="codeNaf" class="block text-sm font-medium text-slate-700 mb-1.5">Code NAF/APE *</label>
                   <input
                       type="text"
                       id="codeNaf"
                       v-model="form.codeNaf"
                       required
                       placeholder="1234Z"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
               </div>
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="capitalSocial" class="block text-sm font-semibold text-gray-700 mb-2">Capital social (€) *</label>
+                  <label for="capitalSocial" class="block text-sm font-medium text-slate-700 mb-1.5">Capital social (€) *</label>
                   <input
                       type="number"
                       id="capitalSocial"
                       v-model="form.capitalSocial"
                       required
                       min="1"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
                 <div>
-                  <label for="dateCreation" class="block text-sm font-semibold text-gray-700 mb-2">Date de création *</label>
+                  <label for="dateCreation" class="block text-sm font-medium text-slate-700 mb-1.5">Date de création *</label>
                   <input
                       type="date"
                       id="dateCreation"
                       v-model="form.dateCreation"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
               </div>
@@ -711,7 +711,7 @@
               <div>
                 <h6 class="text-lg font-semibold text-gray-900 mb-4 mt-6">Siège social</h6>
                 <div>
-                  <label for="adresseSiege" class="block text-sm font-semibold text-gray-700 mb-2">Adresse complète *</label>
+                  <label for="adresseSiege" class="block text-sm font-medium text-slate-700 mb-1.5">Adresse complète *</label>
                   <textarea
                       id="adresseSiege"
                       v-model="form.adresseSiege"
@@ -725,14 +725,14 @@
 
               <!-- Informations financières -->
               <div>
-                <h6 class="text-lg font-semibold text-gray-900 mb-4">Informations financières</h6>
+                <h6 class="text-lg font-semibold text-slate-900 mb-3">Informations financières</h6>
                 <div class="grid md:grid-cols-2 gap-6">
                   <div>
-                    <label for="chiffreAffaires" class="block text-sm font-semibold text-gray-700 mb-2">CA annuel (€)</label>
+                    <label for="chiffreAffaires" class="block text-sm font-medium text-slate-700 mb-1.5">CA annuel (€)</label>
                     <select
                         id="chiffreAffaires"
                         v-model="form.chiffreAffaires"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                     >
                       <option value="">Non communiqué</option>
                       <option value="0-100000">0 - 100 000€</option>
@@ -742,11 +742,11 @@
                     </select>
                   </div>
                   <div>
-                    <label for="effectifs" class="block text-sm font-semibold text-gray-700 mb-2">Nombre d'employés</label>
+                    <label for="effectifs" class="block text-sm font-medium text-slate-700 mb-1.5">Nombre d'employés</label>
                     <select
                         id="effectifs"
                         v-model="form.effectifs"
-                        class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                        class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                     >
                       <option value="">Non communiqué</option>
                       <option value="0">0 (auto-entrepreneur)</option>
@@ -761,15 +761,15 @@
 
             <!-- Représentant légal -->
             <div>
-              <h6 class="text-lg font-semibold text-gray-900 mb-4">Représentant légal</h6>
+              <h6 class="text-lg font-semibold text-slate-900 mb-3">Représentant légal</h6>
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="representantCivilite" class="block text-sm font-semibold text-gray-700 mb-2">Civilité *</label>
+                  <label for="representantCivilite" class="block text-sm font-medium text-slate-700 mb-1.5">Civilité *</label>
                   <select
                       id="representantCivilite"
                       v-model="form.representantCivilite"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionner</option>
                     <option value="madame">Madame</option>
@@ -777,12 +777,12 @@
                   </select>
                 </div>
                 <div>
-                  <label for="representantQualite" class="block text-sm font-semibold text-gray-700 mb-2">Qualité *</label>
+                  <label for="representantQualite" class="block text-sm font-medium text-slate-700 mb-1.5">Qualité *</label>
                   <select
                       id="representantQualite"
                       v-model="form.representantQualite"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionner</option>
                     <option value="gerant">Gérant</option>
@@ -796,46 +796,46 @@
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="representantPrenom" class="block text-sm font-semibold text-gray-700 mb-2">Prénom *</label>
+                  <label for="representantPrenom" class="block text-sm font-medium text-slate-700 mb-1.5">Prénom *</label>
                   <input
                       type="text"
                       id="representantPrenom"
                       v-model="form.representantPrenom"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
                 <div>
-                  <label for="representantNom" class="block text-sm font-semibold text-gray-700 mb-2">Nom *</label>
+                  <label for="representantNom" class="block text-sm font-medium text-slate-700 mb-1.5">Nom *</label>
                   <input
                       type="text"
                       id="representantNom"
                       v-model="form.representantNom"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
               </div>
 
               <div class="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label for="representantDateNaissance" class="block text-sm font-semibold text-gray-700 mb-2">Date de naissance *</label>
+                  <label for="representantDateNaissance" class="block text-sm font-medium text-slate-700 mb-1.5">Date de naissance *</label>
                   <input
                       type="date"
                       id="representantDateNaissance"
                       v-model="form.representantDateNaissance"
                       required
                       :max="maxDate"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                 </div>
                 <div>
-                  <label for="representantNationalite" class="block text-sm font-semibold text-gray-700 mb-2">Nationalité *</label>
+                  <label for="representantNationalite" class="block text-sm font-medium text-slate-700 mb-1.5">Nationalité *</label>
                   <select
                       id="representantNationalite"
                       v-model="form.representantNationalite"
                       required
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                   >
                     <option value="">Sélectionner</option>
                     <option
@@ -850,23 +850,23 @@
               </div>
 
               <div>
-                <label for="representantTelephone" class="block text-sm font-semibold text-gray-700 mb-2">Téléphone *</label>
+                <label for="representantTelephone" class="block text-sm font-medium text-slate-700 mb-1.5">Téléphone *</label>
                 <input
                     type="tel"
                     id="representantTelephone"
                     v-model="form.representantTelephone"
                     required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                 >
               </div>
             </div>
           </div>
 
-          <div class="flex justify-between mt-8">
+          <div class="flex justify-between mt-6 pt-5 border-t border-slate-100">
             <button
                 type="button"
                 @click="backToPersonType"
-                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-lg font-medium transition-all text-sm"
             >
               <i class="fas fa-arrow-left mr-2"></i>
               Précédent
@@ -875,7 +875,7 @@
                 type="button"
                 @click="continueToStep2"
                 :disabled="!isStep1MoraleValid"
-                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
+                class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all text-sm"
             >
               Continuer
               <i class="fas fa-arrow-right ml-2"></i>
@@ -884,18 +884,18 @@
         </div>
 
         <!-- Étape 2/5 - Adresse (commune aux deux types) -->
-        <div v-show="currentStep === 'step2'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div v-show="currentStep === 'step2'" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
           <div class="mb-8">
             <!-- Barre de progression -->
-            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" :style="{ width: form.personType === 'physique' ? '40%' : '50%' }"></div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mb-5">
+              <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-1.5 rounded-full transition-all duration-300" :style="{ width: form.personType === 'physique' ? '40%' : '50%' }"></div>
             </div>
 
             <div class="text-center">
-              <span class="inline-block bg-blue-100 text-blue-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+              <span class="inline-block bg-blue-50 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
                 Étape 2/{{ form.personType === 'physique' ? '5' : '4' }} - Adresse
               </span>
-              <h4 class="text-2xl font-bold text-gray-900 mb-4">
+              <h4 class="text-2xl font-bold text-slate-900 mb-3">
                 {{ form.personType === 'physique' ? 'Quelle est votre adresse ?' : 'Adresse de correspondance' }}
               </h4>
             </div>
@@ -903,12 +903,12 @@
 
           <div class="space-y-6">
             <div>
-              <label for="paysResidence" class="block text-sm font-semibold text-gray-700 mb-2">Pays *</label>
+              <label for="paysResidence" class="block text-sm font-medium text-slate-700 mb-1.5">Pays *</label>
               <select
                   id="paysResidence"
                   v-model="form.paysResidence"
                   required
-                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
               >
                 <option value="">Sélectionnez un pays</option>
                 <option
@@ -922,7 +922,7 @@
             </div>
 
             <div>
-              <label for="adresse" class="block text-sm font-semibold text-gray-700 mb-2">Adresse *</label>
+              <label for="adresse" class="block text-sm font-medium text-slate-700 mb-1.5">Adresse *</label>
               <textarea
                   id="adresse"
                   v-model="form.adresse"
@@ -935,34 +935,34 @@
 
             <div class="grid md:grid-cols-3 gap-6">
               <div class="md:col-span-2">
-                <label for="ville" class="block text-sm font-semibold text-gray-700 mb-2">Ville *</label>
+                <label for="ville" class="block text-sm font-medium text-slate-700 mb-1.5">Ville *</label>
                 <input
                     type="text"
                     id="ville"
                     v-model="form.ville"
                     required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                 >
               </div>
               <div>
-                <label for="codePostal" class="block text-sm font-semibold text-gray-700 mb-2">Code postal *</label>
+                <label for="codePostal" class="block text-sm font-medium text-slate-700 mb-1.5">Code postal *</label>
                 <input
                     type="text"
                     id="codePostal"
                     v-model="form.codePostal"
                     required
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
                 >
               </div>
             </div>
 
             <div v-if="form.personType === 'physique'">
-              <label for="paysResidenceFiscale" class="block text-sm font-semibold text-gray-700 mb-2">Pays de résidence fiscale *</label>
+              <label for="paysResidenceFiscale" class="block text-sm font-medium text-slate-700 mb-1.5">Pays de résidence fiscale *</label>
               <select
                   id="paysResidenceFiscale"
                   v-model="form.paysResidenceFiscale"
                   required
-                  class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                  class="w-full px-4 py-3 border border-slate-200 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all bg-white text-slate-900"
               >
                 <option value="">Sélectionnez un pays</option>
                 <option
@@ -976,11 +976,11 @@
             </div>
           </div>
 
-          <div class="flex justify-between mt-8">
+          <div class="flex justify-between mt-6 pt-5 border-t border-slate-100">
             <button
                 type="button"
                 @click="backToStep1"
-                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-lg font-medium transition-all text-sm"
             >
               <i class="fas fa-arrow-left mr-2"></i>
               Précédent
@@ -989,7 +989,7 @@
                 type="button"
                 @click="continueToStep3"
                 :disabled="!isStep2Valid"
-                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
+                class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all text-sm"
             >
               Continuer
               <i class="fas fa-arrow-right ml-2"></i>
@@ -998,18 +998,18 @@
         </div>
 
         <!-- Étape 3 - Documents et finalisation -->
-        <div v-show="currentStep === 'step3'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div v-show="currentStep === 'step3'" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
           <div class="mb-8">
             <!-- Barre de progression -->
-            <div class="w-full bg-gray-200 rounded-full h-2 mb-4">
-              <div class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300" :style="{ width: form.personType === 'physique' ? '80%' : '75%' }"></div>
+            <div class="w-full bg-slate-100 rounded-full h-1.5 mb-5">
+              <div class="bg-gradient-to-r from-blue-600 to-indigo-600 h-1.5 rounded-full transition-all duration-300" :style="{ width: form.personType === 'physique' ? '80%' : '75%' }"></div>
             </div>
 
             <div class="text-center">
-              <span class="inline-block bg-green-100 text-green-800 text-xs font-semibold px-3 py-1 rounded-full mb-2">
+              <span class="inline-block bg-emerald-50 text-emerald-700 text-xs font-semibold px-3 py-1 rounded-full mb-3">
                 Étape finale - Documents
               </span>
-              <h4 class="text-2xl font-bold text-gray-900 mb-4">Documents requis</h4>
+              <h4 class="text-2xl font-bold text-slate-900 mb-3">Documents requis</h4>
 
               <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-sm text-amber-800">
                 <i class="fas fa-info-circle mr-2"></i>
@@ -1021,11 +1021,11 @@
           <div class="space-y-6">
             <!-- Documents personne physique -->
             <div v-if="form.personType === 'physique'">
-              <h6 class="text-lg font-semibold text-gray-900 mb-4">Documents à fournir</h6>
+              <h6 class="text-lg font-semibold text-slate-900 mb-3">Documents à fournir</h6>
 
               <div class="space-y-4">
-                <div class="border border-gray-200 rounded-xl p-4">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <div class="border border-slate-200 rounded-lg p-4">
+                  <label class="block text-sm font-medium text-slate-700 mb-1.5">
                     <i class="fas fa-id-card text-blue-500 mr-2"></i>
                     Pièce d'identité * (CNI, Passeport)
                   </label>
@@ -1038,8 +1038,8 @@
                   <p class="text-xs text-gray-500 mt-1">Formats acceptés: PDF, JPG, PNG - Max 5MB</p>
                 </div>
 
-                <div class="border border-gray-200 rounded-xl p-4">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <div class="border border-slate-200 rounded-lg p-4">
+                  <label class="block text-sm font-medium text-slate-700 mb-1.5">
                     <i class="fas fa-home text-green-500 mr-2"></i>
                     Justificatif de domicile * (moins de 3 mois)
                   </label>
@@ -1052,8 +1052,8 @@
                   <p class="text-xs text-gray-500 mt-1">Facture électricité, gaz, téléphone, quittance loyer...</p>
                 </div>
 
-                <div class="border border-gray-200 rounded-xl p-4">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <div class="border border-slate-200 rounded-lg p-4">
+                  <label class="block text-sm font-medium text-slate-700 mb-1.5">
                     <i class="fas fa-university text-purple-500 mr-2"></i>
                     RIB (Relevé d'Identité Bancaire) *
                   </label>
@@ -1069,11 +1069,11 @@
 
             <!-- Documents personne morale -->
             <div v-if="form.personType === 'morale'">
-              <h6 class="text-lg font-semibold text-gray-900 mb-4">Documents entreprise à fournir</h6>
+              <h6 class="text-lg font-semibold text-slate-900 mb-3">Documents entreprise à fournir</h6>
 
               <div class="space-y-4">
-                <div class="border border-gray-200 rounded-xl p-4">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <div class="border border-slate-200 rounded-lg p-4">
+                  <label class="block text-sm font-medium text-slate-700 mb-1.5">
                     <i class="fas fa-certificate text-blue-500 mr-2"></i>
                     Extrait Kbis * (moins de 3 mois)
                   </label>
@@ -1085,8 +1085,8 @@
                   >
                 </div>
 
-                <div class="border border-gray-200 rounded-xl p-4">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <div class="border border-slate-200 rounded-lg p-4">
+                  <label class="block text-sm font-medium text-slate-700 mb-1.5">
                     <i class="fas fa-file-contract text-green-500 mr-2"></i>
                     Statuts de l'entreprise *
                   </label>
@@ -1098,8 +1098,8 @@
                   >
                 </div>
 
-                <div class="border border-gray-200 rounded-xl p-4">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <div class="border border-slate-200 rounded-lg p-4">
+                  <label class="block text-sm font-medium text-slate-700 mb-1.5">
                     <i class="fas fa-id-card text-purple-500 mr-2"></i>
                     Pièce d'identité du représentant légal *
                   </label>
@@ -1111,8 +1111,8 @@
                   >
                 </div>
 
-                <div class="border border-gray-200 rounded-xl p-4">
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">
+                <div class="border border-slate-200 rounded-lg p-4">
+                  <label class="block text-sm font-medium text-slate-700 mb-1.5">
                     <i class="fas fa-university text-orange-500 mr-2"></i>
                     RIB de l'entreprise *
                   </label>
@@ -1127,11 +1127,11 @@
             </div>
           </div>
 
-          <div class="flex justify-between mt-8">
+          <div class="flex justify-between mt-6 pt-5 border-t border-slate-100">
             <button
                 type="button"
                 @click="backToStep2"
-                class="px-6 py-3 border border-gray-300 text-gray-700 rounded-xl hover:bg-gray-50 transition-colors"
+                class="px-5 py-2.5 border border-slate-200 text-slate-600 rounded-lg font-medium transition-all text-sm"
             >
               <i class="fas fa-arrow-left mr-2"></i>
               Précédent
@@ -1140,7 +1140,7 @@
                 type="button"
                 @click="continueToFinal"
                 :disabled="!isDocumentsValid"
-                class="px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white rounded-xl font-semibold transition-all disabled:cursor-not-allowed"
+                class="px-6 py-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white rounded-lg font-semibold transition-all text-sm"
             >
               <span v-if="!isLoading" class="flex items-center">
                 Finaliser l'inscription
@@ -1155,12 +1155,12 @@
         </div>
 
         <!-- Finalisation -->
-        <div v-show="currentStep === 'final'" class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
+        <div v-show="currentStep === 'final'" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-8">
           <div class="text-center">
-            <div class="w-24 h-24 bg-gradient-to-r from-green-500 to-emerald-600 rounded-full flex items-center justify-center mx-auto mb-6">
-              <i class="fas fa-check text-white text-4xl"></i>
+            <div class="w-16 h-16 bg-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+              <i class="fas fa-check text-emerald-600 text-2xl"></i>
             </div>
-            <h2 class="text-3xl font-bold text-green-600 mb-4">Félicitations !</h2>
+            <h2 class="text-2xl font-bold text-slate-900 mb-1.5">Félicitations !</h2>
             <p class="text-gray-600 mb-8">Votre demande d'inscription a été soumise avec succès</p>
 
             <div class="bg-blue-50 border border-blue-200 rounded-xl p-6 mb-6">

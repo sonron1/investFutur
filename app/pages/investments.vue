@@ -1,5 +1,5 @@
 <template>
-  <div class="min-h-screen bg-gray-50 flex flex-col">
+  <div class="min-h-screen bg-slate-50 flex flex-col">
     <Navbar />
 
     <div class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -7,64 +7,72 @@
       <div class="mb-8">
         <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
           <div>
-            <h1 class="text-3xl font-bold text-gray-900 mb-2">Mes Investissements</h1>
-            <p class="text-gray-600">Suivez la progression de tous vos projets ({{ investments.length }} investissements actifs)</p>
+            <h1 class="text-2xl font-bold text-slate-900 mb-1">Mes Investissements</h1>
+            <p class="text-slate-500 text-sm">Suivez la progression de tous vos projets ({{ investments.length }} investissements actifs)</p>
           </div>
-          <NuxtLink to="/#domaines" class="btn-primary mt-4 md:mt-0">
+          <NuxtLink to="/#domaines" class="btn-primary mt-4 md:mt-0 inline-flex items-center">
             <i class="fas fa-plus mr-2"></i>
             Nouveau projet
           </NuxtLink>
         </div>
 
         <!-- Statistiques globales -->
-        <div v-if="investments.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
-          <div class="bg-gradient-to-r from-blue-500 to-blue-600 text-white p-6 rounded-xl shadow-lg">
+        <div v-if="investments.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+          <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-2xl font-bold mb-1">{{ formatCurrency(portfolioStats.totalInvested) }}</h3>
-                <p class="text-blue-100">Total investi</p>
+                <div class="text-xl font-bold text-slate-900 mb-0.5">{{ formatCurrency(portfolioStats.totalInvested) }}</div>
+                <div class="text-slate-500 text-xs">Total investi</div>
               </div>
-              <i class="fas fa-wallet text-3xl text-blue-200"></i>
+              <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
+                <i class="fas fa-wallet text-blue-600"></i>
+              </div>
             </div>
           </div>
 
-          <div class="bg-gradient-to-r from-green-500 to-green-600 text-white p-6 rounded-xl shadow-lg">
+          <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-2xl font-bold mb-1">+{{ portfolioStats.avgRoi.toFixed(1) }}%</h3>
-                <p class="text-green-100">Performance moyenne</p>
+                <div class="text-xl font-bold text-slate-900 mb-0.5">+{{ portfolioStats.avgRoi.toFixed(1) }}%</div>
+                <div class="text-slate-500 text-xs">Performance moyenne</div>
               </div>
-              <i class="fas fa-chart-line text-3xl text-green-200"></i>
+              <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
+                <i class="fas fa-chart-line text-emerald-600"></i>
+              </div>
             </div>
           </div>
 
-          <div class="bg-gradient-to-r from-yellow-500 to-orange-500 text-white p-6 rounded-xl shadow-lg">
+          <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-2xl font-bold mb-1">{{ investments.length }}</h3>
-                <p class="text-yellow-100">Projets actifs</p>
+                <div class="text-xl font-bold text-slate-900 mb-0.5">{{ investments.length }}</div>
+                <div class="text-slate-500 text-xs">Projets actifs</div>
               </div>
-              <i class="fas fa-chart-pie text-3xl text-yellow-200"></i>
+              <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
+                <i class="fas fa-chart-pie text-indigo-600"></i>
+              </div>
             </div>
           </div>
 
-          <div class="bg-gradient-to-r from-purple-500 to-purple-600 text-white p-6 rounded-xl shadow-lg">
+          <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
             <div class="flex items-center justify-between">
               <div>
-                <h3 class="text-2xl font-bold mb-1">{{ formatCurrency(portfolioStats.monthlyGains) }}</h3>
-                <p class="text-purple-100">Gains ce mois</p>
+                <div class="text-xl font-bold text-slate-900 mb-0.5">{{ formatCurrency(portfolioStats.monthlyGains) }}</div>
+                <div class="text-slate-500 text-xs">Gains ce mois</div>
               </div>
-              <i class="fas fa-calendar text-3xl text-purple-200"></i>
+              <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
+                <i class="fas fa-calendar text-amber-600"></i>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Filtres -->
-      <div v-if="investments.length > 0" class="bg-white rounded-xl shadow-sm border border-gray-100 p-4 mb-8">
-        <div class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div v-if="investments.length > 0" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-6">
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
           <div>
-            <select v-model="filters.status" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <select v-model="filters.status" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
               <option value="">Tous les statuts</option>
               <option value="actif">Actifs</option>
               <option value="termine">Terminés</option>
@@ -72,13 +80,13 @@
             </select>
           </div>
           <div>
-            <select v-model="filters.sector" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <select v-model="filters.sector" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
               <option value="">Tous les secteurs</option>
               <option v-for="sector in availableSectors" :key="sector" :value="sector">{{ sector }}</option>
             </select>
           </div>
           <div>
-            <select v-model="filters.sort" class="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+            <select v-model="filters.sort" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
               <option value="date-desc">Plus récents</option>
               <option value="date-asc">Plus anciens</option>
               <option value="amount-desc">Montant décroissant</option>
@@ -91,46 +99,46 @@
               <input
                   v-model="filters.search"
                   type="text"
-                  class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                  class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
                   placeholder="Rechercher un projet..."
               >
-              <i class="fas fa-search absolute left-3 top-3 text-gray-400"></i>
+              <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Liste des investissements -->
-      <div class="bg-white rounded-xl shadow-sm border border-gray-100">
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm">
         <div v-if="investments.length === 0" class="text-center py-16">
-          <div class="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i class="fas fa-chart-pie text-4xl text-gray-400"></i>
+          <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
+            <i class="fas fa-chart-pie text-2xl text-slate-400"></i>
           </div>
-          <h3 class="text-xl font-semibold text-gray-900 mb-2">Aucun investissement</h3>
-          <p class="text-gray-600 mb-8">Commencez à investir dans nos secteurs innovants</p>
-          <NuxtLink to="/#domaines" class="btn-primary">
+          <h3 class="text-lg font-bold text-slate-900 mb-2">Aucun investissement</h3>
+          <p class="text-slate-500 text-sm mb-6">Commencez à investir dans nos secteurs innovants</p>
+          <NuxtLink to="/#domaines" class="btn-primary inline-flex items-center">
             Découvrir les opportunités
           </NuxtLink>
         </div>
 
         <div v-else>
           <!-- Grille des investissements -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 p-6">
+          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5">
             <div
                 v-for="investment in filteredInvestments"
                 :key="investment.id"
-                class="bg-white border border-gray-200 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+                class="border border-slate-100 rounded-xl hover:shadow-md hover:border-slate-200 transition-all duration-200 overflow-hidden"
             >
               <!-- Image du projet -->
-              <div class="relative h-40 overflow-hidden">
+              <div class="relative h-36 overflow-hidden">
                 <img
                     :src="investment.image"
                     :alt="investment.project"
                     class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 >
-                <div class="absolute top-4 right-4">
+                <div class="absolute top-3 right-3">
                   <span
-                      :class="`badge bg-${investment.badgeColor} text-white px-3 py-1 rounded-full text-sm font-semibold`"
+                      :class="`badge bg-${investment.badgeColor} text-white px-3 py-1 rounded-full text-xs font-semibold`"
                   >
                     {{ investment.badge }}
                   </span>
@@ -138,50 +146,50 @@
               </div>
 
               <!-- Contenu -->
-              <div class="p-6">
+              <div class="p-5">
                 <!-- En-tête du projet -->
                 <div class="flex justify-between items-start mb-3">
                   <div class="flex items-center">
-                    <div class="w-12 h-12 bg-blue-50 rounded-lg flex items-center justify-center mr-3">
-                      <i class="fas fa-chart-line text-blue-600"></i>
+                    <div class="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                      <i class="fas fa-chart-line text-blue-600 text-sm"></i>
                     </div>
                     <div>
-                      <h3 class="font-semibold text-gray-900">{{ investment.project }}</h3>
-                      <span class="text-sm bg-blue-50 text-blue-600 px-2 py-1 rounded">{{ investment.sector }}</span>
+                      <div class="font-semibold text-slate-900 text-sm">{{ investment.project }}</div>
+                      <span class="inline-block text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md mt-0.5 font-medium">{{ investment.sector }}</span>
                     </div>
                   </div>
                   <span
                       :class="getStatusBadgeClass(investment.status)"
-                      class="text-xs font-semibold px-2 py-1 rounded-full"
+                      class="text-xs font-semibold px-2 py-0.5 rounded-full"
                   >
                     {{ getStatusLabel(investment.status) }}
                   </span>
                 </div>
 
                 <!-- Description -->
-                <p class="text-gray-600 text-sm mb-4 line-clamp-2">{{ investment.description }}</p>
+                <p class="text-slate-500 text-xs mb-4 line-clamp-2 leading-relaxed">{{ investment.description }}</p>
 
                 <!-- Métriques -->
-                <div class="grid grid-cols-2 gap-4 mb-4">
-                  <div class="text-center">
-                    <h4 class="font-semibold text-blue-600 text-lg">{{ formatCurrency(investment.amount) }}</h4>
-                    <p class="text-gray-500 text-sm">Mon investissement</p>
+                <div class="grid grid-cols-2 gap-3 mb-4">
+                  <div class="text-center bg-slate-50 rounded-lg p-3">
+                    <div class="font-bold text-blue-600 text-sm">{{ formatCurrency(investment.amount) }}</div>
+                    <div class="text-slate-500 text-xs mt-0.5">Mon investissement</div>
                   </div>
-                  <div class="text-center">
-                    <h4 class="font-semibold text-green-600 text-lg">+{{ investment.roi }}%</h4>
-                    <p class="text-gray-500 text-sm">Performance</p>
+                  <div class="text-center bg-slate-50 rounded-lg p-3">
+                    <div class="font-bold text-emerald-600 text-sm">+{{ investment.roi }}%</div>
+                    <div class="text-slate-500 text-xs mt-0.5">Performance</div>
                   </div>
                 </div>
 
                 <!-- Barre de progression -->
                 <div class="mb-4">
-                  <div class="flex justify-between text-sm text-gray-600 mb-1">
+                  <div class="flex justify-between text-xs text-slate-500 mb-1.5">
                     <span>Progression</span>
-                    <span>{{ investment.progress }}%</span>
+                    <span class="font-medium">{{ investment.progress }}%</span>
                   </div>
-                  <div class="w-full bg-gray-200 rounded-full h-2">
+                  <div class="w-full bg-slate-100 rounded-full h-1.5">
                     <div
-                        class="bg-gradient-to-r from-blue-500 to-purple-600 h-2 rounded-full transition-all duration-300"
+                        class="bg-gradient-to-r from-blue-600 to-indigo-600 h-1.5 rounded-full transition-all duration-300"
                         :style="{ width: investment.progress + '%' }"
                     ></div>
                   </div>
@@ -189,20 +197,20 @@
 
                 <!-- Actions -->
                 <div class="flex justify-between items-center">
-                  <small class="text-gray-500">{{ formatDate(investment.date) }}</small>
+                  <span class="text-xs text-slate-400">{{ formatDate(investment.date) }}</span>
                   <div class="flex space-x-2">
                     <button
                         @click="showProjectDetails(investment)"
-                        class="px-3 py-1 text-blue-600 border border-blue-600 rounded-lg text-sm hover:bg-blue-50 transition-colors"
+                        class="px-3 py-1.5 text-blue-600 border border-blue-200 rounded-lg text-xs font-medium hover:bg-blue-50 transition-colors"
                     >
                       Détails
                     </button>
-                    <button class="px-3 py-1 bg-blue-600 text-white rounded-lg text-sm hover:bg-blue-700 transition-colors">
+                    <button class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors">
                       Réinvestir
                     </button>
                     <button
                         @click="removeInvestment(investment.id)"
-                        class="px-3 py-1 text-red-600 border border-red-600 rounded-lg text-sm hover:bg-red-50 transition-colors"
+                        class="px-3 py-1.5 text-red-500 border border-red-200 rounded-lg text-xs hover:bg-red-50 transition-colors"
                         title="Supprimer"
                     >
                       <i class="fas fa-trash"></i>
@@ -218,19 +226,19 @@
       <!-- Modal de détails -->
       <div
           v-if="selectedProject"
-          class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
+          class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
           @click.self="closeModal"
       >
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
+        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
           <div class="p-6">
             <!-- En-tête du modal -->
-            <div class="flex justify-between items-start mb-6">
+            <div class="flex justify-between items-start mb-5">
               <div>
-                <h2 class="text-2xl font-bold text-gray-900">{{ selectedProject.project }}</h2>
-                <p class="text-gray-600">{{ selectedProject.sector }}</p>
+                <h2 class="text-lg font-bold text-slate-900">{{ selectedProject.project }}</h2>
+                <p class="text-slate-500 text-sm mt-0.5">{{ selectedProject.sector }}</p>
               </div>
-              <button @click="closeModal" class="text-gray-400 hover:text-gray-600">
-                <i class="fas fa-times text-xl"></i>
+              <button @click="closeModal" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+                <i class="fas fa-times"></i>
               </button>
             </div>
 
@@ -238,41 +246,41 @@
             <img
                 :src="selectedProject.image"
                 :alt="selectedProject.project"
-                class="w-full h-48 object-cover rounded-xl mb-6"
+                class="w-full h-44 object-cover rounded-xl mb-5"
             >
 
             <!-- Description détaillée -->
-            <div class="mb-6">
-              <h3 class="text-lg font-semibold mb-3">Description du projet</h3>
-              <p class="text-gray-600 leading-relaxed">{{ selectedProject.description }}</p>
+            <div class="mb-5">
+              <h3 class="text-sm font-bold text-slate-900 mb-2">Description du projet</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">{{ selectedProject.description }}</p>
             </div>
 
             <!-- Métriques détaillées -->
-            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-              <div class="text-center p-4 bg-gray-50 rounded-lg">
-                <div class="text-lg font-bold text-blue-600">{{ formatCurrency(selectedProject.amount) }}</div>
-                <div class="text-sm text-gray-600">Investissement</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
+              <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                <div class="text-base font-bold text-blue-600">{{ formatCurrency(selectedProject.amount) }}</div>
+                <div class="text-xs text-slate-500 mt-0.5">Investissement</div>
               </div>
-              <div class="text-center p-4 bg-gray-50 rounded-lg">
-                <div class="text-lg font-bold text-green-600">+{{ selectedProject.roi }}%</div>
-                <div class="text-sm text-gray-600">ROI</div>
+              <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                <div class="text-base font-bold text-emerald-600">+{{ selectedProject.roi }}%</div>
+                <div class="text-xs text-slate-500 mt-0.5">ROI</div>
               </div>
-              <div class="text-center p-4 bg-gray-50 rounded-lg">
-                <div class="text-lg font-bold text-purple-600">{{ selectedProject.progress }}%</div>
-                <div class="text-sm text-gray-600">Progression</div>
+              <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                <div class="text-base font-bold text-indigo-600">{{ selectedProject.progress }}%</div>
+                <div class="text-xs text-slate-500 mt-0.5">Progression</div>
               </div>
-              <div class="text-center p-4 bg-gray-50 rounded-lg">
-                <div class="text-lg font-bold text-orange-600">{{ formatCurrency(calculateGains(selectedProject)) }}</div>
-                <div class="text-sm text-gray-600">Gains estimés</div>
+              <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
+                <div class="text-base font-bold text-amber-600">{{ formatCurrency(calculateGains(selectedProject)) }}</div>
+                <div class="text-xs text-slate-500 mt-0.5">Gains estimés</div>
               </div>
             </div>
 
             <!-- Actions du modal -->
             <div class="flex justify-end space-x-3">
-              <button @click="closeModal" class="px-4 py-2 text-gray-600 border border-gray-300 rounded-lg hover:bg-gray-50">
+              <button @click="closeModal" class="px-4 py-2 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
                 Fermer
               </button>
-              <button class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
+              <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">
                 Réinvestir
               </button>
             </div>
@@ -394,11 +402,11 @@ const calculateGains = (investment) => {
 
 const getStatusBadgeClass = (status) => {
   const badges = {
-    'actif': 'bg-green-100 text-green-800',
-    'termine': 'bg-blue-100 text-blue-800',
-    'en_cours': 'bg-yellow-100 text-yellow-800'
+    'actif': 'bg-emerald-100 text-emerald-700',
+    'termine': 'bg-blue-100 text-blue-700',
+    'en_cours': 'bg-amber-100 text-amber-700'
   }
-  return badges[status] || 'bg-gray-100 text-gray-800'
+  return badges[status] || 'bg-slate-100 text-slate-700'
 }
 
 const getStatusLabel = (status) => {
@@ -444,10 +452,10 @@ onMounted(() => {
   @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
 }
 
-.bg-success { @apply bg-green-500; }
-.bg-warning { @apply bg-yellow-500; }
+.bg-success { @apply bg-emerald-500; }
+.bg-warning { @apply bg-amber-500; }
 .bg-info { @apply bg-blue-500; }
 .bg-danger { @apply bg-red-500; }
 .bg-primary { @apply bg-blue-600; }
-.bg-dark { @apply bg-gray-800; }
+.bg-dark { @apply bg-slate-800; }
 </style>

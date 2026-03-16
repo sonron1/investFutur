@@ -1,56 +1,58 @@
 <template>
-  <section class="py-20 bg-gradient-to-br from-gray-50 to-gray-100">
+  <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
-      <div class="text-center mb-16" data-aos="fade-up">
-        <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+      <div class="text-center mb-12" data-aos="fade-up">
+        <div class="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">Avantages</div>
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
           Pourquoi choisir InvestFuture ?
         </h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-slate-500 max-w-2xl mx-auto">
           Découvrez tous les avantages de notre plateforme d'investissement innovante
         </p>
       </div>
 
       <!-- Grille des avantages -->
-      <div class="grid lg:grid-cols-2 gap-16 items-center mb-20">
+      <div class="grid lg:grid-cols-2 gap-12 items-center mb-16">
         <!-- Côté gauche - Avantages -->
-        <div class="space-y-8">
+        <div class="space-y-6">
           <div
               v-for="(benefit, index) in benefits"
               :key="benefit.id"
               :data-aos="'fade-right'"
-              :data-aos-delay="index * 200"
+              :data-aos-delay="index * 150"
               class="flex items-start space-x-4"
           >
-            <div class="flex-shrink-0 w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-xl flex items-center justify-center">
-              <i :class="benefit.icon" class="text-2xl text-white"></i>
+            <div class="flex-shrink-0 w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-sm">
+              <i :class="benefit.icon" class="text-lg text-white"></i>
             </div>
             <div>
-              <h3 class="text-xl font-bold text-gray-900 mb-2">{{ benefit.title }}</h3>
-              <p class="text-gray-600 leading-relaxed">{{ benefit.description }}</p>
-              <div v-if="benefit.stats" class="mt-2 text-sm text-blue-600 font-semibold">
+              <h3 class="text-base font-bold text-slate-900 mb-1.5">{{ benefit.title }}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">{{ benefit.description }}</p>
+              <div v-if="benefit.stats" class="mt-1.5 text-xs text-blue-600 font-semibold">
                 {{ benefit.stats }}
               </div>
             </div>
           </div>
         </div>
 
-        <!-- Côté droit - Image/Graphique -->
+        <!-- Côté droit - Graphique -->
         <div data-aos="fade-left" class="relative">
-          <div class="bg-white rounded-3xl p-8 shadow-2xl">
-            <h4 class="text-2xl font-bold text-gray-900 mb-6">Performance comparative</h4>
+          <div class="bg-slate-50 rounded-2xl border border-slate-100 p-7 shadow-sm">
+            <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-1">Comparaison</div>
+            <h4 class="text-lg font-bold text-slate-900 mb-6">Performance comparative</h4>
 
             <!-- Graphique comparatif -->
             <div class="space-y-4">
-              <div v-for="comparison in performanceComparison" :key="comparison.label" class="space-y-2">
+              <div v-for="comparison in performanceComparison" :key="comparison.label" class="space-y-1.5">
                 <div class="flex justify-between">
-                  <span class="text-gray-700 font-medium">{{ comparison.label }}</span>
-                  <span class="font-bold" :class="comparison.colorClass">{{ comparison.value }}%</span>
+                  <span class="text-slate-700 text-sm font-medium">{{ comparison.label }}</span>
+                  <span class="font-bold text-sm" :class="comparison.colorClass">{{ comparison.value }}%</span>
                 </div>
-                <div class="w-full bg-gray-200 rounded-full h-3">
+                <div class="w-full bg-slate-200 rounded-full h-2">
                   <div
                       :class="comparison.bgClass"
-                      class="h-3 rounded-full transition-all duration-1000"
+                      class="h-2 rounded-full transition-all duration-1000"
                       :style="{ width: comparison.width + '%' }"
                   ></div>
                 </div>
@@ -58,12 +60,12 @@
             </div>
 
             <!-- Conclusion -->
-            <div class="mt-8 p-4 bg-green-50 rounded-xl">
+            <div class="mt-6 p-4 bg-emerald-50 rounded-xl border border-emerald-100">
               <div class="flex items-center">
-                <i class="fas fa-trophy text-green-600 text-2xl mr-3"></i>
+                <i class="fas fa-trophy text-emerald-600 text-lg mr-3"></i>
                 <div>
-                  <div class="font-bold text-green-800">+8.5% de performance</div>
-                  <div class="text-sm text-green-600">vs marchés traditionnels</div>
+                  <div class="font-bold text-emerald-800 text-sm">+8.5% de performance</div>
+                  <div class="text-xs text-emerald-600">vs marchés traditionnels</div>
                 </div>
               </div>
             </div>
@@ -72,14 +74,14 @@
       </div>
 
       <!-- Section garanties et sécurité -->
-      <div class="grid md:grid-cols-3 gap-8" data-aos="fade-up">
-        <div v-for="guarantee in guarantees" :key="guarantee.title" class="bg-white rounded-2xl p-8 text-center shadow-lg hover:shadow-xl transition-shadow duration-300">
-          <div class="w-20 h-20 bg-gradient-to-r from-green-400 to-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
-            <i :class="guarantee.icon" class="text-3xl text-white"></i>
+      <div class="grid md:grid-cols-3 gap-5" data-aos="fade-up">
+        <div v-for="guarantee in guarantees" :key="guarantee.title" class="bg-slate-50 rounded-2xl border border-slate-100 p-6 text-center hover:shadow-md transition-shadow duration-200">
+          <div class="w-14 h-14 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-sm">
+            <i :class="guarantee.icon" class="text-xl text-white"></i>
           </div>
-          <h3 class="text-xl font-bold text-gray-900 mb-4">{{ guarantee.title }}</h3>
-          <p class="text-gray-600 mb-4">{{ guarantee.description }}</p>
-          <div class="text-sm text-green-600 font-semibold">{{ guarantee.detail }}</div>
+          <h3 class="text-base font-bold text-slate-900 mb-2.5">{{ guarantee.title }}</h3>
+          <p class="text-slate-500 text-sm mb-3 leading-relaxed">{{ guarantee.description }}</p>
+          <div class="text-xs text-emerald-600 font-semibold">{{ guarantee.detail }}</div>
         </div>
       </div>
     </div>
@@ -124,28 +126,28 @@ const performanceComparison = [
     value: 22.3,
     width: 100,
     colorClass: 'text-blue-600',
-    bgClass: 'bg-gradient-to-r from-blue-500 to-blue-600'
+    bgClass: 'bg-gradient-to-r from-blue-600 to-indigo-600'
   },
   {
     label: 'CAC 40',
     value: 8.7,
     width: 39,
-    colorClass: 'text-gray-600',
-    bgClass: 'bg-gray-400'
+    colorClass: 'text-slate-500',
+    bgClass: 'bg-slate-400'
   },
   {
     label: 'Livret A',
     value: 3.0,
     width: 13,
-    colorClass: 'text-gray-600',
-    bgClass: 'bg-gray-300'
+    colorClass: 'text-slate-500',
+    bgClass: 'bg-slate-300'
   },
   {
     label: 'Immobilier',
     value: 6.2,
     width: 28,
-    colorClass: 'text-gray-600',
-    bgClass: 'bg-gray-400'
+    colorClass: 'text-slate-500',
+    bgClass: 'bg-slate-400'
   }
 ]
 

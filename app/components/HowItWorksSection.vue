@@ -1,75 +1,68 @@
 <template>
-  <section id="comment" class="py-24 bg-gradient-to-br from-gray-50 via-blue-50 to-indigo-50 relative overflow-hidden">
-    <!-- Éléments décoratifs -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute top-1/4 right-0 w-96 h-96 bg-blue-300 rounded-full mix-blend-multiply filter blur-xl opacity-10"></div>
-      <div class="absolute bottom-1/4 left-0 w-96 h-96 bg-purple-300 rounded-full mix-blend-multiply filter blur-xl opacity-10"></div>
-    </div>
-
+  <section id="comment" class="py-20 bg-slate-50 relative overflow-hidden">
     <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
-      <div class="text-center mb-20" data-aos="fade-up">
-        <div class="inline-flex items-center space-x-2 bg-blue-100 rounded-full px-4 py-2 mb-6">
-          <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-          <span class="text-sm font-medium text-blue-700">Processus simplifié</span>
+      <div class="text-center mb-14" data-aos="fade-up">
+        <div class="inline-flex items-center space-x-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-5">
+          <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+          <span class="text-xs font-semibold text-blue-700">Processus simplifié</span>
         </div>
-        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
           Comment
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
             ça marche ?
           </span>
         </h2>
-        <p class="text-xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+        <p class="text-slate-500 max-w-2xl mx-auto">
           Investir dans l'innovation n'a jamais été aussi simple. Suivez ces 3 étapes pour commencer votre parcours d'investisseur.
         </p>
       </div>
 
       <!-- Timeline des étapes -->
-      <div class="relative mb-20">
-        <!-- Ligne de connexion -->
-        <div class="hidden lg:block absolute top-24 left-1/2 transform -translate-x-1/2 w-full max-w-4xl">
-          <div class="flex justify-between">
-            <div class="w-1/3 h-1 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full"></div>
-            <div class="w-1/3 h-1 bg-gradient-to-r from-purple-500 to-green-500 rounded-full"></div>
+      <div class="relative mb-14">
+        <!-- Ligne de connexion desktop -->
+        <div class="hidden lg:block absolute top-16 left-0 right-0 z-0">
+          <div class="max-w-2xl mx-auto">
+            <div class="h-px bg-gradient-to-r from-blue-600 via-indigo-500 to-emerald-500"></div>
           </div>
         </div>
 
-        <div class="grid lg:grid-cols-3 gap-12">
+        <div class="grid lg:grid-cols-3 gap-8">
           <div
               v-for="(step, index) in steps"
               :key="step.id"
               :data-aos="'fade-up'"
-              :data-aos-delay="index * 300"
+              :data-aos-delay="index * 200"
               class="relative text-center group"
           >
             <!-- Carte principale -->
-            <div class="bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-4 border border-gray-100">
-              <!-- Numéro de l'étape -->
-              <div class="relative inline-flex items-center justify-center mb-8">
-                <div class="w-24 h-24 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center shadow-lg transform group-hover:scale-110 transition-all duration-300">
-                  <i :class="step.icon" class="text-3xl text-white"></i>
+            <div class="bg-white rounded-2xl p-6 border border-slate-100 shadow-sm hover:shadow-md hover:-translate-y-1 transition-all duration-300">
+              <!-- Icône et numéro -->
+              <div class="relative inline-flex items-center justify-center mb-5">
+                <div class="w-16 h-16 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center shadow-sm">
+                  <i :class="step.icon" class="text-xl text-white"></i>
                 </div>
-                <div class="absolute -top-2 -right-2 w-10 h-10 bg-gradient-to-r from-green-400 to-green-600 text-white rounded-full flex items-center justify-center text-lg font-bold shadow-lg">
+                <div class="absolute -top-2 -right-2 w-6 h-6 bg-emerald-500 text-white rounded-full flex items-center justify-center text-xs font-bold shadow-sm">
                   {{ index + 1 }}
                 </div>
               </div>
 
               <!-- Contenu -->
-              <h3 class="text-2xl font-bold text-gray-900 mb-4 group-hover:text-blue-600 transition-colors">
+              <h3 class="text-base font-bold text-slate-900 mb-2.5 group-hover:text-blue-600 transition-colors">
                 {{ step.title }}
               </h3>
-              <p class="text-gray-600 leading-relaxed mb-6">{{ step.description }}</p>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">{{ step.description }}</p>
 
               <!-- Statistiques de l'étape -->
-              <div class="bg-gray-50 rounded-2xl p-4 mb-6">
-                <div class="grid grid-cols-2 gap-4 text-sm">
+              <div class="bg-slate-50 rounded-xl p-3 mb-4 border border-slate-100">
+                <div class="grid grid-cols-2 gap-3 text-xs">
                   <div class="text-center">
-                    <div class="font-bold text-blue-600">{{ step.stat1.value }}</div>
-                    <div class="text-gray-500">{{ step.stat1.label }}</div>
+                    <div class="font-bold text-blue-600 text-sm">{{ step.stat1.value }}</div>
+                    <div class="text-slate-500 mt-0.5">{{ step.stat1.label }}</div>
                   </div>
                   <div class="text-center">
-                    <div class="font-bold text-green-600">{{ step.stat2.value }}</div>
-                    <div class="text-gray-500">{{ step.stat2.label }}</div>
+                    <div class="font-bold text-emerald-600 text-sm">{{ step.stat2.value }}</div>
+                    <div class="text-slate-500 mt-0.5">{{ step.stat2.label }}</div>
                   </div>
                 </div>
               </div>
@@ -78,7 +71,7 @@
               <button
                   @click="handleStepAction(step.id)"
                   :class="step.buttonClass"
-                  class="w-full py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105"
+                  class="w-full py-2.5 rounded-lg text-sm font-semibold transition-all duration-200"
               >
                 <i :class="step.buttonIcon" class="mr-2"></i>
                 {{ step.buttonText }}
@@ -86,69 +79,69 @@
             </div>
 
             <!-- Indicateur de progression mobile -->
-            <div v-if="index < steps.length - 1" class="lg:hidden flex justify-center mt-8">
-              <div class="w-1 h-12 bg-gradient-to-b from-blue-500 to-purple-500 rounded-full"></div>
+            <div v-if="index < steps.length - 1" class="lg:hidden flex justify-center mt-6">
+              <div class="w-px h-8 bg-gradient-to-b from-blue-500 to-indigo-500"></div>
             </div>
           </div>
         </div>
       </div>
 
       <!-- Section avantages du processus -->
-      <div class="bg-white rounded-3xl p-12 shadow-xl mb-20" data-aos="zoom-in">
-        <div class="text-center mb-12">
-          <h3 class="text-3xl font-bold text-gray-900 mb-4">Pourquoi notre processus est-il si efficace ?</h3>
-          <p class="text-gray-600 max-w-2xl mx-auto">
+      <div class="bg-white rounded-2xl p-8 border border-slate-100 shadow-sm mb-12" data-aos="zoom-in">
+        <div class="text-center mb-8">
+          <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-2">Avantages</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Pourquoi notre processus est-il si efficace ?</h3>
+          <p class="text-slate-500 text-sm max-w-xl mx-auto">
             Découvrez les avantages qui font la différence dans votre expérience d'investissement
           </p>
         </div>
 
-        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+        <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-5">
           <div v-for="advantage in processAdvantages" :key="advantage.title"
-               class="text-center group hover:bg-blue-50 p-6 rounded-2xl transition-all duration-300">
-            <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
-              <i :class="advantage.icon" class="text-2xl text-white"></i>
+               class="text-center group hover:bg-slate-50 p-5 rounded-xl border border-transparent hover:border-slate-100 transition-all duration-200">
+            <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mx-auto mb-3 group-hover:scale-110 transition-transform duration-200 shadow-sm">
+              <i :class="advantage.icon" class="text-lg text-white"></i>
             </div>
-            <h4 class="font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors">{{ advantage.title }}</h4>
-            <p class="text-sm text-gray-600">{{ advantage.description }}</p>
+            <h4 class="font-bold text-slate-900 text-sm mb-1.5 group-hover:text-blue-600 transition-colors">{{ advantage.title }}</h4>
+            <p class="text-xs text-slate-500">{{ advantage.description }}</p>
           </div>
         </div>
       </div>
 
-      <!-- CTA avec démonstration -->
-      <div class="text-center mb-20" data-aos="fade-up" data-aos-delay="600">
-        <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-3xl p-12 text-white relative overflow-hidden">
-          <!-- Éléments décoratifs -->
-          <div class="absolute top-0 right-0 w-64 h-64 bg-white opacity-10 rounded-full transform translate-x-32 -translate-y-32"></div>
-          <div class="absolute bottom-0 left-0 w-48 h-48 bg-white opacity-5 rounded-full transform -translate-x-24 translate-y-24"></div>
+      <!-- CTA -->
+      <div class="text-center mb-14" data-aos="fade-up" data-aos-delay="600">
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white relative overflow-hidden">
+          <div class="absolute top-0 right-0 w-48 h-48 bg-white/5 rounded-full transform translate-x-24 -translate-y-24"></div>
+          <div class="absolute bottom-0 left-0 w-36 h-36 bg-white/5 rounded-full transform -translate-x-18 translate-y-18"></div>
 
           <div class="relative z-10">
-            <h3 class="text-3xl font-bold mb-4">Prêt à commencer votre parcours d'investisseur ?</h3>
-            <p class="text-blue-100 mb-8 max-w-2xl mx-auto text-lg">
+            <h3 class="text-2xl font-bold mb-3">Prêt à commencer votre parcours d'investisseur ?</h3>
+            <p class="text-blue-100 mb-7 max-w-xl mx-auto text-sm">
               Rejoignez plus de 2,500 investisseurs qui ont déjà fait le choix de l'innovation
             </p>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6 mb-8">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-7">
               <NuxtLink to="/auth/register"
-                        class="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-colors transform hover:scale-105 flex items-center">
+                        class="bg-white text-blue-600 px-7 py-3 rounded-lg font-bold hover:bg-slate-50 transition-colors flex items-center text-sm shadow-sm">
                 <i class="fas fa-rocket mr-2"></i>
                 Commencer maintenant
               </NuxtLink>
 
               <button @click="scrollToSection('domaines')"
-                      class="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 flex items-center">
+                      class="border border-white/40 text-white hover:bg-white/10 px-7 py-3 rounded-lg font-semibold transition-colors flex items-center text-sm">
                 <i class="fas fa-eye mr-2"></i>
                 Voir les opportunités
               </button>
             </div>
 
             <!-- Témoignage rapide -->
-            <div class="inline-flex items-center space-x-4 bg-white bg-opacity-10 backdrop-blur-sm rounded-2xl px-6 py-4">
-              <div class="w-12 h-12 bg-white bg-opacity-20 rounded-full flex items-center justify-center">
-                <i class="fas fa-quote-left text-xl"></i>
+            <div class="inline-flex items-center space-x-3 bg-white/10 backdrop-blur-sm rounded-xl px-5 py-3">
+              <div class="w-9 h-9 bg-white/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                <i class="fas fa-quote-left text-sm"></i>
               </div>
               <div class="text-left">
-                <div class="font-semibold">"En 3 clics, j'ai investi dans l'IA. Génial !"</div>
-                <div class="text-sm text-blue-200">Marie D., investisseuse depuis 2023</div>
+                <div class="text-sm font-semibold">"En 3 clics, j'ai investi dans l'IA. Génial !"</div>
+                <div class="text-xs text-blue-200 mt-0.5">Marie D., investisseuse depuis 2023</div>
               </div>
             </div>
           </div>
@@ -156,20 +149,21 @@
       </div>
 
       <!-- Statistiques de confiance -->
-      <div class="mt-20 pt-16 border-t border-gray-200">
-        <div class="text-center mb-12" data-aos="fade-up">
-          <h3 class="text-3xl font-bold text-gray-900 mb-4">Ils nous font déjà confiance</h3>
-          <p class="text-gray-600">Une communauté d'investisseurs en constante croissance</p>
+      <div class="pt-12 border-t border-slate-200">
+        <div class="text-center mb-10" data-aos="fade-up">
+          <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-2">Confiance</div>
+          <h3 class="text-xl font-bold text-slate-900 mb-2">Ils nous font déjà confiance</h3>
+          <p class="text-slate-500 text-sm">Une communauté d'investisseurs en constante croissance</p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-8" data-aos="fade-up" data-aos-delay="200">
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-6" data-aos="fade-up" data-aos-delay="200">
           <div v-for="stat in trustStats" :key="stat.label"
                class="text-center group">
-            <div class="text-4xl font-bold mb-2 transition-colors duration-300" :class="stat.colorClass">
+            <div class="text-3xl font-black mb-1.5 transition-colors duration-300" :class="stat.colorClass">
               <AnimatedCounter :value="stat.numericValue" :suffix="stat.suffix" />
             </div>
-            <div class="text-sm text-gray-600">{{ stat.label }}</div>
-            <div class="w-16 h-1 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mx-auto mt-2 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
+            <div class="text-xs text-slate-500 font-medium">{{ stat.label }}</div>
+            <div class="w-10 h-0.5 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full mx-auto mt-2 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
           </div>
         </div>
       </div>
@@ -204,7 +198,7 @@ const steps = [
     stat2: { value: '156 projets', label: 'Financés' },
     buttonText: 'Explorer les secteurs',
     buttonIcon: 'fas fa-compass',
-    buttonClass: 'bg-purple-600 text-white hover:bg-purple-700'
+    buttonClass: 'bg-indigo-600 text-white hover:bg-indigo-700'
   },
   {
     id: 3,
@@ -215,7 +209,7 @@ const steps = [
     stat2: { value: 'Mensuel', label: 'Dividendes' },
     buttonText: 'Voir le dashboard',
     buttonIcon: 'fas fa-chart-bar',
-    buttonClass: 'bg-green-600 text-white hover:bg-green-700'
+    buttonClass: 'bg-emerald-600 text-white hover:bg-emerald-700'
   }
 ]
 
@@ -226,7 +220,7 @@ const processAdvantages = [
     description: 'Investissement en moins de 5 minutes'
   },
   {
-    icon: 'fas fa-shield-check',
+    icon: 'fas fa-shield-alt',
     title: '100% sécurisé',
     description: 'Cryptage bancaire et fonds protégés'
   },
@@ -253,19 +247,19 @@ const trustStats = [
     label: 'Projets financés',
     numericValue: 156,
     suffix: '',
-    colorClass: 'text-green-600'
+    colorClass: 'text-emerald-600'
   },
   {
     label: 'Taux de satisfaction',
     numericValue: 98,
     suffix: '%',
-    colorClass: 'text-purple-600'
+    colorClass: 'text-indigo-600'
   },
   {
     label: 'Capital investi',
     numericValue: 189,
     suffix: 'M€',
-    colorClass: 'text-orange-600'
+    colorClass: 'text-amber-600'
   }
 ]
 

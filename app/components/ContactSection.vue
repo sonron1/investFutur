@@ -1,92 +1,86 @@
 
 <template>
-  <section id="contact" class="py-24 bg-white relative overflow-hidden">
-    <!-- Éléments décoratifs -->
-    <div class="absolute inset-0 overflow-hidden">
-      <div class="absolute top-1/3 right-1/4 w-72 h-72 bg-blue-100 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
-      <div class="absolute bottom-1/3 left-1/4 w-72 h-72 bg-purple-100 rounded-full mix-blend-multiply filter blur-xl opacity-50"></div>
-    </div>
-
-    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <section id="contact" class="py-20 bg-slate-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
-      <div class="text-center mb-16" data-aos="fade-up">
-        <div class="inline-flex items-center space-x-2 bg-blue-50 rounded-full px-4 py-2 mb-6">
-          <div class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></div>
-          <span class="text-sm font-medium text-blue-700">Support expert</span>
+      <div class="text-center mb-12" data-aos="fade-up">
+        <div class="inline-flex items-center space-x-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-5">
+          <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
+          <span class="text-xs font-semibold text-blue-700">Support expert</span>
         </div>
-        <h2 class="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
           Parlons de vos
-          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-indigo-600">
             objectifs d'investissement
           </span>
         </h2>
-        <p class="text-xl text-gray-600 max-w-3xl mx-auto">
+        <p class="text-slate-500 max-w-2xl mx-auto">
           Notre équipe d'experts financiers est à votre disposition pour vous accompagner dans vos décisions d'investissement
         </p>
       </div>
 
       <!-- Grille principale -->
-      <div class="grid lg:grid-cols-3 gap-12 mb-20">
+      <div class="grid lg:grid-cols-3 gap-8 mb-12">
         <!-- Formulaire de contact -->
         <div class="lg:col-span-2" data-aos="fade-right">
-          <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-8">
-            <div class="mb-8">
-              <h3 class="text-2xl font-bold text-gray-900 mb-2">Demander un conseil personnalisé</h3>
-              <p class="text-gray-600">Un expert vous recontacte sous 24h</p>
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-7">
+            <div class="mb-6">
+              <h3 class="text-lg font-bold text-slate-900 mb-1">Demander un conseil personnalisé</h3>
+              <p class="text-slate-500 text-sm">Un expert vous recontacte sous 24h</p>
             </div>
 
-            <form @submit.prevent="handleContactForm" class="space-y-6">
-              <div class="grid md:grid-cols-2 gap-6">
+            <form @submit.prevent="handleContactForm" class="space-y-5">
+              <div class="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">Prénom *</label>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5">Prénom *</label>
                   <input
                       type="text"
                       required
                       v-model="contactForm.firstName"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
                       placeholder="Votre prénom"
                   >
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">Nom *</label>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5">Nom *</label>
                   <input
                       type="text"
                       required
                       v-model="contactForm.lastName"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
                       placeholder="Votre nom"
                   >
                 </div>
               </div>
 
-              <div class="grid md:grid-cols-2 gap-6">
+              <div class="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">Email *</label>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5">Email *</label>
                   <input
                       type="email"
                       required
                       v-model="contactForm.email"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
                       placeholder="votre@email.com"
                   >
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">Téléphone</label>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5">Téléphone</label>
                   <input
                       type="tel"
                       v-model="contactForm.phone"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
                       placeholder="+33 1 23 45 67 89"
                   >
                 </div>
               </div>
 
-              <div class="grid md:grid-cols-2 gap-6">
+              <div class="grid md:grid-cols-2 gap-5">
                 <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">Montant à investir</label>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5">Montant à investir</label>
                   <select
                       v-model="contactForm.investmentAmount"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm"
                   >
                     <option value="">Sélectionner un montant</option>
                     <option value="5000-25000">5 000€ - 25 000€</option>
@@ -96,10 +90,10 @@
                   </select>
                 </div>
                 <div>
-                  <label class="block text-sm font-semibold text-gray-700 mb-2">Secteur d'intérêt</label>
+                  <label class="block text-xs font-semibold text-slate-600 mb-1.5">Secteur d'intérêt</label>
                   <select
                       v-model="contactForm.sector"
-                      class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                      class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm"
                   >
                     <option value="">Tous les secteurs</option>
                     <option value="tech-vertes">Technologies Vertes</option>
@@ -113,11 +107,11 @@
               </div>
 
               <div>
-                <label class="block text-sm font-semibold text-gray-700 mb-2">Message</label>
+                <label class="block text-xs font-semibold text-slate-600 mb-1.5">Message</label>
                 <textarea
                     v-model="contactForm.message"
                     rows="4"
-                    class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all"
+                    class="w-full px-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
                     placeholder="Décrivez vos objectifs d'investissement ou vos questions..."
                 ></textarea>
               </div>
@@ -128,25 +122,25 @@
                     id="consent"
                     required
                     v-model="contactForm.consent"
-                    class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
+                    class="h-4 w-4 text-blue-600 focus:ring-blue-500/20 border-slate-300 rounded mt-0.5"
                 >
-                <label for="consent" class="text-sm text-gray-600">
+                <label for="consent" class="text-xs text-slate-500">
                   J'accepte d'être recontacté par un conseiller InvestFuture et j'ai lu la
-                  <a href="#" class="text-blue-600 hover:text-blue-500 underline">politique de confidentialité</a>.
+                  <a href="#" class="text-blue-600 hover:text-blue-700 underline">politique de confidentialité</a>.
                 </label>
               </div>
 
               <button
                   type="submit"
                   :disabled="isSubmitting"
-                  class="w-full bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700 disabled:from-gray-400 disabled:to-gray-500 text-white py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 disabled:hover:scale-100 disabled:cursor-not-allowed"
+                  class="w-full bg-blue-600 hover:bg-blue-700 disabled:bg-slate-300 disabled:cursor-not-allowed text-white py-3 rounded-lg font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
               >
                 <span v-if="!isSubmitting" class="flex items-center justify-center">
                   <i class="fas fa-paper-plane mr-2"></i>
                   Envoyer ma demande
                 </span>
                 <span v-else class="flex items-center justify-center">
-                  <i class="fas fa-spinner fa-spin mr-2"></i>
+                  <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
                   Envoi en cours...
                 </span>
               </button>
@@ -155,33 +149,33 @@
         </div>
 
         <!-- Informations de contact -->
-        <div class="space-y-8" data-aos="fade-left">
+        <div class="space-y-5" data-aos="fade-left">
           <!-- Canaux de contact -->
           <div v-for="(contact, index) in contactChannels" :key="contact.title"
                :data-aos="'fade-up'"
-               :data-aos-delay="index * 200"
+               :data-aos-delay="index * 150"
                class="group">
-            <div class="bg-gradient-to-br from-white to-gray-50 p-8 rounded-3xl shadow-lg hover:shadow-xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-              <div class="flex items-center mb-6">
-                <div class="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300">
-                  <i :class="contact.icon" class="text-2xl text-white"></i>
+            <div class="bg-white border border-slate-100 p-5 rounded-2xl shadow-sm hover:shadow-md transition-all duration-200 hover:-translate-y-0.5">
+              <div class="flex items-center mb-4">
+                <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center flex-shrink-0">
+                  <i :class="contact.icon" class="text-white text-sm"></i>
                 </div>
-                <div class="ml-4">
-                  <h3 class="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
+                <div class="ml-3">
+                  <h3 class="text-sm font-bold text-slate-900 group-hover:text-blue-600 transition-colors">
                     {{ contact.title }}
                   </h3>
-                  <p class="text-sm text-gray-600">{{ contact.subtitle }}</p>
+                  <p class="text-xs text-slate-500">{{ contact.subtitle }}</p>
                 </div>
               </div>
-              <div class="space-y-3">
+              <div class="space-y-2">
                 <div v-for="item in contact.items" :key="item.label" class="flex items-center justify-between">
-                  <span class="text-gray-600 text-sm">{{ item.label }}:</span>
-                  <span class="font-semibold text-gray-900">{{ item.value }}</span>
+                  <span class="text-slate-500 text-xs">{{ item.label }}:</span>
+                  <span class="font-semibold text-slate-900 text-xs">{{ item.value }}</span>
                 </div>
               </div>
-              <div class="mt-6 pt-6 border-t border-gray-100">
-                <div class="flex items-center text-sm text-green-600">
-                  <i class="fas fa-check-circle mr-2"></i>
+              <div class="mt-4 pt-3 border-t border-slate-100">
+                <div class="flex items-center text-xs text-emerald-600 font-medium">
+                  <i class="fas fa-check-circle mr-1.5"></i>
                   {{ contact.availability }}
                 </div>
               </div>
@@ -189,22 +183,24 @@
           </div>
 
           <!-- Section FAQ rapide -->
-          <div class="bg-blue-50 rounded-3xl p-8">
-            <h3 class="text-xl font-bold text-gray-900 mb-6">Questions fréquentes</h3>
-            <div class="space-y-4">
+          <div class="bg-white border border-slate-100 rounded-2xl p-5 shadow-sm">
+            <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-3">FAQ</div>
+            <h3 class="text-sm font-bold text-slate-900 mb-4">Questions fréquentes</h3>
+            <div class="space-y-3">
               <div v-for="faq in quickFAQ" :key="faq.question"
                    class="group cursor-pointer"
                    @click="faq.open = !faq.open">
-                <div class="flex items-center justify-between">
-                  <span class="font-medium text-gray-900 text-sm group-hover:text-blue-600 transition-colors">
+                <div class="flex items-center justify-between py-2">
+                  <span class="font-medium text-slate-800 text-xs group-hover:text-blue-600 transition-colors pr-3">
                     {{ faq.question }}
                   </span>
-                  <i class="fas fa-chevron-down text-gray-400 transition-transform duration-300"
+                  <i class="fas fa-chevron-down text-slate-400 text-xs transition-transform duration-200 flex-shrink-0"
                      :class="{ 'rotate-180': faq.open }"></i>
                 </div>
-                <div v-if="faq.open" class="mt-2 text-sm text-gray-600 leading-relaxed">
+                <div v-if="faq.open" class="pb-2 text-xs text-slate-500 leading-relaxed">
                   {{ faq.answer }}
                 </div>
+                <div class="border-b border-slate-100"></div>
               </div>
             </div>
           </div>
@@ -213,43 +209,42 @@
 
       <!-- Section CTA finale -->
       <div class="text-center" data-aos="fade-up" data-aos-delay="300">
-        <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-3xl p-12 text-white relative overflow-hidden">
-          <!-- Éléments décoratifs -->
-          <div class="absolute top-0 left-0 w-64 h-64 bg-white opacity-5 rounded-full transform -translate-x-32 -translate-y-32"></div>
-          <div class="absolute bottom-0 right-0 w-48 h-48 bg-white opacity-10 rounded-full transform translate-x-24 translate-y-24"></div>
+        <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white relative overflow-hidden">
+          <div class="absolute top-0 left-0 w-48 h-48 bg-white/5 rounded-full transform -translate-x-24 -translate-y-24"></div>
+          <div class="absolute bottom-0 right-0 w-36 h-36 bg-white/5 rounded-full transform translate-x-18 translate-y-18"></div>
 
           <div class="relative z-10">
-            <h3 class="text-3xl font-bold mb-4">Prêt à investir dans votre avenir ?</h3>
-            <p class="text-blue-100 mb-8 max-w-2xl mx-auto text-lg">
+            <h3 class="text-2xl font-bold mb-3">Prêt à investir dans votre avenir ?</h3>
+            <p class="text-blue-100 mb-7 max-w-xl mx-auto text-sm">
               Rejoignez plus de 2,500 investisseurs qui font déjà confiance à InvestFuture pour construire leur patrimoine.
             </p>
 
-            <div class="flex flex-col sm:flex-row items-center justify-center gap-6">
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
               <NuxtLink to="/auth/register"
-                        class="bg-white text-blue-600 px-8 py-4 rounded-xl font-bold hover:bg-gray-100 transition-colors transform hover:scale-105 flex items-center">
+                        class="bg-white text-blue-600 px-7 py-3 rounded-lg font-bold hover:bg-slate-50 transition-colors flex items-center text-sm shadow-sm">
                 <i class="fas fa-user-plus mr-2"></i>
                 Créer mon compte gratuitement
               </NuxtLink>
 
-              <button class="border-2 border-white text-white hover:bg-white hover:text-blue-600 px-8 py-4 rounded-xl font-bold transition-all duration-300 transform hover:scale-105 flex items-center">
+              <button class="border border-white/40 text-white hover:bg-white/10 px-7 py-3 rounded-lg font-semibold transition-colors flex items-center text-sm">
                 <i class="fas fa-calendar-alt mr-2"></i>
                 Planifier un entretien
               </button>
             </div>
 
             <!-- Stats de conversion -->
-            <div class="mt-12 grid grid-cols-3 gap-8 max-w-2xl mx-auto">
+            <div class="grid grid-cols-3 gap-6 max-w-lg mx-auto">
               <div class="text-center">
-                <div class="text-2xl font-bold mb-1">< 24h</div>
-                <div class="text-sm text-blue-200">Temps de réponse</div>
+                <div class="text-xl font-bold mb-0.5">< 24h</div>
+                <div class="text-xs text-blue-200">Temps de réponse</div>
               </div>
               <div class="text-center">
-                <div class="text-2xl font-bold mb-1">97%</div>
-                <div class="text-sm text-blue-200">Clients satisfaits</div>
+                <div class="text-xl font-bold mb-0.5">97%</div>
+                <div class="text-xs text-blue-200">Clients satisfaits</div>
               </div>
               <div class="text-center">
-                <div class="text-2xl font-bold mb-1">0€</div>
-                <div class="text-sm text-blue-200">Frais de conseil</div>
+                <div class="text-xl font-bold mb-0.5">0€</div>
+                <div class="text-xs text-blue-200">Frais de conseil</div>
               </div>
             </div>
           </div>
