@@ -60,18 +60,19 @@ const { resetModals, shouldRefresh, forceRefresh, refreshKey } = usePageRefresh(
 onMounted(() => {
   resetModals()
 
-  // Vérifier si on doit rafraîchir la page
   if (shouldRefresh()) {
     forceRefresh()
+  }
 
-    // Optionnel : notification subtile
-    nextTick(() => {
-      // AOS refresh si disponible
+  // Always refresh AOS on home page mount — covers client-side navigation
+  // where the layout doesn't remount but page components do
+  nextTick(() => {
+    setTimeout(() => {
       if (process.client && window.AOS) {
         window.AOS.refresh()
       }
-    })
-  }
+    }, 100)
+  })
 })
 </script>
 

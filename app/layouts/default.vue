@@ -8,9 +8,17 @@
 <script setup>
 import { useAOS } from '~/composables/useRefreshAOS'
 
-// Utiliser le composable AOS au niveau du layout
-const { initAOSOnMount } = useAOS()
+const { initAOSOnMount, refreshAOS } = useAOS()
 
-// Initialiser AOS au montage du layout
+// Initialize AOS on first mount
 initAOSOnMount()
+
+// Re-run AOS after every client-side navigation (layout persists, so onMounted
+// doesn't re-fire — we must watch the route instead)
+const route = useRoute()
+watch(() => route.fullPath, () => {
+  nextTick(() => {
+    setTimeout(() => refreshAOS(), 150)
+  })
+})
 </script>
