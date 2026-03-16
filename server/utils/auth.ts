@@ -2,11 +2,18 @@ import jwt from 'jsonwebtoken'
 import bcrypt from 'bcryptjs'
 import type { H3Event } from 'h3'
 
-const JWT_SECRET = process.env.JWT_SECRET!
-const JWT_REFRESH_SECRET = process.env.JWT_REFRESH_SECRET!
+// Lazy getters — env vars are read at call time (not at module load)
+// This avoids crashes during Vercel cold starts before env vars are injected
+function getJwtSecret(): string {
+  const s = process.env.JWT_SECRET
+  if (!s) throw new Error('JWT_SECRET is not set')
+  return s
+}
 
-if (!JWT_SECRET || !JWT_REFRESH_SECRET) {
-  throw new Error('JWT_SECRET and JWT_REFRESH_SECRET must be set in environment variables')
+function getJwtRefreshSecret(): string {
+  const s = process.env.JWT_REFRESH_SECRET
+  if (!s) throw new Error('JWT_REFRESH_SECRET is not set')
+  return s
 }
 
 // ─── Password ─────────────────────────────────────────────────────────────────
@@ -28,23 +35,23 @@ export interface AccessTokenPayload {
 }
 
 export function signAccessToken(payload: AccessTokenPayload): string {
-  return jwt.sign(payload, JWT_SECRET, {
-    expiresIn: process.env.JWT_EXPIRES_IN ?? '15m',
+  return jwt.sign(payload, getJwtSecret(), {
+    expiresIn: (process.env.JWT_EXPIRES_IN ?? '15m') as any,
   })
 }
 
 export function signRefreshToken(userId: string): string {
-  return jwt.sign({ userId }, JWT_REFRESH_SECRET, {
-    expiresIn: process.env.JWT_REFRESH_EXPIRES_IN ?? '7d',
+  return jwt.sign({ userId }, getJwtRefreshSecret(), {
+    expiresIn: (process.env.JWT_REFRESH_EXPIRES_IN ?? '7d') as any,
   })
 }
 
 export function verifyAccessToken(token: string): AccessTokenPayload {
-  return jwt.verify(token, JWT_SECRET) as AccessTokenPayload
+  return jwt.verify(token, getJwtSecret()) as AccessTokenPayload
 }
 
 export function verifyRefreshToken(token: string): { userId: string } {
-  return jwt.verify(token, JWT_REFRESH_SECRET) as { userId: string }
+  return jwt.verify(token, getJwtRefreshSecret()) as { userId: string }
 }
 
 // ─── Token extraction ─────────────────────────────────────────────────────────

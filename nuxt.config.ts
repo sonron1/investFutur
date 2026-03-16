@@ -49,21 +49,21 @@ export default defineNuxtConfig({
     payloadExtraction: false,
   },
 
-  // Runtime config — public vars accessible client-side, private vars server-only
   runtimeConfig: {
-    // Private (server-only)
-    jwtSecret: process.env.JWT_SECRET,
-    jwtRefreshSecret: process.env.JWT_REFRESH_SECRET,
-    resendApiKey: process.env.RESEND_API_KEY,
-    databaseUrl: process.env.DATABASE_URL,
-    // Public (client-accessible)
+    jwtSecret: '',
+    jwtRefreshSecret: '',
+    resendApiKey: '',
+    databaseUrl: '',
     public: {
-      appUrl: process.env.APP_URL ?? 'http://localhost:3000',
+      appUrl: 'http://localhost:3000',
       appName: 'InvestFutur',
     },
   },
 
   nitro: {
-    // Remove unused redis storage config
+    // Vercel serverless — bundle Prisma client correctly
+    externals: {
+      inline: ['@prisma/client', '.prisma/client'],
+    },
   },
 })
