@@ -4,7 +4,7 @@
     <!-- Hero Section -->
     <section class="pt-20 pb-14">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center" data-aos="fade-up">
+        <div class="text-center" >
           <div class="inline-flex items-center space-x-2 bg-blue-50 border border-blue-100 rounded-full px-4 py-1.5 mb-5">
             <div class="w-1.5 h-1.5 bg-blue-500 rounded-full animate-pulse"></div>
             <span class="text-xs font-semibold text-blue-700">À propos d'InvestFuture</span>
@@ -39,13 +39,13 @@
     <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="grid lg:grid-cols-2 gap-14 items-center">
-          <div data-aos="fade-right">
+          <div >
             <div class="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">Origines</div>
             <h2 class="text-2xl font-bold text-slate-900 mb-5">Notre Histoire</h2>
             <div class="space-y-4 text-slate-500 text-sm leading-relaxed">
               <p>
                 Fondée en 2020 par une équipe d'experts financiers et de technologues passionnés,
-                InvestFuture est née d'un constat simple : les particuliers avaient difficilement
+                InvestFuture est née d'un constat simple les particuliers avaient difficilement
                 accès aux investissements dans l'innovation.
               </p>
               <p>
@@ -60,7 +60,7 @@
             </div>
           </div>
 
-          <div data-aos="fade-left">
+          <div >
             <div class="relative">
               <div class="absolute inset-0 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl transform rotate-2 opacity-60"></div>
               <img
@@ -77,7 +77,7 @@
     <!-- Nos Valeurs -->
     <section class="py-16 bg-slate-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12" data-aos="fade-up">
+        <div class="text-center mb-12" >
           <div class="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">Principes</div>
           <h2 class="text-2xl font-bold text-slate-900 mb-3">Nos Valeurs</h2>
           <p class="text-slate-500 max-w-xl mx-auto text-sm">
@@ -87,8 +87,6 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5">
           <div v-for="(value, index) in values" :key="value.title"
-               :data-aos="'fade-up'"
-               :data-aos-delay="index * 100"
                class="bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200">
             <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center mb-4 shadow-sm">
               <i :class="value.icon" class="text-lg text-white"></i>
@@ -103,7 +101,7 @@
     <!-- Notre Équipe -->
     <section class="py-16 bg-white">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div class="text-center mb-12" data-aos="fade-up">
+        <div class="text-center mb-12" >
           <div class="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">Team</div>
           <h2 class="text-2xl font-bold text-slate-900 mb-3">Notre Équipe</h2>
           <p class="text-slate-500 max-w-xl mx-auto text-sm">
@@ -113,8 +111,6 @@
 
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           <div v-for="(member, index) in team" :key="member.name"
-               :data-aos="'fade-up'"
-               :data-aos-delay="index * 150"
                class="text-center group bg-slate-50 rounded-2xl border border-slate-100 p-6 hover:shadow-md transition-all duration-200">
             <div class="relative mb-5 inline-block">
               <div class="w-24 h-24 mx-auto rounded-2xl overflow-hidden bg-gradient-to-r from-blue-600 to-indigo-600 p-0.5">
@@ -133,7 +129,7 @@
 
     <!-- CTA Final -->
     <section class="py-14 bg-gradient-to-r from-blue-600 to-indigo-600">
-      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center" data-aos="fade-up">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center" >
         <h2 class="text-2xl font-bold text-white mb-3">
           Prêt à investir dans l'avenir ?
         </h2>

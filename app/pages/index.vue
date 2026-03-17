@@ -1,83 +1,36 @@
 <template>
-  <div class="overflow-x-hidden" >
-    <!-- Navigation -->
+  <div class="overflow-x-hidden">
     <Navbar />
-
-    <!-- Modal Investissement -->
     <InvestmentModal />
-
-    <!-- Hero Section -->
     <HeroSection />
-
-    <!-- Section Confiance/Partenaires -->
     <TrustSection />
-
-    <!-- Section Statistiques en temps réel -->
     <LiveStatsSection />
-
-    <!-- Section Domaines avec investissements complets -->
     <DomainsSection />
-
-    <!-- Section Investissements populaires (nouvelle) -->
-    <PopularInvestmentsSection />
-
-    <!-- Section Témoignages -->
-    <TestimonialsSection />
-
-    <!-- Section Comment ça marche -->
     <HowItWorksSection />
-
-    <!-- Section Avantages -->
+    <TestimonialsSection />
     <BenefitsSection />
-
-    <!-- Section Actualités/Blog -->
-    <NewsSection />
-
-    <!-- Section Contact -->
     <ContactSection />
-
-    <!-- Footer -->
     <Footer />
   </div>
 </template>
 
 <script setup>
-import { usePageRefresh } from '~/composables/usePageRefresh'
+import { useScrollReveal } from '~/composables/useScrollReveal'
 
-// Meta données de la page
 useSeoMeta({
-  title: 'InvestFuture - Plateforme d\'investissement dans l\'innovation',
-  description: 'Investissez dans l\'avenir avec InvestFuture. ROI moyen de 22%, investissement minimum 5000€. Technologies vertes, IA, Fintech et plus.',
-ogTitle: 'InvestFuture - Plateforme d\'investissement dans l\'innovation',
-    ogDescription: 'Investissez dans l\'avenir avec InvestFuture. ROI moyen de 22%, investissement minimum 5000€.',
-ogImage: '/images/og-image.jpg',
-    keywords: 'investissement, innovation, fintech, technologies vertes, ROI, startup'
+  title: 'InvestFutur — Plateforme d\'investissement nouvelle génération',
+  description: 'Investissez dans l\'innovation durable. IA, biotech, énergies renouvelables. ROI moyen 22%.',
 })
 
-// Système de rafraîchissement de page
-const { resetModals, shouldRefresh, forceRefresh, refreshKey } = usePageRefresh()
-
 onMounted(() => {
-  resetModals()
-
-  if (shouldRefresh()) {
-    forceRefresh()
+  if (process.client) {
+    const { revealAll } = useScrollReveal()
+    setTimeout(() => revealAll(), 100)
   }
-
-  // Always refresh AOS on home page mount — covers client-side navigation
-  // where the layout doesn't remount but page components do
-  nextTick(() => {
-    setTimeout(() => {
-      if (process.client && window.AOS) {
-        window.AOS.refresh()
-      }
-    }, 100)
-  })
 })
 </script>
 
 <style scoped>
-/* Styles spécifiques pour éviter les débordements */
 .overflow-x-hidden {
   overflow-x: hidden;
 }

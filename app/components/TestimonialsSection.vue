@@ -1,38 +1,41 @@
 <template>
-  <section class="py-20 bg-slate-50">
+  <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <!-- En-tête -->
-      <div class="text-center mb-12" data-aos="fade-up">
-        <div class="text-blue-600 text-sm font-semibold uppercase tracking-wider mb-3">Témoignages</div>
-        <h2 class="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
+      <!-- Header -->
+      <div class="text-center mb-12" data-reveal>
+        <div class="section-tag justify-center">
+          <i class="fas fa-star"></i>
+          Témoignages
+        </div>
+        <h2 class="section-title mb-4">
           Ce que disent nos investisseurs
         </h2>
-        <p class="text-slate-500 max-w-2xl mx-auto">
+        <p class="section-sub">
           Découvrez les témoignages de ceux qui nous font confiance pour leurs investissements
         </p>
       </div>
 
-      <!-- Témoignages en grille -->
+      <!-- Testimonials grid -->
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-5 mb-12">
         <div
-            v-for="(testimonial, index) in testimonials"
-            :key="testimonial.id"
-            :data-aos="'fade-up'"
-            :data-aos-delay="index * 100"
-            class="bg-white rounded-2xl border border-slate-100 p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
+          v-for="(testimonial, index) in testimonials"
+          :key="testimonial.id"
+          data-reveal
+          :data-reveal-delay="String((index % 3) * 100)"
+          class="bg-slate-50 rounded-2xl border border-slate-100 p-6 hover:shadow-md hover:-translate-y-0.5 transition-all duration-200"
         >
-          <!-- Étoiles -->
+          <!-- Stars -->
           <div class="flex mb-3">
             <i v-for="star in 5" :key="star" class="fas fa-star text-amber-400 text-xs mr-0.5"></i>
           </div>
 
-          <!-- Témoignage -->
+          <!-- Quote -->
           <blockquote class="text-slate-600 mb-5 text-sm leading-relaxed">
             "{{ testimonial.content }}"
           </blockquote>
 
-          <!-- Auteur -->
-          <div class="flex items-center pt-4 border-t border-slate-100">
+          <!-- Author -->
+          <div class="flex items-center pt-4 border-t border-slate-200">
             <div class="w-10 h-10 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-xl flex items-center justify-center text-white font-bold text-sm mr-3 flex-shrink-0">
               {{ testimonial.author.charAt(0) }}
             </div>
@@ -45,8 +48,8 @@
         </div>
       </div>
 
-      <!-- Section vidéo témoignage -->
-      <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white text-center" data-aos="zoom-in">
+      <!-- Video testimonial CTA -->
+      <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white text-center" data-reveal>
         <div class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-3">Exclusif</div>
         <h3 class="text-xl font-bold mb-3">Témoignage vidéo</h3>
         <p class="text-blue-100 text-sm mb-7 max-w-xl mx-auto">
@@ -68,7 +71,7 @@
 const testimonials = [
   {
     id: 1,
-    content: "Grâce à InvestFuture, j'ai pu diversifier mon portefeuille dans les technologies vertes. Le ROI dépasse mes attentes !",
+    content: "Grâce à InvestFutur, j'ai pu diversifier mon portefeuille dans les technologies vertes. Le ROI dépasse mes attentes !",
     author: "Marie Dubois",
     role: "Cadre supérieure",
     roi: 28.5

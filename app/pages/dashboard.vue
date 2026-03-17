@@ -4,7 +4,7 @@
 
     <div class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       <!-- Message de bienvenue après inscription -->
-      <div v-if="isNewUser" class="mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6" data-aos="fade-down">
+      <div v-if="isNewUser" class="mb-8 bg-gradient-to-r from-blue-600 to-indigo-600 text-white rounded-2xl p-6" >
         <div class="flex items-center">
           <div class="w-14 h-14 bg-white/20 rounded-xl flex items-center justify-center mr-5 flex-shrink-0">
             <i class="fas fa-rocket text-xl text-white"></i>
@@ -30,7 +30,7 @@
 
       <!-- Statistiques rapides -->
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm" data-aos="fade-up" data-aos-delay="100">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"  >
           <div class="flex items-center">
             <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
               <i class="fas fa-wallet text-blue-600"></i>
@@ -42,7 +42,7 @@
           </div>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm" data-aos="fade-up" data-aos-delay="200">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"  >
           <div class="flex items-center">
             <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
               <i class="fas fa-chart-line text-emerald-600"></i>
@@ -54,7 +54,7 @@
           </div>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm" data-aos="fade-up" data-aos-delay="300">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"  >
           <div class="flex items-center">
             <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
               <i class="fas fa-chart-pie text-indigo-600"></i>
@@ -66,7 +66,7 @@
           </div>
         </div>
 
-        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm" data-aos="fade-up" data-aos-delay="400">
+        <div class="bg-white p-5 rounded-2xl border border-slate-100 shadow-sm"  >
           <div class="flex items-center">
             <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center mr-4 flex-shrink-0">
               <i class="fas fa-euro-sign text-amber-600"></i>
@@ -81,7 +81,7 @@
 
       <div class="grid lg:grid-cols-2 gap-6">
         <!-- Mes derniers investissements -->
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6" data-aos="fade-right">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6" >
           <div class="flex items-center justify-between mb-5">
             <h2 class="text-base font-bold text-slate-900">Mes derniers investissements</h2>
             <NuxtLink to="/investments" class="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors">
@@ -121,7 +121,7 @@
         </div>
 
         <!-- Opportunités recommandées -->
-        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6" data-aos="fade-left">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6" >
           <div class="flex items-center justify-between mb-5">
             <h2 class="text-base font-bold text-slate-900">Recommandé pour vous</h2>
             <NuxtLink to="/#domaines" class="text-blue-600 hover:text-blue-700 text-sm font-medium transition-colors">
@@ -154,7 +154,7 @@
       </div>
 
       <!-- Section actualités et conseils -->
-      <div class="mt-6 bg-white rounded-2xl border border-slate-100 shadow-sm p-6" data-aos="fade-up">
+      <div class="mt-6 bg-white rounded-2xl border border-slate-100 shadow-sm p-6" >
         <div class="flex items-center justify-between mb-5">
           <div>
             <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-1">Ressources</div>

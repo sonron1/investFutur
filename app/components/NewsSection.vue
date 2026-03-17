@@ -2,7 +2,7 @@
   <section class="py-20 bg-white">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
-      <div class="text-center mb-16" data-aos="fade-up">
+      <div class="text-center mb-16" >
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Actualités et insights
         </h2>
@@ -15,7 +15,7 @@
       <div class="grid lg:grid-cols-2 gap-12 mb-16">
         <!-- Article principal -->
         <article
-            data-aos="fade-right"
+            
             class="group cursor-pointer"
         >
           <div class="relative overflow-hidden rounded-2xl mb-6">
@@ -38,7 +38,7 @@
               <span>Intelligence Artificielle</span>
             </div>
             <h3 class="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-              L'IA générative révolutionne les investissements : +45% de croissance prévue
+              L'IA générative révolutionne les investissements +45% de croissance prévue
             </h3>
             <p class="text-gray-600 leading-relaxed">
               Découvrez comment l'intelligence artificielle transforme le paysage des investissements et pourquoi c'est le moment idéal pour investir dans ce secteur en pleine expansion.
@@ -63,8 +63,6 @@
           <article
               v-for="(article, index) in secondaryArticles"
               :key="article.id"
-              :data-aos="'fade-left'"
-              :data-aos-delay="index * 200"
               class="flex space-x-4 group cursor-pointer"
           >
             <div class="flex-shrink-0">
@@ -94,7 +92,7 @@
       </div>
 
       <!-- Newsletter et CTA -->
-      <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-3xl p-12 text-white" data-aos="zoom-in">
+      <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-3xl p-12 text-white" >
         <div class="grid md:grid-cols-2 gap-8 items-center">
           <div>
             <h3 class="text-2xl font-bold mb-4">Newsletter InvestFuture</h3>
@@ -138,7 +136,7 @@
 const secondaryArticles = [
   {
     id: 1,
-    title: "Les biotechnologies explosent : +67% en 6 mois",
+    title: "Les biotechnologies explosent +67% en 6 mois",
     excerpt: "Le secteur de la biotech connaît une croissance exceptionnelle. Analyse des meilleures opportunités.",
     image: "https://images.unsplash.com/photo-1582719471384-894fbb16e074?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     date: "12 Nov 2024",
@@ -148,7 +146,7 @@ const secondaryArticles = [
   },
   {
     id: 2,
-    title: "Fintech : la révolution des paiements crypto",
+    title: "Fintech la révolution des paiements crypto",
     excerpt: "Comment les cryptomonnaies transforment le secteur financier et créent de nouvelles opportunités.",
     image: "https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     date: "10 Nov 2024",
@@ -158,7 +156,7 @@ const secondaryArticles = [
   },
   {
     id: 3,
-    title: "Technologies vertes : l'avenir de l'énergie",
+    title: "Technologies vertes l'avenir de l'énergie",
     excerpt: "Les énergies renouvelables attirent des investissements records. Focus sur les leaders du secteur.",
     image: "https://images.unsplash.com/photo-1497435334941-8c899ee9e8e9?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     date: "8 Nov 2024",
@@ -168,7 +166,7 @@ const secondaryArticles = [
   },
   {
     id: 4,
-    title: "E-commerce : les nouvelles stratégies gagnantes",
+    title: "E-commerce les nouvelles stratégies gagnantes",
     excerpt: "Analyse des tendances qui façonnent l'avenir du commerce en ligne et leurs impacts sur les investissements.",
     image: "https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?ixlib=rb-4.0.3&auto=format&fit=crop&w=300&q=80",
     date: "5 Nov 2024",

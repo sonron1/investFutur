@@ -37,9 +37,8 @@ export default defineNuxtConfig({
           rel: 'stylesheet',
           href: 'https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&display=swap',
         },
-        { rel: 'stylesheet', href: 'https://unpkg.com/aos@2.3.1/dist/aos.css' },
       ],
-      script: [{ src: 'https://unpkg.com/aos@2.3.1/dist/aos.js', defer: true }],
+      script: [],
     },
   },
 

@@ -8,7 +8,8 @@
       "Bash(for f:*)",
       "Bash(do echo:*)",
       "Read(//c/Users/Ange/Documents/Dev/investFutur/**)",
-      "Bash(done)"
+      "Bash(done)",
+      "Bash(npx nuxt:*)"
     ]
   }
 }

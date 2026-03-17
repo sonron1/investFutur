@@ -2,7 +2,7 @@
   <section class="py-20 bg-gradient-to-br from-gray-50 to-blue-50">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <!-- En-tête -->
-      <div class="text-center mb-16" data-aos="fade-up">
+      <div class="text-center mb-16" >
         <h2 class="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
           Investissements les plus populaires
         </h2>
@@ -16,8 +16,6 @@
         <div
             v-for="(investment, index) in popularInvestments"
             :key="investment.id"
-            :data-aos="'fade-up'"
-            :data-aos-delay="index * 100"
             class="bg-white rounded-2xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-500 group"
         >
           <!-- Image avec badge -->
@@ -126,7 +124,7 @@
       </div>
 
       <!-- Call to action -->
-      <div class="text-center" data-aos="zoom-in">
+      <div class="text-center" >
         <div class="bg-gradient-to-r from-blue-600 to-purple-700 rounded-3xl p-8 text-white">
           <h3 class="text-2xl font-bold mb-4">Prêt à rejoindre nos investisseurs ?</h3>
           <p class="text-blue-100 mb-6 max-w-2xl mx-auto">

@@ -1,15 +1,15 @@
 <template>
-  <footer class="bg-slate-900 text-white relative overflow-hidden">
+  <footer class="text-white relative overflow-hidden" style="background-color: var(--color-dark)">
     <!-- Top accent line -->
-    <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-blue-500/40 to-transparent"></div>
+    <div class="absolute top-0 left-0 right-0 h-px" style="background: linear-gradient(90deg, transparent, rgba(59,130,246,0.4), transparent);"></div>
 
     <div class="relative z-10">
       <!-- Main section -->
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-10">
           <!-- Brand column -->
-          <div class="lg:col-span-2" data-aos="fade-up">
-            <div class="flex items-center space-x-2.5 mb-6">
+          <div class="lg:col-span-2">
+            <div class="flex items-center gap-2.5 mb-6">
               <div class="w-9 h-9 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-lg flex items-center justify-center">
                 <i class="fas fa-chart-line text-white text-base"></i>
               </div>
@@ -18,13 +18,13 @@
               </h4>
             </div>
 
-            <p class="text-slate-400 mb-8 leading-relaxed max-w-sm">
+            <p class="text-slate-400 mb-8 leading-relaxed max-w-sm text-sm">
               Votre partenaire de confiance pour investir dans l'innovation et construire l'avenir.
               Plus de 2 500 investisseurs nous font déjà confiance.
             </p>
 
             <!-- Footer stats -->
-            <div class="grid grid-cols-4 gap-4 mb-8 pb-8 border-b border-slate-800">
+            <div class="grid grid-cols-4 gap-4 mb-8 pb-8 border-b border-white/10">
               <div v-for="stat in footerStats" :key="stat.label" class="text-center">
                 <div class="text-lg font-black mb-0.5" :class="stat.colorClass">{{ stat.value }}</div>
                 <div class="text-xs text-slate-500 uppercase tracking-wide">{{ stat.label }}</div>
@@ -34,11 +34,11 @@
             <!-- Social links -->
             <div class="space-y-3">
               <h5 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">Suivez-nous</h5>
-              <div class="flex space-x-3">
+              <div class="flex gap-2.5">
                 <a v-for="social in socialLinks" :key="social.name"
-                   :href="social.url"
-                   :class="social.hoverClass"
-                   class="w-9 h-9 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center transition-all duration-200 text-slate-400 hover:text-white hover:border-transparent">
+                  :href="social.url"
+                  :class="social.hoverClass"
+                  class="w-9 h-9 bg-white/8 border border-white/10 rounded-lg flex items-center justify-center transition-all duration-200 text-slate-400 hover:text-white hover:border-transparent">
                   <i :class="social.icon" class="text-sm"></i>
                 </a>
               </div>
@@ -48,12 +48,12 @@
           <!-- Links columns -->
           <div class="grid grid-cols-2 gap-8 lg:col-span-2">
             <!-- Navigation -->
-            <div data-aos="fade-up" data-aos-delay="100">
+            <div>
               <h5 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-5">Navigation</h5>
               <ul class="space-y-3">
                 <li v-for="link in navigationLinks" :key="link.name">
                   <NuxtLink :to="link.url"
-                            class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center text-sm group">
+                    class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center text-sm group">
                     <i :class="link.icon" class="mr-2.5 text-xs text-slate-600 group-hover:text-blue-400 transition-colors w-3"></i>
                     {{ link.name }}
                   </NuxtLink>
@@ -61,18 +61,18 @@
               </ul>
             </div>
 
-            <!-- Services & Support -->
-            <div data-aos="fade-up" data-aos-delay="200">
+            <!-- Services -->
+            <div>
               <h5 class="text-sm font-semibold text-slate-300 uppercase tracking-wider mb-5">Services</h5>
               <ul class="space-y-3">
                 <li v-for="service in serviceLinks" :key="service.name">
                   <a :href="service.url"
-                     class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center text-sm group">
+                    class="text-slate-400 hover:text-white transition-colors duration-200 flex items-center text-sm group">
                     <i :class="service.icon" class="mr-2.5 text-xs text-slate-600 group-hover:text-indigo-400 transition-colors w-3"></i>
                     {{ service.name }}
                     <span v-if="service.badge"
-                          :class="service.badge.class"
-                          class="ml-2 px-1.5 py-0.5 text-xs font-semibold rounded">
+                      :class="service.badge.class"
+                      class="ml-2 px-1.5 py-0.5 text-xs font-semibold rounded">
                       {{ service.badge.text }}
                     </span>
                   </a>
@@ -84,9 +84,9 @@
       </div>
 
       <!-- Newsletter section -->
-      <div class="border-t border-slate-800">
+      <div class="border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-          <div class="grid lg:grid-cols-2 gap-10 items-center" data-aos="fade-up">
+          <div class="grid lg:grid-cols-2 gap-10 items-center">
             <div>
               <h3 class="text-xl font-bold mb-2 text-white">
                 Restez informé des meilleures opportunités
@@ -96,26 +96,26 @@
               </p>
               <div class="flex flex-wrap items-center gap-x-5 gap-y-2">
                 <div v-for="feature in newsletterFeatures" :key="feature"
-                     class="flex items-center text-xs text-slate-400">
+                  class="flex items-center text-xs text-slate-400">
                   <i class="fas fa-check text-emerald-400 mr-1.5"></i>
                   {{ feature }}
                 </div>
               </div>
             </div>
 
-            <div class="bg-slate-800 border border-slate-700 rounded-xl p-6">
+            <div class="bg-white/5 border border-white/10 rounded-xl p-6">
               <form @submit.prevent="handleNewsletterSubmit" class="space-y-3">
                 <input
-                    type="email"
-                    v-model="newsletterEmail"
-                    required
-                    placeholder="Votre adresse email"
-                    class="w-full px-4 py-2.5 bg-slate-700 text-white rounded-lg border border-slate-600 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-sm placeholder-slate-400"
+                  type="email"
+                  v-model="newsletterEmail"
+                  required
+                  placeholder="Votre adresse email"
+                  class="w-full px-4 py-2.5 bg-white/8 text-white rounded-lg border border-white/10 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-sm placeholder-slate-500"
                 >
                 <button
-                    type="submit"
-                    :disabled="isNewsletterSubmitting"
-                    class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 disabled:cursor-not-allowed text-white px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 text-sm"
+                  type="submit"
+                  :disabled="isNewsletterSubmitting"
+                  class="w-full bg-blue-600 hover:bg-blue-500 disabled:bg-slate-600 disabled:cursor-not-allowed text-white px-5 py-2.5 rounded-lg font-semibold transition-all duration-200 text-sm"
                 >
                   <span v-if="!isNewsletterSubmitting">
                     <i class="fas fa-envelope mr-2"></i>
@@ -134,13 +134,13 @@
       </div>
 
       <!-- Legal section -->
-      <div class="border-t border-slate-800">
+      <div class="border-t border-white/10">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
           <!-- Certifications -->
-          <div class="grid md:grid-cols-3 gap-6 mb-8" data-aos="fade-up">
+          <div class="grid md:grid-cols-3 gap-6 mb-8">
             <div v-for="certification in certifications" :key="certification.title"
-                 class="flex items-center space-x-3">
-              <div class="w-10 h-10 bg-slate-800 border border-slate-700 rounded-lg flex items-center justify-center flex-shrink-0">
+              class="flex items-center gap-3">
+              <div class="w-10 h-10 bg-white/8 border border-white/10 rounded-lg flex items-center justify-center flex-shrink-0">
                 <i :class="[certification.icon, certification.iconColor]" class="text-base"></i>
               </div>
               <div>
@@ -151,7 +151,7 @@
           </div>
 
           <!-- Bottom bar -->
-          <div class="border-t border-slate-800 pt-6">
+          <div class="border-t border-white/10 pt-6">
             <div class="flex flex-col lg:flex-row justify-between items-center gap-4">
               <div class="text-slate-500 text-sm">
                 &copy; {{ currentYear }} InvestFutur. Tous droits réservés.
@@ -159,8 +159,8 @@
               </div>
               <div class="flex flex-wrap items-center gap-x-5 gap-y-2 text-xs">
                 <a v-for="legal in legalLinks" :key="legal.name"
-                   :href="legal.url"
-                   class="text-slate-500 hover:text-slate-300 transition-colors">
+                  :href="legal.url"
+                  class="text-slate-500 hover:text-slate-300 transition-colors">
                   {{ legal.name }}
                 </a>
               </div>
@@ -168,8 +168,8 @@
           </div>
 
           <!-- Disclaimer -->
-          <div class="mt-6 p-4 bg-slate-800/60 border border-slate-700/50 rounded-xl">
-            <div class="flex items-start space-x-3">
+          <div class="mt-6 p-4 bg-white/5 border border-white/8 rounded-xl">
+            <div class="flex items-start gap-3">
               <i class="fas fa-info-circle text-amber-400 mt-0.5 flex-shrink-0"></i>
               <div class="text-xs text-slate-500 leading-relaxed">
                 <strong class="text-slate-400">Avertissement :</strong>
@@ -274,15 +274,9 @@ const handleNewsletterSubmit = async () => {
   isNewsletterSubmitting.value = true
 
   try {
-    // Simulation d'inscription
     await new Promise(resolve => setTimeout(resolve, 1500))
-
-    // Réinitialiser
     newsletterEmail.value = ''
-
-    // Notification de succès
     alert('Merci pour votre inscription ! Vous recevrez notre première newsletter sous peu.')
-
   } catch (error) {
     alert('Erreur lors de l\'inscription. Veuillez réessayer.')
   } finally {
@@ -290,10 +284,3 @@ const handleNewsletterSubmit = async () => {
   }
 }
 </script>
-
-<style scoped>
-.bg-clip-text {
-  -webkit-background-clip: text;
-  background-clip: text;
-}
-</style>
