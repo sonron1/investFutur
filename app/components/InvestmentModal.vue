@@ -1,6 +1,6 @@
 
 <template>
-  <!-- Modal améliorée avec animations et design moderne -->
+  <!-- Modal avec animations et design moderne -->
   <Transition name="modal" appear>
     <div v-if="isOpen" class="fixed inset-0 z-50 overflow-y-auto">
       <!-- Backdrop -->
@@ -27,10 +27,10 @@
                   </div>
                   <div>
                     <h3 class="text-2xl font-bold text-white">
-                      Investir dans {{ selectedSector?.name || 'ce secteur' }}
+                      {{ $t('modal.title') }} {{ selectedSector?.name || '' }}
                     </h3>
                     <p class="text-blue-100 text-sm">
-                      Opportunité d'investissement sélectionnée
+                      {{ $t('modal.subtitle') }}
                     </p>
                   </div>
                 </div>
@@ -73,30 +73,30 @@
                   <div class="grid grid-cols-2 gap-4">
                     <div class="bg-blue-50 rounded-2xl p-4 text-center">
                       <div class="text-2xl font-bold text-blue-600">{{ selectedSector.roi }}%</div>
-                      <div class="text-sm text-gray-600">ROI estimé</div>
+                      <div class="text-sm text-gray-600">{{ $t('modal.roiEstimate') }}</div>
                     </div>
                     <div class="bg-green-50 rounded-2xl p-4 text-center">
-                      <div class="text-2xl font-bold text-green-600">{{ selectedSector.projects }}</div>
-                      <div class="text-sm text-gray-600">Projets disponibles</div>
+                      <div class="text-2xl font-bold text-green-600">{{ selectedSector.projetsCount || 0 }}</div>
+                      <div class="text-sm text-gray-600">{{ $t('modal.availableProjects') }}</div>
                     </div>
                     <div class="bg-purple-50 rounded-2xl p-4 text-center">
-                      <div class="text-2xl font-bold text-purple-600">{{ formatCurrency(selectedSector.minInvestment || 5000) }}</div>
-                      <div class="text-sm text-gray-600">Minimum requis</div>
+                      <div class="text-2xl font-bold text-purple-600">{{ formatCurrency(selectedSector.minInvestment || 50) }}</div>
+                      <div class="text-sm text-gray-600">{{ $t('modal.minimum') }}</div>
                     </div>
                     <div class="bg-orange-50 rounded-2xl p-4 text-center">
-                      <div class="text-2xl font-bold text-orange-600">{{ selectedSector.investors || 150 }}+</div>
-                      <div class="text-sm text-gray-600">Investisseurs</div>
+                      <div class="text-2xl font-bold text-orange-600">150+</div>
+                      <div class="text-sm text-gray-600">{{ $t('modal.investors') }}</div>
                     </div>
                   </div>
 
                   <!-- Avantages du secteur -->
-                  <div class="bg-gray-50 rounded-2xl p-6">
-                    <h5 class="font-bold text-gray-900 mb-4">Points forts</h5>
+                  <div v-if="selectedSector.highlights && selectedSector.highlights.length" class="bg-gray-50 rounded-2xl p-6">
+                    <h5 class="font-bold text-gray-900 mb-4">{{ $t('modal.strengths') }}</h5>
                     <ul class="space-y-2">
-                      <li v-for="advantage in sectorAdvantages" :key="advantage"
+                      <li v-for="highlight in selectedSector.highlights" :key="highlight"
                           class="flex items-center text-sm text-gray-700">
                         <i class="fas fa-check text-green-500 mr-3"></i>
-                        {{ advantage }}
+                        {{ highlight }}
                       </li>
                     </ul>
                   </div>
@@ -106,7 +106,7 @@
               <!-- Formulaire d'investissement -->
               <div class="bg-gradient-to-br from-gray-50 to-white rounded-3xl p-8">
                 <h4 class="text-2xl font-bold text-gray-900 mb-6 text-center">
-                  Finaliser votre investissement
+                  {{ $t('modal.finalizeTitle') }}
                 </h4>
 
                 <form @submit.prevent="submitInvestment" class="space-y-6">
@@ -114,41 +114,41 @@
                     <!-- Montant -->
                     <div class="space-y-2">
                       <label class="block text-sm font-semibold text-gray-700">
-                        Montant d'investissement (€) *
+                        {{ $t('modal.amountLabel') }}
                       </label>
                       <div class="relative">
                         <input
                             type="number"
                             v-model="investmentAmount"
-                            :min="selectedSector.minInvestment || 5000"
-                            step="100"
+                            :min="selectedSector.minInvestment || 50"
+                            step="10"
                             required
                             class="form-input pl-8"
-                            placeholder="5000"
+                            :placeholder="String(selectedSector.minInvestment || 50)"
                         >
                         <div class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400">
                           €
                         </div>
                       </div>
                       <div class="flex justify-between text-xs text-gray-500">
-                        <span>Minimum {{ formatCurrency(selectedSector.minInvestment || 5000) }}</span>
-                        <span>Gains estimés: <strong class="text-green-600">{{ formatCurrency(calculateEstimatedGains()) }}</strong></span>
+                        <span>{{ $t('modal.minimum_label') }} {{ formatCurrency(selectedSector.minInvestment || 50) }}</span>
+                        <span>{{ $t('modal.estimatedLabel') }}: <strong class="text-green-600">{{ formatCurrency(calculateEstimatedGains()) }}</strong></span>
                       </div>
                     </div>
 
                     <!-- Méthode de paiement -->
                     <div class="space-y-2">
                       <label class="block text-sm font-semibold text-gray-700">
-                        Méthode de paiement *
+                        {{ $t('modal.paymentLabel') }}
                       </label>
                       <select
                           v-model="paymentMethod"
                           required
                           class="form-select"
                       >
-                        <option value="">Choisir une méthode</option>
+                        <option value="">{{ $t('modal.choosePayment') }}</option>
                         <option v-for="method in paymentMethods" :key="method.value" :value="method.value">
-                          {{ method.label }} - Frais {{ method.fees }}
+                          {{ method.label }} - {{ method.fees }}
                         </option>
                       </select>
                     </div>
@@ -162,7 +162,7 @@
                           <i :class="getCryptoIcon(paymentMethod)" class="text-2xl"></i>
                           <div>
                             <div class="font-bold text-gray-900">{{ getCryptoName(paymentMethod) }}</div>
-                            <div class="text-sm text-gray-600">Paiement sécurisé</div>
+                            <div class="text-sm text-gray-600">{{ $t('modal.securePayment') }}</div>
                           </div>
                         </div>
                         <div class="text-right">
@@ -172,12 +172,12 @@
                       </div>
                       <div class="text-xs text-gray-500">
                         <i class="fas fa-info-circle mr-1"></i>
-                        Le taux de change est calculé en temps réel au moment du paiement
+                        {{ $t('modal.realTime') }}
                       </div>
                     </div>
                   </Transition>
 
-                  <!-- Options et consentements -->
+                  <!-- Consentements -->
                   <div class="space-y-4">
                     <div class="flex items-start space-x-3">
                       <input
@@ -188,10 +188,10 @@
                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
                       >
                       <label for="acceptTerms" class="text-sm text-gray-700 leading-relaxed">
-                        J'accepte les
-                        <a href="#" class="text-blue-600 hover:text-blue-500 underline">conditions générales</a>
-                        et j'ai pris connaissance des
-                        <a href="#" class="text-blue-600 hover:text-blue-500 underline">risques d'investissement</a>
+                        {{ $t('modal.acceptTerms') }}
+                        <a href="#" class="text-blue-600 hover:text-blue-500 underline">{{ $t('modal.terms') }}</a>
+                        {{ $t('modal.andRisks') }}
+                        <a href="#" class="text-blue-600 hover:text-blue-500 underline">{{ $t('modal.risks') }}</a>
                       </label>
                     </div>
 
@@ -203,29 +203,29 @@
                           class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded mt-1"
                       >
                       <label for="marketingConsent" class="text-sm text-gray-700">
-                        Je souhaite recevoir des informations sur les nouvelles opportunités d'investissement
+                        {{ $t('modal.marketing') }}
                       </label>
                     </div>
                   </div>
 
-                  <!-- Résumé de l'investissement -->
+                  <!-- Récapitulatif -->
                   <div class="bg-white border-2 border-dashed border-gray-200 rounded-2xl p-6">
-                    <h5 class="font-bold text-gray-900 mb-4">Récapitulatif</h5>
+                    <h5 class="font-bold text-gray-900 mb-4">{{ $t('modal.summary') }}</h5>
                     <div class="space-y-2 text-sm">
                       <div class="flex justify-between">
-                        <span class="text-gray-600">Secteur:</span>
+                        <span class="text-gray-600">{{ $t('modal.sector') }}:</span>
                         <span class="font-medium">{{ selectedSector.name }}</span>
                       </div>
                       <div class="flex justify-between">
-                        <span class="text-gray-600">Montant:</span>
+                        <span class="text-gray-600">{{ $t('modal.amount') }}:</span>
                         <span class="font-medium">{{ formatCurrency(investmentAmount) }}</span>
                       </div>
                       <div class="flex justify-between">
-                        <span class="text-gray-600">ROI estimé:</span>
-                        <span class="font-medium text-green-600">{{ selectedSector.roi }}% / an</span>
+                        <span class="text-gray-600">{{ $t('common.roi') }}:</span>
+                        <span class="font-medium text-green-600">{{ selectedSector.roi }}{{ $t('modal.roiPerYear') }}</span>
                       </div>
                       <div class="flex justify-between border-t pt-2">
-                        <span class="text-gray-900 font-semibold">Gains estimés (1 an):</span>
+                        <span class="text-gray-900 font-semibold">{{ $t('modal.estimatedGains') }}:</span>
                         <span class="font-bold text-green-600">{{ formatCurrency(calculateEstimatedGains()) }}</span>
                       </div>
                     </div>
@@ -236,18 +236,24 @@
                     <button
                         type="button"
                         @click="closeModal"
-                        class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 py-4 rounded-xl font-semibold transition-all duration-200 transform hover:scale-105"
+                        class="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-800 py-4 rounded-xl font-semibold transition-all duration-200"
                     >
                       <i class="fas fa-arrow-left mr-2"></i>
-                      Retour
+                      {{ $t('modal.back') }}
                     </button>
                     <button
                         type="submit"
-                        :disabled="!canInvest"
-                        class="flex-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100 py-4"
+                        :disabled="!canInvest || isSubmitting"
+                        class="flex-2 btn-primary disabled:opacity-50 disabled:cursor-not-allowed py-4"
                     >
-                      <i class="fas fa-lock mr-2"></i>
-                      Procéder au paiement sécurisé
+                      <span v-if="!isSubmitting">
+                        <i class="fas fa-lock mr-2"></i>
+                        {{ $t('modal.proceed') }}
+                      </span>
+                      <span v-else class="flex items-center justify-center">
+                        <div class="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2"></div>
+                        {{ $t('common.loading') }}
+                      </span>
                     </button>
                   </div>
                 </form>
@@ -262,15 +268,15 @@
 
 <script setup>
 import { ref, computed } from 'vue'
-import { navigateTo } from '#imports'
 
 const selectedSector = useState('selectedSector', () => null)
 const isOpen = useState('investmentModalOpen', () => false)
 
-const investmentAmount = ref(5000)
+const investmentAmount = ref(50)
 const paymentMethod = ref('')
 const acceptTerms = ref(false)
 const marketingConsent = ref(false)
+const isSubmitting = ref(false)
 
 const paymentMethods = [
   { value: 'bitcoin', label: 'Bitcoin (BTC)', fees: '2.5%' },
@@ -279,20 +285,8 @@ const paymentMethods = [
   { value: 'bnb', label: 'Binance Coin (BNB)', fees: '1.8%' }
 ]
 
-const sectorAdvantages = computed(() => {
-  const advantages = {
-    1: ['Croissance du marché +15% par an', 'Soutien gouvernemental', 'Impact environnemental positif'],
-    2: ['Innovation médicale révolutionnaire', 'Marché en croissance +12% par an', 'Partenariats laboratoires'],
-    3: ['Digitalisation des services financiers', 'Technologies blockchain', 'Marché en expansion'],
-    4: ['IA appliquée à tous les secteurs', 'Équipe de recherche mondiale', 'Brevets technologiques'],
-    5: ['E-commerce en croissance constante', 'Technologies de personnalisation', 'Expansion internationale'],
-    6: ['Économie décentralisée', 'Applications DeFi', 'Adoption institutionnelle']
-  }
-  return advantages[selectedSector.value?.id] || ['Secteur d\'avenir', 'Croissance prometteuse', 'Équipe experte']
-})
-
 const canInvest = computed(() => {
-  return investmentAmount.value >= (selectedSector.value?.minInvestment || 5000) &&
+  return investmentAmount.value >= (selectedSector.value?.minInvestment || 50) &&
       paymentMethod.value &&
       acceptTerms.value
 })
@@ -346,8 +340,7 @@ const formatCurrency = (amount) => {
 
 const closeModal = () => {
   isOpen.value = false
-  // Reset form
-  investmentAmount.value = 5000
+  investmentAmount.value = 50
   paymentMethod.value = ''
   acceptTerms.value = false
   marketingConsent.value = false
@@ -356,53 +349,60 @@ const closeModal = () => {
 const submitInvestment = async () => {
   if (!canInvest.value) return
 
+  isSubmitting.value = true
   try {
-    await navigateTo(`/payment/crypto?amount=${investmentAmount.value}&method=${paymentMethod.value}&sector=${selectedSector.value?.id}&marketing=${marketingConsent.value}`)
+    await $fetch('/api/investments/create', {
+      method: 'POST',
+      body: {
+        sectorSlug: selectedSector.value?.slug,
+        amount: investmentAmount.value,
+        paymentMethod: paymentMethod.value,
+        marketingConsent: marketingConsent.value
+      }
+    }).catch(() => {})
+
     closeModal()
+    await navigateTo('/investments')
   } catch (error) {
     console.error('Erreur lors de la soumission:', error)
+    closeModal()
+    await navigateTo('/investments')
+  } finally {
+    isSubmitting.value = false
   }
 }
 </script>
 
 <style scoped>
-/* Transitions pour la modal */
 .modal-enter-active,
 .modal-leave-active {
   transition: opacity 0.3s ease;
 }
-
 .modal-enter-from,
 .modal-leave-to {
   opacity: 0;
 }
-
 .backdrop-enter-active,
 .backdrop-leave-active {
   transition: opacity 0.3s ease;
 }
-
 .backdrop-enter-from,
 .backdrop-leave-to {
   opacity: 0;
 }
-
 .panel-enter-active,
 .panel-leave-active {
   transition: all 0.3s ease;
 }
-
 .panel-enter-from,
 .panel-leave-to {
   opacity: 0;
   transform: scale(0.95) translateY(-20px);
 }
-
 .fade-enter-active,
 .fade-leave-active {
   transition: all 0.3s ease;
 }
-
 .fade-enter-from,
 .fade-leave-to {
   opacity: 0;

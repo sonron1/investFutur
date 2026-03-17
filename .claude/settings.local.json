@@ -9,7 +9,12 @@
       "Bash(do echo:*)",
       "Read(//c/Users/Ange/Documents/Dev/investFutur/**)",
       "Bash(done)",
-      "Bash(npx nuxt:*)"
+      "Bash(npx nuxt:*)",
+      "Bash(npm install:*)",
+      "Bash(npm run:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)"
     ]
   }
 }

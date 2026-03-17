@@ -5,13 +5,13 @@
       <div class="text-center mb-12" data-reveal>
         <div class="section-tag">
           <i class="fas fa-chart-line"></i>
-          Statistiques
+          {{ $t('liveStats.tag') }}
         </div>
         <h2 class="section-title mb-4">
-          Nos performances en temps réel
+          {{ $t('liveStats.title') }}
         </h2>
         <p class="section-sub">
-          Découvrez la performance de notre plateforme et de nos investisseurs
+          {{ $t('liveStats.subtitle') }}
         </p>
       </div>
 
@@ -19,7 +19,7 @@
       <div class="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-12">
         <div
           v-for="(stat, index) in liveStats"
-          :key="stat.label"
+          :key="stat.labelKey"
           data-reveal
           :data-reveal-delay="String(index * 150)"
           class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 hover:shadow-md hover:-translate-y-1 transition-all duration-300 text-center"
@@ -30,10 +30,10 @@
           <div class="text-3xl font-black mb-1.5" :class="stat.colorClass">
             {{ stat.displayValue }}
           </div>
-          <div class="text-slate-600 text-sm font-medium">{{ stat.label }}</div>
+          <div class="text-slate-600 text-sm font-medium">{{ $t(stat.labelKey) }}</div>
           <div v-if="stat.growth" class="text-xs text-emerald-600 mt-2 font-medium">
             <i class="fas fa-arrow-up mr-1"></i>
-            +{{ stat.growth }}% ce mois
+            +{{ stat.growth }}% {{ $t('liveStats.monthGrowth') }}
           </div>
         </div>
       </div>
@@ -42,8 +42,8 @@
       <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6 md:p-8" data-reveal data-reveal-delay="400">
         <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4 mb-6">
           <div>
-            <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-1">Évolution</div>
-            <h3 class="text-lg font-bold text-slate-900">Performance du portefeuille</h3>
+            <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-1">{{ $t('liveStats.chartTag') }}</div>
+            <h3 class="text-lg font-bold text-slate-900">{{ $t('liveStats.chartTitle') }}</h3>
           </div>
           <div class="flex space-x-2">
             <button
@@ -69,7 +69,7 @@
         </div>
 
         <div class="flex justify-between mt-3 text-xs text-slate-400 font-medium">
-          <span v-for="month in months" :key="month">{{ month }}</span>
+          <span v-for="label in chartLabels" :key="label">{{ label }}</span>
         </div>
       </div>
     </div>
@@ -77,35 +77,37 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
+
+const { locale } = useI18n()
 
 const selectedPeriod = ref('6M')
 const periods = ['1M', '3M', '6M', '1A', '5A']
 
 const liveStats = [
   {
-    label: 'Capital investi',
+    labelKey: 'liveStats.capital',
     displayValue: '189.5M€',
     icon: 'fas fa-euro-sign',
     colorClass: 'text-blue-600',
     growth: 15.2
   },
   {
-    label: 'Investisseurs actifs',
+    labelKey: 'liveStats.investors',
     displayValue: '2 547',
     icon: 'fas fa-users',
     colorClass: 'text-emerald-600',
     growth: 8.7
   },
   {
-    label: 'ROI moyen',
+    labelKey: 'liveStats.roi',
     displayValue: '22.3%',
     icon: 'fas fa-chart-line',
     colorClass: 'text-indigo-600',
     growth: 3.1
   },
   {
-    label: 'Projets financés',
+    labelKey: 'liveStats.projects',
     displayValue: '156',
     icon: 'fas fa-rocket',
     colorClass: 'text-amber-600',
@@ -113,13 +115,35 @@ const liveStats = [
   }
 ]
 
-const months = ['Jan', 'Fév', 'Mar', 'Avr', 'Mai', 'Jun']
-const chartData = ref([
-  { height: 60 },
-  { height: 80 },
-  { height: 75 },
-  { height: 90 },
-  { height: 85 },
-  { height: 100 }
-])
+const periodDatasets = {
+  '1M': [{ height: 55 }, { height: 65 }, { height: 72 }, { height: 68 }],
+  '3M': [{ height: 50 }, { height: 62 }, { height: 75 }, { height: 70 }, { height: 82 }, { height: 90 }],
+  '6M': [{ height: 60 }, { height: 80 }, { height: 75 }, { height: 90 }, { height: 85 }, { height: 100 }],
+  '1A': [{ height: 40 }, { height: 50 }, { height: 58 }, { height: 62 }, { height: 68 }, { height: 72 }, { height: 76 }, { height: 80 }, { height: 85 }, { height: 90 }, { height: 95 }, { height: 100 }],
+  '5A': [{ height: 40 }, { height: 55 }, { height: 68 }, { height: 82 }, { height: 100 }]
+}
+
+const chartData = computed(() => periodDatasets[selectedPeriod.value] || periodDatasets['6M'])
+
+const chartLabels = computed(() => {
+  const lang = locale.value === 'fr' ? 'fr-FR' : locale.value === 'es' ? 'es-ES' : 'en-US'
+  const fmt = (month) => new Intl.DateTimeFormat(lang, { month: 'short' }).format(new Date(2024, month, 1))
+
+  if (selectedPeriod.value === '1M') {
+    return [1, 2, 3, 4].map(w => `S${w}`)
+  }
+  if (selectedPeriod.value === '3M') {
+    return [0, 1, 2].map(fmt)
+  }
+  if (selectedPeriod.value === '6M') {
+    return [0, 1, 2, 3, 4, 5].map(fmt)
+  }
+  if (selectedPeriod.value === '1A') {
+    return [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11].map(fmt)
+  }
+  if (selectedPeriod.value === '5A') {
+    return ['2020', '2021', '2022', '2023', '2024']
+  }
+  return []
+})
 </script>

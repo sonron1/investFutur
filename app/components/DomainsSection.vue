@@ -5,13 +5,13 @@
       <div class="text-center mb-12" data-reveal>
         <div class="section-tag">
           <i class="fas fa-industry"></i>
-          Opportunités
+          {{ $t('domains.tag') }}
         </div>
         <h2 class="section-title mb-4">
-          Secteurs d'investissement
+          {{ $t('domains.title') }}
         </h2>
         <p class="section-sub">
-          Diversifiez votre portefeuille avec nos 10 secteurs d'innovation les plus prometteurs
+          {{ $t('domains.subtitle') }}
         </p>
       </div>
 
@@ -20,9 +20,9 @@
         <div class="bg-slate-50 rounded-2xl border border-slate-100 p-5">
           <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">Secteur</label>
-              <select v-model="selectedSector" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
-                <option value="">Tous les secteurs</option>
+              <label class="block text-xs font-semibold text-slate-600 mb-1.5">{{ $t('domains.filterSector') }}</label>
+              <select v-model="selectedSectorFilter" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
+                <option value="">{{ $t('domains.allSectors') }}</option>
                 <option value="ia-deeptech">IA &amp; Deep-Tech</option>
                 <option value="energies-renouvelables">Énergies Renouvelables</option>
                 <option value="biotechnologies">Biotechnologies</option>
@@ -37,35 +37,35 @@
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">Investissement min.</label>
+              <label class="block text-xs font-semibold text-slate-600 mb-1.5">{{ $t('domains.filterMin') }}</label>
               <select v-model="selectedInvestment" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
-                <option value="">Tous les montants</option>
-                <option value="0-50">10€ - 50€</option>
-                <option value="50-100">50€ - 100€</option>
-                <option value="100-500">100€ - 500€</option>
-                <option value="500+">Plus de 500€</option>
+                <option value="">{{ $t('domains.allAmounts') }}</option>
+                <option value="0-50">{{ $t('domains.range1') }}</option>
+                <option value="50-100">{{ $t('domains.range2') }}</option>
+                <option value="100-500">{{ $t('domains.range3') }}</option>
+                <option value="500+">{{ $t('domains.range4') }}</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">ROI minimum</label>
+              <label class="block text-xs font-semibold text-slate-600 mb-1.5">{{ $t('domains.filterRoi') }}</label>
               <select v-model="selectedRoi" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
-                <option value="">Tous les ROI</option>
-                <option value="15">Plus de 15%</option>
-                <option value="20">Plus de 20%</option>
-                <option value="25">Plus de 25%</option>
-                <option value="30">Plus de 30%</option>
+                <option value="">{{ $t('domains.allRoi') }}</option>
+                <option value="15">{{ $t('domains.roiMin1') }}</option>
+                <option value="20">{{ $t('domains.roiMin2') }}</option>
+                <option value="25">{{ $t('domains.roiMin3') }}</option>
+                <option value="30">{{ $t('domains.roiMin4') }}</option>
               </select>
             </div>
 
             <div>
-              <label class="block text-xs font-semibold text-slate-600 mb-1.5">Rechercher</label>
+              <label class="block text-xs font-semibold text-slate-600 mb-1.5">{{ $t('domains.search') }}</label>
               <div class="relative">
                 <input
                   v-model="searchQuery"
                   type="text"
                   class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
-                  placeholder="Nom du secteur..."
+                  :placeholder="$t('domains.searchPlaceholder')"
                 >
                 <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
               </div>
@@ -74,10 +74,10 @@
 
           <div class="flex justify-between items-center pt-3 border-t border-slate-100">
             <div class="text-xs text-slate-500">
-              {{ filteredSectors.length }} secteur{{ filteredSectors.length > 1 ? 's' : '' }} trouvé{{ filteredSectors.length > 1 ? 's' : '' }}
+              {{ $t('domains.found_one', filteredSectors.length) }}
             </div>
             <button @click="resetFilters" class="text-sm text-blue-600 hover:text-blue-700 font-medium transition-colors">
-              Réinitialiser
+              {{ $t('domains.reset') }}
             </button>
           </div>
         </div>
@@ -87,19 +87,19 @@
       <div class="grid grid-cols-2 md:grid-cols-4 gap-5 mb-12" data-reveal data-reveal-delay="200">
         <div class="text-center bg-slate-50 rounded-2xl border border-slate-100 shadow-sm p-5">
           <div class="text-2xl font-black text-blue-600 mb-1">{{ totalStats.totalProjects }}</div>
-          <div class="text-slate-500 text-xs">Projets actifs</div>
+          <div class="text-slate-500 text-xs">{{ $t('domains.totalProjects') }}</div>
         </div>
         <div class="text-center bg-slate-50 rounded-2xl border border-slate-100 shadow-sm p-5">
           <div class="text-2xl font-black text-emerald-600 mb-1">{{ totalStats.avgRoi }}%</div>
-          <div class="text-slate-500 text-xs">ROI moyen</div>
+          <div class="text-slate-500 text-xs">{{ $t('domains.avgRoi') }}</div>
         </div>
         <div class="text-center bg-slate-50 rounded-2xl border border-slate-100 shadow-sm p-5">
           <div class="text-2xl font-black text-indigo-600 mb-1">{{ formatCurrency(totalStats.minInvestment) }}</div>
-          <div class="text-slate-500 text-xs">À partir de</div>
+          <div class="text-slate-500 text-xs">{{ $t('domains.from') }}</div>
         </div>
         <div class="text-center bg-slate-50 rounded-2xl border border-slate-100 shadow-sm p-5">
           <div class="text-2xl font-black text-amber-600 mb-1">{{ totalStats.totalInvestors }}+</div>
-          <div class="text-slate-500 text-xs">Investisseurs</div>
+          <div class="text-slate-500 text-xs">{{ $t('domains.totalInvestors') }}</div>
         </div>
       </div>
 
@@ -108,10 +108,10 @@
         <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
           <i class="fas fa-search text-slate-400 text-xl"></i>
         </div>
-        <h3 class="text-lg font-bold text-slate-900 mb-2">Aucun secteur trouvé</h3>
-        <p class="text-slate-500 text-sm mb-5">Essayez de modifier vos critères de recherche</p>
+        <h3 class="text-lg font-bold text-slate-900 mb-2">{{ $t('domains.noResults') }}</h3>
+        <p class="text-slate-500 text-sm mb-5">{{ $t('domains.noResultsDesc') }}</p>
         <button @click="resetFilters" class="btn-primary">
-          Voir tous les secteurs
+          {{ $t('domains.seeAll') }}
         </button>
       </div>
 
@@ -169,17 +169,17 @@
             <div class="grid grid-cols-2 gap-3 mb-4">
               <div class="text-center p-3 bg-slate-50 rounded-xl border border-slate-100">
                 <div class="text-sm font-bold text-blue-600">{{ formatCurrency(sector.minInvestment) }}</div>
-                <div class="text-xs text-slate-500 mt-0.5">À partir de</div>
+                <div class="text-xs text-slate-500 mt-0.5">{{ $t('domains.from') }}</div>
               </div>
               <div class="text-center p-3 bg-slate-50 rounded-xl border border-slate-100">
                 <div class="text-sm font-bold text-emerald-600">{{ sector.roi }}</div>
-                <div class="text-xs text-slate-500 mt-0.5">ROI moyen</div>
+                <div class="text-xs text-slate-500 mt-0.5">{{ $t('domains.avgRoi') }}</div>
               </div>
             </div>
 
             <!-- Highlights -->
             <div class="mb-4">
-              <div class="text-xs font-semibold text-slate-700 mb-2">Points forts :</div>
+              <div class="text-xs font-semibold text-slate-700 mb-2">{{ $t('domains.strengths') }}</div>
               <ul class="space-y-1">
                 <li v-for="highlight in sector.highlights.slice(0, 2)" :key="highlight" class="text-xs text-slate-500 flex items-center">
                   <i class="fas fa-check text-emerald-500 mr-2 text-xs flex-shrink-0"></i>
@@ -190,7 +190,7 @@
 
             <!-- Payment methods -->
             <div class="mb-4">
-              <div class="text-xs font-semibold text-slate-700 mb-2">Paiements acceptés :</div>
+              <div class="text-xs font-semibold text-slate-700 mb-2">{{ $t('domains.payments') }}</div>
               <div class="flex flex-wrap gap-1.5">
                 <span
                   v-for="method in sector.paymentMethods.slice(0, 3)"
@@ -205,12 +205,12 @@
 
             <!-- Featured project -->
             <div v-if="sector.projects && sector.projects.length > 0" class="mb-4">
-              <div class="text-xs font-semibold text-slate-700 mb-2">Projet en vedette :</div>
+              <div class="text-xs font-semibold text-slate-700 mb-2">{{ $t('domains.featured') }}</div>
               <div class="bg-slate-50 border border-slate-100 p-3 rounded-xl">
                 <div class="text-xs font-semibold text-slate-900">{{ sector.projects[0].name }}</div>
                 <div class="text-xs text-slate-500 mt-1">{{ sector.projects[0].description.substring(0, 60) }}...</div>
                 <div class="flex justify-between items-center mt-2">
-                  <span class="text-xs text-slate-400">{{ sector.projects[0].investors }} investisseurs</span>
+                  <span class="text-xs text-slate-400">{{ sector.projects[0].investors }} {{ $t('common.investors') }}</span>
                   <span class="text-xs font-semibold text-emerald-600">+{{ sector.projects[0].roi }}%</span>
                 </div>
               </div>
@@ -222,13 +222,13 @@
               class="w-full bg-blue-600 hover:bg-blue-700 text-white py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 shadow-sm hover:shadow-md"
             >
               <i class="fas fa-rocket mr-2"></i>
-              Investir dès {{ formatCurrency(sector.minInvestment) }}
+              {{ $t('domains.investFrom') }} {{ formatCurrency(sector.minInvestment) }}
             </button>
 
             <div class="mt-3 text-center">
               <div class="inline-flex items-center text-xs text-slate-400">
                 <i class="fas fa-shield-alt text-emerald-500 mr-1"></i>
-                <span>Vérifié &amp; sécurisé par InvestFutur</span>
+                <span>{{ $t('domains.verified') }}</span>
               </div>
             </div>
           </div>
@@ -238,18 +238,18 @@
       <!-- CTA -->
       <div class="mt-14 text-center" data-reveal>
         <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white">
-          <h3 class="text-2xl md:text-3xl font-bold mb-3">Commencez à investir dès aujourd'hui</h3>
+          <h3 class="text-2xl md:text-3xl font-bold mb-3">{{ $t('domains.ctaTitle') }}</h3>
           <p class="text-blue-100 mb-7 max-w-2xl mx-auto text-sm">
-            Rejoignez plus de 2 500 investisseurs qui ont déjà fait confiance à InvestFutur. Investissement minimum : seulement 10€ !
+            {{ $t('domains.ctaSubtitle') }}
           </p>
           <div class="flex flex-col sm:flex-row gap-3 justify-center items-center">
             <NuxtLink to="/auth/register" class="bg-white text-blue-600 px-7 py-3 rounded-lg font-semibold hover:bg-slate-50 transition-colors shadow-sm text-sm">
               <i class="fas fa-user-plus mr-2"></i>
-              Créer un compte gratuit
+              {{ $t('domains.ctaBtn1') }}
             </NuxtLink>
             <button class="border-2 border-white/50 text-white px-7 py-3 rounded-lg font-semibold hover:bg-white/10 transition-colors text-sm">
               <i class="fas fa-phone mr-2"></i>
-              Parler à un conseiller
+              {{ $t('domains.ctaBtn2') }}
             </button>
           </div>
         </div>
@@ -265,7 +265,7 @@ import { useInvestmentData } from '~/composables/useInvestmentData'
 const { getSectors, getPaymentMethods } = useInvestmentData()
 const paymentMethods = getPaymentMethods()
 
-const selectedSector = ref('')
+const selectedSectorFilter = ref('')
 const selectedInvestment = ref('')
 const selectedRoi = ref('')
 const searchQuery = ref('')
@@ -283,14 +283,19 @@ const sectors = computed(() => {
 const filteredSectors = computed(() => {
   let result = [...sectors.value]
 
-  if (selectedSector.value) {
-    result = result.filter(sector => sector.slug === selectedSector.value)
+  if (selectedSectorFilter.value) {
+    result = result.filter(sector => sector.slug === selectedSectorFilter.value)
   }
 
   if (selectedInvestment.value) {
-    const [min, max] = selectedInvestment.value.split('-').map(v => v === '+' ? Infinity : parseInt(v))
+    const parts = selectedInvestment.value.split('-')
+    const min = parseInt(parts[0])
+    const max = parts[1] === '+' || parts[1] === undefined
+      ? (selectedInvestment.value.endsWith('+') ? Infinity : undefined)
+      : parseInt(parts[1])
+
     result = result.filter(sector => {
-      if (max === undefined) return sector.minInvestment >= min
+      if (max === undefined || max === Infinity) return sector.minInvestment >= min
       return sector.minInvestment >= min && sector.minInvestment <= max
     })
   }
@@ -327,7 +332,7 @@ const totalStats = computed(() => {
 })
 
 const resetFilters = () => {
-  selectedSector.value = ''
+  selectedSectorFilter.value = ''
   selectedInvestment.value = ''
   selectedRoi.value = ''
   searchQuery.value = ''
@@ -387,6 +392,9 @@ const formatCurrency = (amount) => {
 }
 
 const openInvestmentModal = (sector) => {
-  console.log('Ouvrir modal d\'investissement pour le secteur:', sector.name)
+  const selectedSectorState = useState('selectedSector')
+  const investmentModalOpen = useState('investmentModalOpen', () => false)
+  selectedSectorState.value = sector
+  investmentModalOpen.value = true
 }
 </script>

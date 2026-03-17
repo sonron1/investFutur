@@ -5,13 +5,13 @@
       <div class="text-center mb-12" data-reveal>
         <div class="section-tag justify-center">
           <i class="fas fa-trophy"></i>
-          Avantages
+          {{ $t('benefits.tag') }}
         </div>
         <h2 class="section-title mb-4">
-          Pourquoi choisir InvestFutur ?
+          {{ $t('benefits.title') }}
         </h2>
         <p class="section-sub">
-          Découvrez tous les avantages de notre plateforme d'investissement innovante
+          {{ $t('benefits.subtitle') }}
         </p>
       </div>
 
@@ -30,8 +30,8 @@
               <i :class="benefit.icon" class="text-lg text-white"></i>
             </div>
             <div>
-              <h3 class="text-base font-bold text-slate-900 mb-1.5">{{ benefit.title }}</h3>
-              <p class="text-slate-500 text-sm leading-relaxed">{{ benefit.description }}</p>
+              <h3 class="text-base font-bold text-slate-900 mb-1.5">{{ $t(benefit.titleKey) }}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed">{{ $t(benefit.descKey) }}</p>
               <div v-if="benefit.stats" class="mt-1.5 text-xs text-blue-600 font-semibold">
                 {{ benefit.stats }}
               </div>
@@ -42,8 +42,8 @@
         <!-- Right: comparison chart -->
         <div data-reveal="right">
           <div class="bg-white rounded-2xl border border-slate-100 p-7 shadow-sm">
-            <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-1">Comparaison</div>
-            <h4 class="text-lg font-bold text-slate-900 mb-6">Performance comparative</h4>
+            <div class="text-blue-600 text-xs font-semibold uppercase tracking-wider mb-1">{{ $t('benefits.compareTitle') }}</div>
+            <h4 class="text-lg font-bold text-slate-900 mb-6">{{ $t('benefits.compareDesc') }}</h4>
 
             <div class="space-y-4">
               <div v-for="comparison in performanceComparison" :key="comparison.label" class="space-y-1.5">
@@ -76,13 +76,13 @@
 
       <!-- Guarantees -->
       <div class="grid md:grid-cols-3 gap-5" data-reveal>
-        <div v-for="guarantee in guarantees" :key="guarantee.title"
+        <div v-for="guarantee in guarantees" :key="guarantee.titleKey"
           class="bg-white rounded-2xl border border-slate-100 p-6 text-center hover:shadow-md transition-shadow duration-200">
           <div class="w-14 h-14 bg-gradient-to-r from-emerald-500 to-emerald-600 rounded-xl flex items-center justify-center mx-auto mb-4 shadow-sm">
             <i :class="guarantee.icon" class="text-xl text-white"></i>
           </div>
-          <h3 class="text-base font-bold text-slate-900 mb-2.5">{{ guarantee.title }}</h3>
-          <p class="text-slate-500 text-sm mb-3 leading-relaxed">{{ guarantee.description }}</p>
+          <h3 class="text-base font-bold text-slate-900 mb-2.5">{{ $t(guarantee.titleKey) }}</h3>
+          <p class="text-slate-500 text-sm mb-3 leading-relaxed">{{ $t(guarantee.descKey) }}</p>
           <div class="text-xs text-emerald-600 font-semibold">{{ guarantee.detail }}</div>
         </div>
       </div>
@@ -95,30 +95,30 @@ const benefits = [
   {
     id: 1,
     icon: 'fas fa-chart-line',
-    title: 'Rendements supérieurs',
-    description: 'Nos algorithmes d\'IA sélectionnent les meilleures opportunités d\'investissement pour maximiser vos gains.',
+    titleKey: 'benefits.b1Title',
+    descKey: 'benefits.b1Desc',
     stats: 'ROI moyen: 22.3% vs 14% marché traditionnel'
   },
   {
     id: 2,
     icon: 'fas fa-shield-alt',
-    title: 'Sécurité maximale',
-    description: 'Vos fonds sont protégés par des technologies de cryptage avancées et des garanties bancaires.',
-    stats: 'Garantie jusqu\'à 100 000€ par compte'
+    titleKey: 'benefits.b2Title',
+    descKey: 'benefits.b2Desc',
+    stats: null
   },
   {
     id: 3,
     icon: 'fas fa-users',
-    title: 'Accompagnement expert',
-    description: 'Notre équipe de conseillers financiers vous guide dans vos choix d\'investissement.',
-    stats: 'Disponible 7j/7 de 8h à 20h'
+    titleKey: 'benefits.b3Title',
+    descKey: 'benefits.b3Desc',
+    stats: null
   },
   {
     id: 4,
     icon: 'fas fa-mobile-alt',
-    title: 'Plateforme intuitive',
-    description: 'Interface simple et moderne accessible depuis tous vos appareils pour investir en toute liberté.',
-    stats: 'Application mobile 4.8★ sur les stores'
+    titleKey: 'benefits.b4Title',
+    descKey: 'benefits.b4Desc',
+    stats: null
   }
 ]
 
@@ -156,20 +156,20 @@ const performanceComparison = [
 const guarantees = [
   {
     icon: 'fas fa-certificate',
-    title: 'Certifié AMF',
-    description: 'Plateforme agréée et régulée par l\'Autorité des Marchés Financiers française.',
+    titleKey: 'benefits.g1Title',
+    descKey: 'benefits.g1Desc',
     detail: 'Agrément CIP n° 18000001'
   },
   {
     icon: 'fas fa-lock',
-    title: 'Fonds sécurisés',
-    description: 'Vos investissements sont protégés et séparés des fonds de la société.',
+    titleKey: 'benefits.g2Title',
+    descKey: 'benefits.g2Desc',
     detail: 'Comptes ségrégués chez BNP Paribas'
   },
   {
     icon: 'fas fa-handshake',
-    title: 'Transparence totale',
-    description: 'Accès complet aux informations financières et reporting détaillé mensuel.',
+    titleKey: 'benefits.g3Title',
+    descKey: 'benefits.g3Desc',
     detail: 'Rapports certifiés par PwC'
   }
 ]

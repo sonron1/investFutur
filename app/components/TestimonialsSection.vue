@@ -5,13 +5,13 @@
       <div class="text-center mb-12" data-reveal>
         <div class="section-tag justify-center">
           <i class="fas fa-star"></i>
-          Témoignages
+          {{ $t('testimonials.tag') }}
         </div>
         <h2 class="section-title mb-4">
-          Ce que disent nos investisseurs
+          {{ $t('testimonials.title') }}
         </h2>
         <p class="section-sub">
-          Découvrez les témoignages de ceux qui nous font confiance pour leurs investissements
+          {{ $t('testimonials.subtitle') }}
         </p>
       </div>
 
@@ -50,10 +50,10 @@
 
       <!-- Video testimonial CTA -->
       <div class="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-8 md:p-10 text-white text-center" data-reveal>
-        <div class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-3">Exclusif</div>
-        <h3 class="text-xl font-bold mb-3">Témoignage vidéo</h3>
+        <div class="text-blue-200 text-xs font-semibold uppercase tracking-wider mb-3">{{ $t('testimonials.tag') }}</div>
+        <h3 class="text-xl font-bold mb-3">{{ $t('testimonials.videoTitle') }}</h3>
         <p class="text-blue-100 text-sm mb-7 max-w-xl mx-auto">
-          Découvrez l'expérience complète de nos investisseurs à travers cette vidéo exclusive
+          {{ $t('testimonials.videoDesc') }}
         </p>
         <div class="relative max-w-2xl mx-auto">
           <div class="bg-slate-900/50 rounded-xl aspect-video flex items-center justify-center">

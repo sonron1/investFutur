@@ -4,7 +4,7 @@
       <!-- Header -->
       <div class="text-center mb-10" data-reveal>
         <p class="text-slate-400 text-sm font-semibold uppercase tracking-widest">
-          Ils nous font confiance
+          {{ $t('trust.partners') }}
         </p>
       </div>
 
@@ -27,14 +27,14 @@
       <div class="grid md:grid-cols-3 gap-5" data-reveal data-reveal-delay="300">
         <div
           v-for="cert in certifications"
-          :key="cert.title"
+          :key="cert.key"
           class="text-center p-6 rounded-2xl bg-slate-50 border border-slate-100 hover:shadow-sm transition-all duration-200"
         >
           <div class="w-12 h-12 bg-blue-50 border border-blue-100 rounded-xl flex items-center justify-center mx-auto mb-4">
             <i :class="cert.icon" class="text-lg text-blue-600"></i>
           </div>
-          <h3 class="font-bold text-slate-900 text-sm mb-1.5">{{ cert.title }}</h3>
-          <p class="text-xs text-slate-500 leading-relaxed">{{ cert.description }}</p>
+          <h3 class="font-bold text-slate-900 text-sm mb-1.5">{{ $t(cert.titleKey) }}</h3>
+          <p class="text-xs text-slate-500 leading-relaxed">{{ $t(cert.descKey) }}</p>
         </div>
       </div>
     </div>
@@ -53,19 +53,22 @@ const partners = [
 
 const certifications = [
   {
+    key: 'security',
     icon: 'fas fa-shield-alt',
-    title: 'Sécurité certifiée',
-    description: 'Cryptage SSL 256-bits et conformité RGPD. Vos données sont protégées à chaque instant.'
+    titleKey: 'trust.security',
+    descKey: 'trust.securityDesc'
   },
   {
+    key: 'regulated',
     icon: 'fas fa-university',
-    title: 'Régulé AMF',
-    description: 'Autorisé par l\'Autorité des Marchés Financiers. Agrément CIP n° 18000001.'
+    titleKey: 'trust.regulated',
+    descKey: 'trust.regulatedDesc'
   },
   {
+    key: 'protected',
     icon: 'fas fa-lock',
-    title: 'Fonds protégés',
-    description: 'Garantie de dépôt jusqu\'à 100 000€ par compte. Fonds ségrégués chez BNP Paribas.'
+    titleKey: 'trust.protected',
+    descKey: 'trust.protectedDesc'
   }
 ]
 </script>

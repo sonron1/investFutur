@@ -46,15 +46,31 @@
         <!-- Boutons auth ou menu utilisateur -->
         <ClientOnly>
           <div class="hidden lg:flex items-center space-x-3">
-            <!-- Language switcher -->
-            <button
-              @click="switchLanguage"
-              class="flex items-center space-x-1.5 text-slate-500 hover:text-blue-600 hover:bg-slate-50 px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
-              :title="locale === 'fr' ? 'Switch to English' : 'Passer en français'"
-            >
-              <span class="text-base">{{ locale === 'fr' ? '🇬🇧' : '🇫🇷' }}</span>
-              <span class="text-xs font-semibold">{{ locale === 'fr' ? 'EN' : 'FR' }}</span>
-            </button>
+            <!-- Language switcher dropdown -->
+            <div class="relative" ref="langDropdownRef">
+              <button
+                @click="showLangDropdown = !showLangDropdown"
+                class="flex items-center space-x-1.5 text-slate-500 hover:text-blue-600 hover:bg-slate-50 px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
+              >
+                <span class="text-base">{{ currentLocaleFlag }}</span>
+                <span class="text-xs font-semibold uppercase">{{ locale }}</span>
+                <i class="fas fa-chevron-down text-xs transition-transform duration-200" :class="{ 'rotate-180': showLangDropdown }"></i>
+              </button>
+              <Transition name="dropdown">
+                <div v-show="showLangDropdown" class="absolute right-0 mt-2 w-36 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 overflow-hidden z-50">
+                  <button
+                    v-for="loc in locales"
+                    :key="loc.code"
+                    @click="switchTo(loc.code)"
+                    class="flex items-center w-full px-4 py-2 text-sm hover:bg-slate-50 transition-colors"
+                    :class="locale === loc.code ? 'text-blue-600 font-semibold bg-blue-50' : 'text-slate-700'"
+                  >
+                    <span class="mr-2">{{ localeFlag(loc.code) }}</span>
+                    {{ loc.name }}
+                  </button>
+                </div>
+              </Transition>
+            </div>
             <template v-if="!isAuthenticated">
               <NuxtLink to="/auth/login" class="text-slate-600 hover:text-blue-600 font-medium transition-colors px-4 py-2 rounded-lg hover:bg-slate-50 text-sm">
                 {{ $t('nav.login') }}
@@ -95,7 +111,7 @@
                     </NuxtLink>
                     <NuxtLink to="/kyc" @click="closeDropdown" class="dropdown-item">
                       <i class="fas fa-id-card mr-3 text-violet-500 w-4"></i>
-                      <span>Vérification KYC</span>
+                      <span>{{ $t('nav.kyc') }}</span>
                       <span v-if="authStore.user?.kycStatus === 'PENDING'" class="ml-auto text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold">!</span>
                     </NuxtLink>
                     <NuxtLink to="/profile" @click="closeDropdown" class="dropdown-item">
@@ -190,13 +206,18 @@
               {{ $t('nav.contact') }}
             </button>
             <!-- Mobile language switcher -->
-            <button
-              @click="switchLanguage"
-              class="mobile-nav-link text-slate-600"
-            >
-              <span class="mr-3 w-4 text-center">{{ locale === 'fr' ? '🇬🇧' : '🇫🇷' }}</span>
-              {{ locale === 'fr' ? 'English' : 'Français' }}
-            </button>
+            <div class="px-4 py-2 space-y-1">
+              <button
+                v-for="loc in locales"
+                :key="loc.code"
+                @click="switchTo(loc.code); closeMobileMenu()"
+                class="flex items-center w-full px-2 py-1.5 text-sm rounded-lg transition-colors"
+                :class="locale === loc.code ? 'text-blue-600 font-semibold bg-blue-50' : 'text-slate-600 hover:bg-slate-50'"
+              >
+                <span class="mr-2">{{ localeFlag(loc.code) }}</span>
+                {{ loc.name }}
+              </button>
+            </div>
 
             <ClientOnly>
               <template v-if="!isAuthenticated">
@@ -228,7 +249,7 @@
                   </NuxtLink>
                   <NuxtLink to="/kyc" @click="closeMobileMenu" class="mobile-nav-link">
                     <i class="fas fa-id-card mr-3 w-4 text-violet-500"></i>
-                    Vérification KYC
+                    {{ $t('nav.kyc') }}
                   </NuxtLink>
                   <NuxtLink to="/profile" @click="closeMobileMenu" class="mobile-nav-link">
                     <i class="fas fa-cog mr-3 w-4 text-slate-400"></i>
@@ -256,15 +277,25 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, computed, onMounted, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '~/stores/auth'
 import { useSmoothScroll } from '~/composables/useSmoothScroll'
 
 const { locale, locales, setLocale } = useI18n()
-const switchLanguage = () => {
-  const next = locale.value === 'fr' ? 'en' : 'fr'
-  setLocale(next)
+const showLangDropdown = ref(false)
+const langDropdownRef = ref(null)
+
+const localeFlag = (code) => {
+  const flags = { fr: '🇫🇷', en: '🇬🇧', es: '🇪🇸' }
+  return flags[code] || '🌐'
+}
+
+const currentLocaleFlag = computed(() => localeFlag(locale.value))
+
+const switchTo = (code) => {
+  setLocale(code)
+  showLangDropdown.value = false
 }
 
 const authStore = useAuthStore()
@@ -327,6 +358,7 @@ const logout = () => {
 const handleClickOutside = (event) => {
   if (!event.target.closest('.relative')) {
     showDropdown.value = false
+    showLangDropdown.value = false
   }
 }
 
