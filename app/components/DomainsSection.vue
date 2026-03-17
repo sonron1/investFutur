@@ -259,8 +259,9 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch, nextTick } from 'vue'
 import { useInvestmentData } from '~/composables/useInvestmentData'
+import { useScrollReveal } from '~/composables/useScrollReveal'
 
 const { getSectors, getPaymentMethods } = useInvestmentData()
 const paymentMethods = getPaymentMethods()
@@ -390,6 +391,11 @@ const formatCurrency = (amount) => {
     minimumFractionDigits: 0
   }).format(amount)
 }
+
+const { revealAll } = useScrollReveal()
+watch(filteredSectors, () => {
+  nextTick(() => revealAll())
+})
 
 const openInvestmentModal = (sector) => {
   const selectedSectorState = useState('selectedSector')
