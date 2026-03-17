@@ -141,6 +141,103 @@ export async function sendWelcomeEmail(to: string, firstName: string) {
   })
 }
 
+// ─── KYC notifications ────────────────────────────────────────────────────────
+
+export async function sendKycReceivedEmail(to: string, firstName: string, docTypes: string[]) {
+  const docLabels: Record<string, string> = {
+    identity_front: 'Recto pièce d\'identité',
+    identity_back: 'Verso pièce d\'identité',
+    proof_of_address: 'Justificatif de domicile',
+    selfie: 'Selfie',
+  }
+  const docList = docTypes.map((t) => `<li>${docLabels[t] ?? t} ✓</li>`).join('')
+
+  return getResend().emails.send({
+    from: getFrom(),
+    to,
+    subject: 'InvestFutur — Dossier KYC reçu',
+    html: `
+      <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
+      <body style="font-family: Arial, sans-serif; background: #f8fafc; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+          <div style="background: linear-gradient(135deg, #1e40af, #3b82f6); padding: 40px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">InvestFutur</h1>
+          </div>
+          <div style="padding: 40px;">
+            <h2 style="color: #1e293b; font-size: 22px; margin: 0 0 16px;">Dossier KYC reçu ✅</h2>
+            <p style="color: #475569; line-height: 1.6;">Bonjour ${firstName},</p>
+            <p style="color: #475569; line-height: 1.6;">Votre dossier de vérification d'identité a bien été reçu. Notre équipe va l'examiner dans les <strong>24 à 48 heures ouvrables</strong>.</p>
+            <div style="background: #f1f5f9; border-radius: 12px; padding: 20px; margin: 24px 0;">
+              <p style="color: #0f172a; font-size: 14px; font-weight: 600; margin: 0 0 8px;">Documents soumis :</p>
+              <ul style="color: #475569; font-size: 14px; margin: 0; padding-left: 20px;">${docList}</ul>
+            </div>
+            <p style="color: #475569; font-size: 14px;">Vous recevrez un email dès que votre dossier aura été traité.</p>
+            <div style="text-align: center; margin-top: 32px;">
+              <a href="${getAppUrl()}/dashboard" style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">Mon tableau de bord</a>
+            </div>
+          </div>
+        </div>
+      </body></html>
+    `,
+  })
+}
+
+export async function sendKycApprovedEmail(to: string, firstName: string) {
+  return getResend().emails.send({
+    from: getFrom(),
+    to,
+    subject: 'InvestFutur — Vérification KYC approuvée 🎉',
+    html: `
+      <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
+      <body style="font-family: Arial, sans-serif; background: #f8fafc; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+          <div style="background: linear-gradient(135deg, #059669, #10b981); padding: 40px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">InvestFutur</h1>
+          </div>
+          <div style="padding: 40px;">
+            <h2 style="color: #1e293b; font-size: 22px; margin: 0 0 16px;">KYC approuvé ! 🎉</h2>
+            <p style="color: #475569; line-height: 1.6;">Bonjour ${firstName},</p>
+            <p style="color: #475569; line-height: 1.6;">Votre identité a été vérifiée avec succès. Vous avez maintenant accès à toutes les fonctionnalités d'investissement d'InvestFutur.</p>
+            <div style="background: #ecfdf5; border: 1px solid #6ee7b7; border-radius: 12px; padding: 20px; margin: 24px 0; text-align: center;">
+              <p style="color: #065f46; font-weight: 600; margin: 0;">Niveau KYC : Tier 1 — Accès complet</p>
+            </div>
+            <div style="text-align: center; margin-top: 32px;">
+              <a href="${getAppUrl()}/dashboard" style="background: linear-gradient(135deg, #059669, #10b981); color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">Commencer à investir</a>
+            </div>
+          </div>
+        </div>
+      </body></html>
+    `,
+  })
+}
+
+export async function sendKycRejectedEmail(to: string, firstName: string, reason?: string) {
+  return getResend().emails.send({
+    from: getFrom(),
+    to,
+    subject: 'InvestFutur — Action requise pour votre dossier KYC',
+    html: `
+      <!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"></head>
+      <body style="font-family: Arial, sans-serif; background: #f8fafc; margin: 0; padding: 40px 20px;">
+        <div style="max-width: 600px; margin: 0 auto; background: white; border-radius: 16px; overflow: hidden; box-shadow: 0 4px 24px rgba(0,0,0,0.08);">
+          <div style="background: linear-gradient(135deg, #dc2626, #ef4444); padding: 40px; text-align: center;">
+            <h1 style="color: white; margin: 0; font-size: 28px; font-weight: 700;">InvestFutur</h1>
+          </div>
+          <div style="padding: 40px;">
+            <h2 style="color: #1e293b; font-size: 22px; margin: 0 0 16px;">Dossier KYC — Action requise</h2>
+            <p style="color: #475569; line-height: 1.6;">Bonjour ${firstName},</p>
+            <p style="color: #475569; line-height: 1.6;">Votre dossier KYC n'a pas pu être validé. Vous pouvez le soumettre à nouveau avec des documents mis à jour.</p>
+            ${reason ? `<div style="background: #fef2f2; border: 1px solid #fca5a5; border-radius: 12px; padding: 16px; margin: 24px 0;"><p style="color: #991b1b; font-size: 14px; margin: 0;"><strong>Motif :</strong> ${reason}</p></div>` : ''}
+            <div style="text-align: center; margin-top: 32px;">
+              <a href="${getAppUrl()}/kyc" style="background: linear-gradient(135deg, #1e40af, #3b82f6); color: white; text-decoration: none; padding: 14px 32px; border-radius: 8px; font-weight: 600; font-size: 14px; display: inline-block;">Soumettre à nouveau</a>
+            </div>
+          </div>
+        </div>
+      </body></html>
+    `,
+  })
+}
+
 // ─── Investment confirmation ───────────────────────────────────────────────────
 
 export async function sendInvestmentConfirmationEmail(

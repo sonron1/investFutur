@@ -3,26 +3,26 @@
     <Navbar />
 
     <div class="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <!-- En-tête avec statistiques globales -->
+      <!-- Header -->
       <div class="mb-8">
         <div class="flex flex-col md:flex-row md:items-center justify-between mb-6">
           <div>
-            <h1 class="text-2xl font-bold text-slate-900 mb-1">Mes Investissements</h1>
-            <p class="text-slate-500 text-sm">Suivez la progression de tous vos projets ({{ investments.length }} investissements actifs)</p>
+            <h1 class="text-2xl font-bold text-slate-900 mb-1">{{ $t('investments.title') }}</h1>
+            <p class="text-slate-500 text-sm">{{ $t('investments.subtitle') }} ({{ investments.length }})</p>
           </div>
           <NuxtLink to="/#domaines" class="btn-primary mt-4 md:mt-0 inline-flex items-center">
             <i class="fas fa-plus mr-2"></i>
-            Nouveau projet
+            {{ $t('investments.newProject') }}
           </NuxtLink>
         </div>
 
-        <!-- Statistiques globales -->
-        <div v-if="investments.length > 0" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
+        <!-- Stats (only when investments exist) -->
+        <div v-if="investments.length > 0 && !isLoading" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5 mb-6">
           <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
             <div class="flex items-center justify-between">
               <div>
                 <div class="text-xl font-bold text-slate-900 mb-0.5">{{ formatCurrency(portfolioStats.totalInvested) }}</div>
-                <div class="text-slate-500 text-xs">Total investi</div>
+                <div class="text-slate-500 text-xs">{{ $t('investments.totalInvested') }}</div>
               </div>
               <div class="w-10 h-10 bg-blue-50 rounded-xl flex items-center justify-center">
                 <i class="fas fa-wallet text-blue-600"></i>
@@ -34,7 +34,7 @@
             <div class="flex items-center justify-between">
               <div>
                 <div class="text-xl font-bold text-slate-900 mb-0.5">+{{ portfolioStats.avgRoi.toFixed(1) }}%</div>
-                <div class="text-slate-500 text-xs">Performance moyenne</div>
+                <div class="text-slate-500 text-xs">{{ $t('investments.avgPerformance') }}</div>
               </div>
               <div class="w-10 h-10 bg-emerald-50 rounded-xl flex items-center justify-center">
                 <i class="fas fa-chart-line text-emerald-600"></i>
@@ -45,8 +45,8 @@
           <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-xl font-bold text-slate-900 mb-0.5">{{ investments.length }}</div>
-                <div class="text-slate-500 text-xs">Projets actifs</div>
+                <div class="text-xl font-bold text-slate-900 mb-0.5">{{ portfolioStats.activeCount }}</div>
+                <div class="text-slate-500 text-xs">{{ $t('investments.activeProjects') }}</div>
               </div>
               <div class="w-10 h-10 bg-indigo-50 rounded-xl flex items-center justify-center">
                 <i class="fas fa-chart-pie text-indigo-600"></i>
@@ -57,8 +57,8 @@
           <div class="bg-white border border-slate-100 rounded-2xl shadow-sm p-5">
             <div class="flex items-center justify-between">
               <div>
-                <div class="text-xl font-bold text-slate-900 mb-0.5">{{ formatCurrency(portfolioStats.monthlyGains) }}</div>
-                <div class="text-slate-500 text-xs">Gains ce mois</div>
+                <div class="text-xl font-bold text-slate-900 mb-0.5">{{ formatCurrency(portfolioStats.estimatedGains) }}</div>
+                <div class="text-slate-500 text-xs">{{ $t('investments.estimatedGains') }}</div>
               </div>
               <div class="w-10 h-10 bg-amber-50 rounded-xl flex items-center justify-center">
                 <i class="fas fa-calendar text-amber-600"></i>
@@ -68,154 +68,135 @@
         </div>
       </div>
 
-      <!-- Filtres -->
-      <div v-if="investments.length > 0" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-6">
+      <!-- Filters -->
+      <div v-if="investments.length > 0 && !isLoading" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 mb-6">
         <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
-          <div>
-            <select v-model="filters.status" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
-              <option value="">Tous les statuts</option>
-              <option value="actif">Actifs</option>
-              <option value="termine">Terminés</option>
-              <option value="en_cours">En cours</option>
-            </select>
-          </div>
-          <div>
-            <select v-model="filters.sector" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
-              <option value="">Tous les secteurs</option>
-              <option v-for="sector in availableSectors" :key="sector" :value="sector">{{ sector }}</option>
-            </select>
-          </div>
-          <div>
-            <select v-model="filters.sort" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
-              <option value="date-desc">Plus récents</option>
-              <option value="date-asc">Plus anciens</option>
-              <option value="amount-desc">Montant décroissant</option>
-              <option value="amount-asc">Montant croissant</option>
-              <option value="roi-desc">Meilleure performance</option>
-            </select>
-          </div>
-          <div>
-            <div class="relative">
-              <input
-                  v-model="filters.search"
-                  type="text"
-                  class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
-                  placeholder="Rechercher un projet..."
-              >
-              <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
-            </div>
+          <select v-model="filters.status" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
+            <option value="">{{ $t('investments.allStatuses') }}</option>
+            <option value="ACTIVE">{{ $t('investments.active') }}</option>
+            <option value="COMPLETED">{{ $t('investments.completed') }}</option>
+            <option value="PENDING">{{ $t('investments.pending') }}</option>
+            <option value="CANCELLED">{{ $t('investments.cancelled') }}</option>
+          </select>
+
+          <select v-model="filters.sort" class="w-full px-3 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 text-sm">
+            <option value="date-desc">{{ $t('investments.sortRecent') }}</option>
+            <option value="date-asc">{{ $t('investments.sortOldest') }}</option>
+            <option value="amount-desc">{{ $t('investments.sortAmountDesc') }}</option>
+            <option value="amount-asc">{{ $t('investments.sortAmountAsc') }}</option>
+            <option value="roi-desc">{{ $t('investments.sortRoi') }}</option>
+          </select>
+
+          <div class="relative md:col-span-2">
+            <input
+              v-model="filters.search"
+              type="text"
+              class="w-full pl-9 pr-4 py-2.5 border border-slate-200 rounded-lg focus:ring-2 focus:ring-blue-500/20 focus:border-blue-500 outline-none transition-all bg-white text-slate-900 placeholder-slate-400 text-sm"
+              :placeholder="$t('investments.searchPlaceholder')"
+            >
+            <i class="fas fa-search absolute left-3 top-3 text-slate-400 text-sm"></i>
           </div>
         </div>
       </div>
 
-      <!-- Liste des investissements -->
-      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm">
-        <div v-if="investments.length === 0" class="text-center py-16">
+      <!-- Loading skeleton -->
+      <div v-if="isLoading" class="grid grid-cols-1 lg:grid-cols-2 gap-5">
+        <div v-for="i in 4" :key="i" class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 animate-pulse">
+          <div class="flex items-center mb-4">
+            <div class="w-9 h-9 bg-slate-200 rounded-lg mr-3"></div>
+            <div>
+              <div class="h-4 bg-slate-200 rounded w-36 mb-2"></div>
+              <div class="h-3 bg-slate-200 rounded w-20"></div>
+            </div>
+          </div>
+          <div class="grid grid-cols-2 gap-3">
+            <div class="h-16 bg-slate-100 rounded-lg"></div>
+            <div class="h-16 bg-slate-100 rounded-lg"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Investment list -->
+      <div v-else class="bg-white rounded-2xl border border-slate-100 shadow-sm">
+        <!-- Empty state -->
+        <div v-if="filteredInvestments.length === 0" class="text-center py-16">
           <div class="w-16 h-16 bg-slate-100 rounded-2xl flex items-center justify-center mx-auto mb-5">
             <i class="fas fa-chart-pie text-2xl text-slate-400"></i>
           </div>
-          <h3 class="text-lg font-bold text-slate-900 mb-2">Aucun investissement</h3>
-          <p class="text-slate-500 text-sm mb-6">Commencez à investir dans nos secteurs innovants</p>
+          <h3 class="text-lg font-bold text-slate-900 mb-2">{{ $t('investments.noInvestments') }}</h3>
+          <p class="text-slate-500 text-sm mb-6">{{ $t('investments.noInvestmentsDesc') }}</p>
           <NuxtLink to="/#domaines" class="btn-primary inline-flex items-center">
-            Découvrir les opportunités
+            {{ $t('investments.discover') }}
           </NuxtLink>
         </div>
 
-        <div v-else>
-          <!-- Grille des investissements -->
-          <div class="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5">
-            <div
-                v-for="investment in filteredInvestments"
-                :key="investment.id"
-                class="border border-slate-100 rounded-xl hover:shadow-md hover:border-slate-200 transition-all duration-200 overflow-hidden"
-            >
-              <!-- Image du projet -->
-              <div class="relative h-36 overflow-hidden">
-                <img
-                    :src="investment.image"
-                    :alt="investment.project"
-                    class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                >
-                <div class="absolute top-3 right-3">
-                  <span
-                      :class="`badge bg-${investment.badgeColor} text-white px-3 py-1 rounded-full text-xs font-semibold`"
-                  >
-                    {{ investment.badge }}
-                  </span>
+        <!-- Grid -->
+        <div v-else class="grid grid-cols-1 lg:grid-cols-2 gap-5 p-5">
+          <div
+            v-for="inv in filteredInvestments"
+            :key="inv.id"
+            class="border border-slate-100 rounded-xl hover:shadow-md hover:border-slate-200 transition-all duration-200 overflow-hidden"
+          >
+            <div class="p-5">
+              <!-- Header -->
+              <div class="flex justify-between items-start mb-4">
+                <div class="flex items-center">
+                  <div class="w-10 h-10 bg-blue-50 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
+                    <i class="fas fa-chart-line text-blue-600 text-sm"></i>
+                  </div>
+                  <div>
+                    <div class="font-semibold text-slate-900 text-sm">{{ inv.projectName }}</div>
+                    <div class="text-xs text-slate-500 mt-0.5">{{ inv.currency || 'EUR' }} · {{ inv.paymentMethod }}</div>
+                  </div>
+                </div>
+                <span :class="getStatusBadgeClass(inv.status)" class="text-xs font-semibold px-2.5 py-1 rounded-full">
+                  {{ getStatusLabel(inv.status) }}
+                </span>
+              </div>
+
+              <!-- Metrics -->
+              <div class="grid grid-cols-2 gap-3 mb-4">
+                <div class="text-center bg-slate-50 rounded-lg p-3">
+                  <div class="font-bold text-blue-600 text-sm">{{ formatCurrency(inv.amount) }}</div>
+                  <div class="text-slate-500 text-xs mt-0.5">{{ $t('investments.myInvestment') }}</div>
+                </div>
+                <div class="text-center bg-slate-50 rounded-lg p-3">
+                  <div class="font-bold text-emerald-600 text-sm">+{{ inv.expectedRoi }}%</div>
+                  <div class="text-slate-500 text-xs mt-0.5">{{ $t('investments.performance') }}</div>
                 </div>
               </div>
 
-              <!-- Contenu -->
-              <div class="p-5">
-                <!-- En-tête du projet -->
-                <div class="flex justify-between items-start mb-3">
-                  <div class="flex items-center">
-                    <div class="w-9 h-9 bg-blue-50 rounded-lg flex items-center justify-center mr-3 flex-shrink-0">
-                      <i class="fas fa-chart-line text-blue-600 text-sm"></i>
-                    </div>
-                    <div>
-                      <div class="font-semibold text-slate-900 text-sm">{{ investment.project }}</div>
-                      <span class="inline-block text-xs bg-blue-50 text-blue-600 px-2 py-0.5 rounded-md mt-0.5 font-medium">{{ investment.sector }}</span>
-                    </div>
-                  </div>
-                  <span
-                      :class="getStatusBadgeClass(investment.status)"
-                      class="text-xs font-semibold px-2 py-0.5 rounded-full"
+              <!-- Estimated gains -->
+              <div class="bg-amber-50 rounded-lg p-3 mb-4">
+                <div class="flex items-center justify-between">
+                  <span class="text-xs text-amber-700">{{ $t('investments.estimatedGains') }}</span>
+                  <span class="font-bold text-amber-700 text-sm">{{ formatCurrency(calculateGains(inv)) }}</span>
+                </div>
+              </div>
+
+              <!-- Maturity -->
+              <div v-if="inv.maturityDate" class="flex items-center text-xs text-slate-500 mb-4">
+                <i class="fas fa-calendar-alt mr-1.5 text-slate-400"></i>
+                Échéance : {{ formatDate(inv.maturityDate) }}
+              </div>
+
+              <!-- Actions -->
+              <div class="flex justify-between items-center">
+                <span class="text-xs text-slate-400">{{ formatDate(inv.createdAt) }}</span>
+                <div class="flex space-x-2">
+                  <button
+                    @click="selectedInvestment = inv"
+                    class="px-3 py-1.5 text-blue-600 border border-blue-200 rounded-lg text-xs font-medium hover:bg-blue-50 transition-colors"
                   >
-                    {{ getStatusLabel(investment.status) }}
-                  </span>
-                </div>
-
-                <!-- Description -->
-                <p class="text-slate-500 text-xs mb-4 line-clamp-2 leading-relaxed">{{ investment.description }}</p>
-
-                <!-- Métriques -->
-                <div class="grid grid-cols-2 gap-3 mb-4">
-                  <div class="text-center bg-slate-50 rounded-lg p-3">
-                    <div class="font-bold text-blue-600 text-sm">{{ formatCurrency(investment.amount) }}</div>
-                    <div class="text-slate-500 text-xs mt-0.5">Mon investissement</div>
-                  </div>
-                  <div class="text-center bg-slate-50 rounded-lg p-3">
-                    <div class="font-bold text-emerald-600 text-sm">+{{ investment.roi }}%</div>
-                    <div class="text-slate-500 text-xs mt-0.5">Performance</div>
-                  </div>
-                </div>
-
-                <!-- Barre de progression -->
-                <div class="mb-4">
-                  <div class="flex justify-between text-xs text-slate-500 mb-1.5">
-                    <span>Progression</span>
-                    <span class="font-medium">{{ investment.progress }}%</span>
-                  </div>
-                  <div class="w-full bg-slate-100 rounded-full h-1.5">
-                    <div
-                        class="bg-gradient-to-r from-blue-600 to-indigo-600 h-1.5 rounded-full transition-all duration-300"
-                        :style="{ width: investment.progress + '%' }"
-                    ></div>
-                  </div>
-                </div>
-
-                <!-- Actions -->
-                <div class="flex justify-between items-center">
-                  <span class="text-xs text-slate-400">{{ formatDate(investment.date) }}</span>
-                  <div class="flex space-x-2">
-                    <button
-                        @click="showProjectDetails(investment)"
-                        class="px-3 py-1.5 text-blue-600 border border-blue-200 rounded-lg text-xs font-medium hover:bg-blue-50 transition-colors"
-                    >
-                      Détails
-                    </button>
-                    <button class="px-3 py-1.5 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700 transition-colors">
-                      Réinvestir
-                    </button>
-                    <button
-                        @click="removeInvestment(investment.id)"
-                        class="px-3 py-1.5 text-red-500 border border-red-200 rounded-lg text-xs hover:bg-red-50 transition-colors"
-                        title="Supprimer"
-                    >
-                      <i class="fas fa-trash"></i>
-                    </button>
-                  </div>
+                    {{ $t('investments.details') }}
+                  </button>
+                  <button
+                    v-if="inv.status === 'PENDING' || inv.status === 'ACTIVE'"
+                    @click="cancelInvestment(inv.id)"
+                    class="px-3 py-1.5 text-red-500 border border-red-200 rounded-lg text-xs hover:bg-red-50 transition-colors"
+                  >
+                    {{ $t('investments.cancel') }}
+                  </button>
                 </div>
               </div>
             </div>
@@ -223,65 +204,67 @@
         </div>
       </div>
 
-      <!-- Modal de détails -->
+      <!-- Details modal -->
       <div
-          v-if="selectedProject"
-          class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
-          @click.self="closeModal"
+        v-if="selectedInvestment"
+        class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm flex items-center justify-center z-50 p-4"
+        @click.self="selectedInvestment = null"
       >
-        <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-y-auto shadow-xl">
+        <div class="bg-white rounded-2xl max-w-lg w-full shadow-xl">
           <div class="p-6">
-            <!-- En-tête du modal -->
             <div class="flex justify-between items-start mb-5">
               <div>
-                <h2 class="text-lg font-bold text-slate-900">{{ selectedProject.project }}</h2>
-                <p class="text-slate-500 text-sm mt-0.5">{{ selectedProject.sector }}</p>
+                <h2 class="text-lg font-bold text-slate-900">{{ selectedInvestment.projectName }}</h2>
+                <span :class="getStatusBadgeClass(selectedInvestment.status)" class="text-xs font-semibold px-2.5 py-1 rounded-full mt-1 inline-block">
+                  {{ getStatusLabel(selectedInvestment.status) }}
+                </span>
               </div>
-              <button @click="closeModal" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
+              <button @click="selectedInvestment = null" class="w-8 h-8 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-600 hover:bg-slate-100 transition-colors">
                 <i class="fas fa-times"></i>
               </button>
             </div>
 
-            <!-- Image -->
-            <img
-                :src="selectedProject.image"
-                :alt="selectedProject.project"
-                class="w-full h-44 object-cover rounded-xl mb-5"
-            >
-
-            <!-- Description détaillée -->
-            <div class="mb-5">
-              <h3 class="text-sm font-bold text-slate-900 mb-2">Description du projet</h3>
-              <p class="text-slate-500 text-sm leading-relaxed">{{ selectedProject.description }}</p>
-            </div>
-
-            <!-- Métriques détaillées -->
             <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mb-5">
               <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
-                <div class="text-base font-bold text-blue-600">{{ formatCurrency(selectedProject.amount) }}</div>
-                <div class="text-xs text-slate-500 mt-0.5">Investissement</div>
+                <div class="text-base font-bold text-blue-600">{{ formatCurrency(selectedInvestment.amount) }}</div>
+                <div class="text-xs text-slate-500 mt-0.5">{{ $t('investments.myInvestment') }}</div>
               </div>
               <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
-                <div class="text-base font-bold text-emerald-600">+{{ selectedProject.roi }}%</div>
+                <div class="text-base font-bold text-emerald-600">+{{ selectedInvestment.expectedRoi }}%</div>
                 <div class="text-xs text-slate-500 mt-0.5">ROI</div>
               </div>
               <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
-                <div class="text-base font-bold text-indigo-600">{{ selectedProject.progress }}%</div>
-                <div class="text-xs text-slate-500 mt-0.5">Progression</div>
+                <div class="text-base font-bold text-indigo-600">{{ selectedInvestment.durationMonths }}m</div>
+                <div class="text-xs text-slate-500 mt-0.5">Durée</div>
               </div>
               <div class="text-center p-3.5 bg-slate-50 rounded-xl border border-slate-100">
-                <div class="text-base font-bold text-amber-600">{{ formatCurrency(calculateGains(selectedProject)) }}</div>
-                <div class="text-xs text-slate-500 mt-0.5">Gains estimés</div>
+                <div class="text-base font-bold text-amber-600">{{ formatCurrency(calculateGains(selectedInvestment)) }}</div>
+                <div class="text-xs text-slate-500 mt-0.5">{{ $t('investments.estimatedGains') }}</div>
               </div>
             </div>
 
-            <!-- Actions du modal -->
-            <div class="flex justify-end space-x-3">
-              <button @click="closeModal" class="px-4 py-2 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
-                Fermer
-              </button>
-              <button class="px-4 py-2 bg-blue-600 text-white rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors">
-                Réinvestir
+            <div class="space-y-2 text-sm text-slate-600 mb-5">
+              <div class="flex justify-between py-2 border-b border-slate-100">
+                <span>Méthode de paiement</span>
+                <span class="font-medium text-slate-900">{{ selectedInvestment.paymentMethod }}</span>
+              </div>
+              <div class="flex justify-between py-2 border-b border-slate-100">
+                <span>Devise</span>
+                <span class="font-medium text-slate-900">{{ selectedInvestment.currency }}</span>
+              </div>
+              <div class="flex justify-between py-2 border-b border-slate-100">
+                <span>Date de création</span>
+                <span class="font-medium text-slate-900">{{ formatDate(selectedInvestment.createdAt) }}</span>
+              </div>
+              <div v-if="selectedInvestment.maturityDate" class="flex justify-between py-2">
+                <span>Date d'échéance</span>
+                <span class="font-medium text-slate-900">{{ formatDate(selectedInvestment.maturityDate) }}</span>
+              </div>
+            </div>
+
+            <div class="flex justify-end">
+              <button @click="selectedInvestment = null" class="px-4 py-2 text-slate-600 border border-slate-200 rounded-lg text-sm font-medium hover:bg-slate-50 transition-colors">
+                {{ $t('investments.close') }}
               </button>
             </div>
           </div>
@@ -294,149 +277,103 @@
 </template>
 
 <script setup>
-import { ref, computed, onMounted } from 'vue'
 import { useAuthStore } from '~/stores/auth'
 import { useInvestmentStore } from '~/stores/user-investments'
 
+const { t } = useI18n()
+
 useSeoMeta({
-  title: 'Mes Investissements - InvestFuture',
-  description: 'Suivez et gérez vos investissements sur InvestFuture'
+  title: computed(() => `${t('investments.title')} — InvestFutur`),
 })
 
 const authStore = useAuthStore()
-const userInvestments = useInvestmentStore()
-const selectedProject = ref(null)
+const investmentStore = useInvestmentStore()
+const selectedInvestment = ref(null)
+const isLoading = ref(true)
 
-// Filtres réactifs
 const filters = ref({
   status: '',
-  sector: '',
   sort: 'date-desc',
-  search: ''
+  search: '',
 })
 
-const investments = computed(() => userInvestments.investments)
-
-const availableSectors = computed(() => {
-  const sectors = [...new Set(investments.value.map(inv => inv.sector))]
-  return sectors.sort()
-})
+const investments = computed(() => investmentStore.investments)
 
 const portfolioStats = computed(() => {
-  const totalInvested = userInvestments.totalAmount
-  const totalGains = userInvestments.totalGains
-  const avgRoi = userInvestments.avgRoi
-  const monthlyGains = totalGains * 0.08 // Estimation mensuelle
-
-  return {
-    totalInvested,
-    totalGains,
-    avgRoi,
-    monthlyGains
-  }
+  const list = investments.value
+  const totalInvested = list.filter(i => i.status === 'ACTIVE' || i.status === 'COMPLETED').reduce((s, i) => s + i.amount, 0)
+  const avgRoi = list.length ? list.reduce((s, i) => s + i.expectedRoi, 0) / list.length : 0
+  const activeCount = list.filter(i => i.status === 'ACTIVE').length
+  const estimatedGains = list.filter(i => i.status === 'ACTIVE' || i.status === 'COMPLETED').reduce((s, i) => s + calculateGains(i), 0)
+  return { totalInvested, avgRoi, activeCount, estimatedGains }
 })
 
 const filteredInvestments = computed(() => {
   let result = [...investments.value]
 
-  // Filtre par statut
   if (filters.value.status) {
-    result = result.filter(inv => inv.status === filters.value.status)
+    result = result.filter(i => i.status === filters.value.status)
   }
 
-  // Filtre par secteur
-  if (filters.value.sector) {
-    result = result.filter(inv => inv.sector === filters.value.sector)
-  }
-
-  // Filtre par recherche
   if (filters.value.search) {
-    const search = filters.value.search.toLowerCase()
-    result = result.filter(inv =>
-        inv.project.toLowerCase().includes(search) ||
-        inv.sector.toLowerCase().includes(search) ||
-        inv.description.toLowerCase().includes(search)
-    )
+    const q = filters.value.search.toLowerCase()
+    result = result.filter(i => i.projectName.toLowerCase().includes(q))
   }
 
-  // Tri
   switch (filters.value.sort) {
-    case 'date-desc':
-      result.sort((a, b) => new Date(b.date) - new Date(a.date))
-      break
-    case 'date-asc':
-      result.sort((a, b) => new Date(a.date) - new Date(b.date))
-      break
-    case 'amount-desc':
-      result.sort((a, b) => b.amount - a.amount)
-      break
-    case 'amount-asc':
-      result.sort((a, b) => a.amount - b.amount)
-      break
-    case 'roi-desc':
-      result.sort((a, b) => b.roi - a.roi)
-      break
+    case 'date-desc': result.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt)); break
+    case 'date-asc':  result.sort((a, b) => new Date(a.createdAt) - new Date(b.createdAt)); break
+    case 'amount-desc': result.sort((a, b) => b.amount - a.amount); break
+    case 'amount-asc':  result.sort((a, b) => a.amount - b.amount); break
+    case 'roi-desc':  result.sort((a, b) => b.expectedRoi - a.expectedRoi); break
   }
 
   return result
 })
 
-const formatCurrency = (amount) => {
-  return new Intl.NumberFormat('fr-FR', {
-    style: 'currency',
-    currency: 'EUR'
-  }).format(amount)
-}
+const formatCurrency = (amount) =>
+  new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(amount ?? 0)
 
-const formatDate = (dateString) => {
-  return new Date(dateString).toLocaleDateString('fr-FR', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric'
-  })
-}
+const formatDate = (d) =>
+  new Date(d).toLocaleDateString('fr-FR', { year: 'numeric', month: 'short', day: 'numeric' })
 
-const calculateGains = (investment) => {
-  return (investment.amount * investment.roi) / 100
-}
+const calculateGains = (inv) => (inv.amount * inv.expectedRoi) / 100
 
 const getStatusBadgeClass = (status) => {
-  const badges = {
-    'actif': 'bg-emerald-100 text-emerald-700',
-    'termine': 'bg-blue-100 text-blue-700',
-    'en_cours': 'bg-amber-100 text-amber-700'
+  const map = {
+    ACTIVE: 'bg-emerald-100 text-emerald-700',
+    COMPLETED: 'bg-blue-100 text-blue-700',
+    PENDING: 'bg-amber-100 text-amber-700',
+    CANCELLED: 'bg-red-100 text-red-700',
   }
-  return badges[status] || 'bg-slate-100 text-slate-700'
+  return map[status] ?? 'bg-slate-100 text-slate-600'
 }
 
 const getStatusLabel = (status) => {
-  const labels = {
-    'actif': 'Actif',
-    'termine': 'Terminé',
-    'en_cours': 'En cours'
+  const map = {
+    ACTIVE: t('investments.active'),
+    COMPLETED: t('investments.completed'),
+    PENDING: t('investments.pending'),
+    CANCELLED: t('investments.cancelled'),
   }
-  return labels[status] || 'Inconnu'
+  return map[status] ?? status
 }
 
-const showProjectDetails = (investment) => {
-  selectedProject.value = investment
+const cancelInvestment = async (id) => {
+  if (!confirm(t('investments.confirmCancel'))) return
+  const { success, error } = await investmentStore.cancelInvestment(id)
+  if (!success) alert(error)
 }
 
-const closeModal = () => {
-  selectedProject.value = null
-}
-
-const removeInvestment = (id) => {
-  if (confirm('Êtes-vous sûr de vouloir supprimer cet investissement ?')) {
-    userInvestments.removeInvestment(id)
-  }
-}
-
-onMounted(() => {
+onMounted(async () => {
   if (!authStore.isAuthenticated) {
-    navigateTo('/auth/login')
+    return navigateTo('/auth/login')
   }
-  userInvestments.loadFromStorage()
+  try {
+    await investmentStore.fetchInvestments()
+  } finally {
+    isLoading.value = false
+  }
 })
 </script>
 
@@ -447,15 +384,4 @@ onMounted(() => {
   -webkit-box-orient: vertical;
   overflow: hidden;
 }
-
-.badge {
-  @apply inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium;
-}
-
-.bg-success { @apply bg-emerald-500; }
-.bg-warning { @apply bg-amber-500; }
-.bg-info { @apply bg-blue-500; }
-.bg-danger { @apply bg-red-500; }
-.bg-primary { @apply bg-blue-600; }
-.bg-dark { @apply bg-slate-800; }
 </style>

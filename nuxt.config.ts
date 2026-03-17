@@ -12,7 +12,23 @@ export default defineNuxtConfig({
     },
   },
 
-  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss'],
+  modules: ['@pinia/nuxt', '@nuxtjs/tailwindcss', '@nuxtjs/i18n'],
+
+  i18n: {
+    locales: [
+      { code: 'fr', language: 'fr-FR', name: 'Français', file: 'fr.json' },
+      { code: 'en', language: 'en-US', name: 'English', file: 'en.json' },
+    ],
+    defaultLocale: 'fr',
+    lazy: true,
+    langDir: '../locales/',
+    strategy: 'no_prefix',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieKey: 'i18n_lang',
+      redirectOn: 'root',
+    },
+  },
 
   router: {
     options: { hashMode: false },
@@ -53,6 +69,9 @@ export default defineNuxtConfig({
     jwtRefreshSecret: '',
     resendApiKey: '',
     databaseUrl: '',
+    cloudinaryCloudName: '',
+    cloudinaryApiKey: '',
+    cloudinaryApiSecret: '',
     public: {
       appUrl: 'http://localhost:3000',
       appName: 'InvestFutur',

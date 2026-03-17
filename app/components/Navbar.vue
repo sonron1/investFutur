@@ -18,40 +18,49 @@
               :class="getNavLinkClass(activeSection === 'home')"
               class="nav-link"
           >
-            Accueil
+            {{ $t('nav.home') }}
           </button>
           <button
               @click="scrollToSection('domaines')"
               :class="getNavLinkClass(activeSection === 'domaines')"
               class="nav-link"
           >
-            Secteurs
+            {{ $t('nav.sectors') }}
           </button>
           <button
               @click="scrollToSection('comment')"
               :class="getNavLinkClass(activeSection === 'comment')"
               class="nav-link"
           >
-            Comment ça marche
+            {{ $t('nav.howItWorks') }}
           </button>
           <button
               @click="scrollToSection('contact')"
               :class="getNavLinkClass(activeSection === 'contact')"
               class="nav-link"
           >
-            Contact
+            {{ $t('nav.contact') }}
           </button>
         </div>
 
         <!-- Boutons auth ou menu utilisateur -->
         <ClientOnly>
           <div class="hidden lg:flex items-center space-x-3">
+            <!-- Language switcher -->
+            <button
+              @click="switchLanguage"
+              class="flex items-center space-x-1.5 text-slate-500 hover:text-blue-600 hover:bg-slate-50 px-3 py-2 rounded-lg transition-all duration-200 text-sm font-medium"
+              :title="locale === 'fr' ? 'Switch to English' : 'Passer en français'"
+            >
+              <span class="text-base">{{ locale === 'fr' ? '🇬🇧' : '🇫🇷' }}</span>
+              <span class="text-xs font-semibold">{{ locale === 'fr' ? 'EN' : 'FR' }}</span>
+            </button>
             <template v-if="!isAuthenticated">
               <NuxtLink to="/auth/login" class="text-slate-600 hover:text-blue-600 font-medium transition-colors px-4 py-2 rounded-lg hover:bg-slate-50 text-sm">
-                Connexion
+                {{ $t('nav.login') }}
               </NuxtLink>
               <NuxtLink to="/auth/register" class="bg-blue-600 hover:bg-blue-700 text-white px-5 py-2 rounded-lg font-semibold text-sm transition-all duration-200 shadow-sm hover:shadow-md">
-                S'inscrire
+                {{ $t('nav.register') }}
               </NuxtLink>
             </template>
 
@@ -62,9 +71,9 @@
                     class="flex items-center space-x-2.5 text-slate-700 hover:text-blue-600 bg-slate-50 hover:bg-blue-50 px-3 py-2 rounded-lg transition-all duration-200"
                 >
                   <div class="w-7 h-7 bg-gradient-to-r from-blue-600 to-indigo-600 rounded-full flex items-center justify-center text-white text-xs font-bold">
-                    {{ (user?.name || 'U').charAt(0).toUpperCase() }}
+                    {{ (authStore.fullName || user?.email || 'U').charAt(0).toUpperCase() }}
                   </div>
-                  <span class="font-medium text-sm">{{ user?.name || 'Utilisateur' }}</span>
+                  <span class="font-medium text-sm">{{ authStore.fullName || 'Utilisateur' }}</span>
                   <i class="fas fa-chevron-down text-xs text-slate-400 transition-transform duration-200" :class="{ 'rotate-180': showDropdown }"></i>
                 </button>
 
@@ -72,31 +81,36 @@
                 <Transition name="dropdown">
                   <div v-show="showDropdown" class="absolute right-0 mt-2 w-56 bg-white rounded-xl shadow-lg border border-slate-100 py-1.5 overflow-hidden">
                     <div class="px-4 py-3 border-b border-slate-100 bg-slate-50">
-                      <div class="text-sm font-semibold text-slate-900">{{ user?.name || 'Utilisateur' }}</div>
+                      <div class="text-sm font-semibold text-slate-900">{{ authStore.fullName || 'Utilisateur' }}</div>
                       <div class="text-xs text-slate-500 mt-0.5">{{ user?.email }}</div>
                     </div>
 
                     <NuxtLink to="/dashboard" @click="closeDropdown" class="dropdown-item">
                       <i class="fas fa-chart-pie mr-3 text-blue-500 w-4"></i>
-                      <span>Mon Portefeuille</span>
+                      <span>{{ $t('nav.portfolio') }}</span>
                     </NuxtLink>
                     <NuxtLink to="/investments" @click="closeDropdown" class="dropdown-item">
                       <i class="fas fa-history mr-3 text-emerald-500 w-4"></i>
-                      <span>Mes Investissements</span>
+                      <span>{{ $t('nav.investments') }}</span>
+                    </NuxtLink>
+                    <NuxtLink to="/kyc" @click="closeDropdown" class="dropdown-item">
+                      <i class="fas fa-id-card mr-3 text-violet-500 w-4"></i>
+                      <span>Vérification KYC</span>
+                      <span v-if="authStore.user?.kycStatus === 'PENDING'" class="ml-auto text-xs bg-amber-100 text-amber-700 px-1.5 py-0.5 rounded-full font-semibold">!</span>
                     </NuxtLink>
                     <NuxtLink to="/profile" @click="closeDropdown" class="dropdown-item">
                       <i class="fas fa-cog mr-3 text-slate-400 w-4"></i>
-                      <span>Paramètres</span>
+                      <span>{{ $t('nav.settings') }}</span>
                     </NuxtLink>
                     <NuxtLink v-if="authStore.isAdmin" to="/admin" @click="closeDropdown" class="dropdown-item">
                       <i class="fas fa-shield-alt mr-3 text-indigo-500 w-4"></i>
-                      <span>Administration</span>
+                      <span>{{ $t('nav.admin') }}</span>
                     </NuxtLink>
 
                     <div class="border-t border-slate-100 mt-1 pt-1">
                       <button @click="logout" class="dropdown-item text-red-500 hover:bg-red-50 w-full text-left">
                         <i class="fas fa-sign-out-alt mr-3 w-4"></i>
-                        <span>Déconnexion</span>
+                        <span>{{ $t('nav.logout') }}</span>
                       </button>
                     </div>
                   </div>
@@ -149,7 +163,7 @@
                 class="mobile-nav-link"
             >
               <i class="fas fa-home mr-3 w-4 text-slate-400"></i>
-              Accueil
+              {{ $t('nav.home') }}
             </button>
             <button
                 @click="scrollToSectionMobile('domaines')"
@@ -157,7 +171,7 @@
                 class="mobile-nav-link"
             >
               <i class="fas fa-industry mr-3 w-4 text-slate-400"></i>
-              Secteurs
+              {{ $t('nav.sectors') }}
             </button>
             <button
                 @click="scrollToSectionMobile('comment')"
@@ -165,7 +179,7 @@
                 class="mobile-nav-link"
             >
               <i class="fas fa-question-circle mr-3 w-4 text-slate-400"></i>
-              Comment ça marche
+              {{ $t('nav.howItWorks') }}
             </button>
             <button
                 @click="scrollToSectionMobile('contact')"
@@ -173,7 +187,15 @@
                 class="mobile-nav-link"
             >
               <i class="fas fa-envelope mr-3 w-4 text-slate-400"></i>
-              Contact
+              {{ $t('nav.contact') }}
+            </button>
+            <!-- Mobile language switcher -->
+            <button
+              @click="switchLanguage"
+              class="mobile-nav-link text-slate-600"
+            >
+              <span class="mr-3 w-4 text-center">{{ locale === 'fr' ? '🇬🇧' : '🇫🇷' }}</span>
+              {{ locale === 'fr' ? 'English' : 'Français' }}
             </button>
 
             <ClientOnly>
@@ -181,10 +203,10 @@
                 <div class="border-t border-slate-100 pt-3 mt-3 px-4 space-y-2">
                   <NuxtLink to="/auth/login" @click="closeMobileMenu" class="flex items-center w-full px-4 py-2.5 text-slate-700 hover:text-blue-600 hover:bg-slate-50 rounded-lg font-medium text-sm transition-colors">
                     <i class="fas fa-sign-in-alt mr-3 w-4 text-slate-400"></i>
-                    Connexion
+                    {{ $t('nav.login') }}
                   </NuxtLink>
                   <NuxtLink to="/auth/register" @click="closeMobileMenu" class="flex items-center justify-center w-full bg-blue-600 hover:bg-blue-700 text-white px-4 py-2.5 rounded-lg font-semibold text-sm transition-colors">
-                    S'inscrire gratuitement
+                    {{ $t('nav.register') }}
                   </NuxtLink>
                 </div>
               </template>
@@ -192,31 +214,35 @@
               <template v-else>
                 <div class="border-t border-slate-100 pt-3 mt-3">
                   <div class="px-4 py-3 bg-slate-50 mx-4 rounded-lg mb-2">
-                    <div class="text-sm font-semibold text-slate-900">{{ user?.name || 'Utilisateur' }}</div>
+                    <div class="text-sm font-semibold text-slate-900">{{ authStore.fullName || 'Utilisateur' }}</div>
                     <div class="text-xs text-slate-500 mt-0.5">{{ user?.email }}</div>
                   </div>
 
                   <NuxtLink to="/dashboard" @click="closeMobileMenu" class="mobile-nav-link">
                     <i class="fas fa-chart-pie mr-3 w-4 text-blue-500"></i>
-                    Mon Portefeuille
+                    {{ $t('nav.portfolio') }}
                   </NuxtLink>
                   <NuxtLink to="/investments" @click="closeMobileMenu" class="mobile-nav-link">
                     <i class="fas fa-history mr-3 w-4 text-emerald-500"></i>
-                    Mes Investissements
+                    {{ $t('nav.investments') }}
+                  </NuxtLink>
+                  <NuxtLink to="/kyc" @click="closeMobileMenu" class="mobile-nav-link">
+                    <i class="fas fa-id-card mr-3 w-4 text-violet-500"></i>
+                    Vérification KYC
                   </NuxtLink>
                   <NuxtLink to="/profile" @click="closeMobileMenu" class="mobile-nav-link">
                     <i class="fas fa-cog mr-3 w-4 text-slate-400"></i>
-                    Paramètres
+                    {{ $t('nav.settings') }}
                   </NuxtLink>
                   <NuxtLink v-if="authStore.isAdmin" to="/admin" @click="closeMobileMenu" class="mobile-nav-link">
                     <i class="fas fa-shield-alt mr-3 w-4 text-indigo-500"></i>
-                    Administration
+                    {{ $t('nav.admin') }}
                   </NuxtLink>
 
                   <div class="border-t border-slate-100 mt-2 pt-2">
                     <button @click="logout" class="mobile-nav-link text-red-500 w-full text-left">
                       <i class="fas fa-sign-out-alt mr-3 w-4"></i>
-                      Déconnexion
+                      {{ $t('nav.logout') }}
                     </button>
                   </div>
                 </div>
@@ -234,6 +260,12 @@ import { ref, onMounted, onUnmounted } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useAuthStore } from '~/stores/auth'
 import { useSmoothScroll } from '~/composables/useSmoothScroll'
+
+const { locale, locales, setLocale } = useI18n()
+const switchLanguage = () => {
+  const next = locale.value === 'fr' ? 'en' : 'fr'
+  setLocale(next)
+}
 
 const authStore = useAuthStore()
 const { isAuthenticated, user } = storeToRefs(authStore)

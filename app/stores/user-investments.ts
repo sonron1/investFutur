@@ -37,6 +37,14 @@ export const useInvestmentStore = defineStore('investments', {
       state.investments
         .filter((i) => i.status === 'ACTIVE' || i.status === 'COMPLETED')
         .reduce((sum, i) => sum + i.amount, 0),
+    totalGains: (state) =>
+      state.investments
+        .filter((i) => i.status === 'ACTIVE' || i.status === 'COMPLETED')
+        .reduce((sum, i) => sum + (i.amount * i.expectedRoi) / 100, 0),
+    avgRoi: (state) =>
+      state.investments.length
+        ? state.investments.reduce((sum, i) => sum + i.expectedRoi, 0) / state.investments.length
+        : 0,
     activeInvestments: (state) => state.investments.filter((i) => i.status === 'ACTIVE'),
     pendingInvestments: (state) => state.investments.filter((i) => i.status === 'PENDING'),
   },

@@ -27,6 +27,14 @@
     </div>
 
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <!-- Quick actions -->
+      <div class="flex flex-wrap gap-3 mb-6">
+        <NuxtLink to="/admin/kyc" class="inline-flex items-center px-4 py-2.5 bg-violet-600 hover:bg-violet-700 text-white rounded-xl font-semibold text-sm transition-colors shadow-sm">
+          <i class="fas fa-id-card mr-2"></i>
+          Gestion KYC
+        </NuxtLink>
+      </div>
+
       <!-- Statistiques rapides -->
       <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm">
